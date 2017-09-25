@@ -63,7 +63,9 @@ function createSimpleDymo(path: string): Promise<any> {
     let dymo = sg.dymoGen.addDymo(undefined, 'blib.m4a', uris.CONJUNCTION);
     let rendering = sg.dymoGen.addRendering(undefined, dymo);
     let slider = sg.dymoGen.addControl("Amp", uris.SLIDER);
-    let random = sg.dymoGen.addControl(null, uris.RANDOM);
+    let random = sg.dymoGen.addControl(null, uris.BROWNIAN);
+    //mapTo(slider).to(uris.AMPLITUDE, dymo)
+    //forAll("x", uris.DYMO).forAll("c", slider).constrain("Amplitude(x) == c")
     sg.expressionGen.addConstraint(rendering, `
       ∀ x : `+uris.DYMO+`
       => ∀ c in ["`+slider+`"]
