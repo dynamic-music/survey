@@ -1,0 +1,16 @@
+{
+	"showTitle": true,
+	"title": "Semantic Music Player",
+	"showDymoSelector": true,
+	"showPlaybackButtons": true,
+	"showDymoControls": true,
+	"showSensorSection": true,
+	"autoplay": false,
+	"dymos":[
+		{
+			"name": "example",
+			"dymoUri": "assets/dymos/example/dymo.json",
+			"renderingUri": "assets/dymos/example/rendering.json"
+		}
+	]
+}

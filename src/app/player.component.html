@@ -1,0 +1,44 @@
+<ion-content>
+  <ion-navbar color="dark" *ngIf="config.showTitle">
+    <ion-title>{{config.title}}</ion-title>
+  </ion-navbar>
+  <ion-item large color="dark" *ngIf="config.showPlaybackButtons">
+    <ion-label>Select Dynamic Music Object</ion-label>
+    <button ion-button large color="balanced" (click)="manager.startPlaying()">
+      <ion-icon name="play"></ion-icon>
+    </button>
+    <ion-select [(ngModel)]="selectedDymo" (ionChange)="dymoSelected()">
+      <ion-option *ngFor="let d of config.dymos">{{d.name}}</ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item *ngIf="config.showPlaybackButtons">
+    <button ion-button large color="balanced" (click)="manager.startPlaying()">
+      <ion-icon name="play"></ion-icon>
+    </button>
+    <button ion-button large color="energized" (click)="manager.pausePlaying()">
+      <ion-icon name="pause"></ion-icon>
+    </button>
+    <button ion-button large color="assertive" (click)="manager.stopPlaying()">
+      <ion-icon name="square"></ion-icon>
+    </button>
+  </ion-item>
+  <ion-list *ngIf="config.showDymoControls">
+    <ion-item *ngFor="let c of controls">
+      <ion-label item-start fixed>{{c.getName()}}</ion-label>
+      <ion-range item-content large *ngIf="c.getType() == SLIDER" color="energized" min="0" max="1000" step="1" [(ngModel)]="c.uiValue" (ionChange)="c.update()"></ion-range>
+    </ion-item>
+  </ion-list>
+  <ion-item *ngIf="config.showSensorSection">
+    <button ion-button large color="positive" (click)="compassWatcher.reset(); geolocationWatcher.reset()">
+      Reset sensors
+    </button>
+    <button ion-button large color="royal" (click)="toggleSensorData()">
+      Show sensor data
+    </button>
+  </ion-item>
+  <ion-item *ngIf="config.showSensorSection&&showSensorData">
+    <ion-label *ngFor="let s of sensorControls">
+      {{ s.getName() }}: {{ s.getValue() }}
+    </ion-label>
+  </ion-item>
+</ion-content>
