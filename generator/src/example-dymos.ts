@@ -23,33 +23,15 @@ let ONTOLOGIES_PATH = 'https://semantic-player.github.io/dymo-core/ontologies/';
 let GOAL_PATH = 'src/assets/dymos/';
 
 //generate examples
-
-Promise.all([
-  //createExampleFile('control-rendering.json', generateControlRendering()),
-  //createExampleFile('similarity-rendering.json', generateSimilarityRendering()),
-  createSimpleDymo('example/'),
-  //createExampleFile('mixdymo-rendering.json', createMixDymoRendering()),
-])
+createSimpleDymo('example', 'example/')
+.then(() => createConstraintsExample('constraints', 'constraints/'))
 .then(() => console.log('done!'))
 .then(() => process.exit());
-
-function createExampleFile(path: string, generated: Promise<string>): Promise<any> {
-  return generated
-    .then(j => j.replace('http://tiny.cc/dymo-context', ONTOLOGIES_PATH+'dymo-context.json'))
-    .then(j => JSON.stringify(JSON.parse(j), null, 2))
-    .then(j => writeFile(GOAL_PATH+path, j));
-}
-
-function writeJsonld(jsonld: string, path: string): Promise<any> {
-  jsonld = jsonld.replace('http://tiny.cc/dymo-context', ONTOLOGIES_PATH+'dymo-context.json');
-  jsonld = JSON.stringify(JSON.parse(jsonld), null, 2);
-  return writeFile(GOAL_PATH+path, jsonld);
-}
 
 function createStoreAndGens(): Promise<StoreAndGens> {
   let sg: StoreAndGens = { store: null, dymoGen: null, expressionGen: null };
   sg.store = new DymoStore();
-  console.log(SERVER_PATH+'node_modules/dymo-core/ontologies/')
+  //console.log(SERVER_PATH+'node_modules/dymo-core/ontologies/')
   //'https://semantic-player.github.io/dymo-core/ontologies/'
   return sg.store.loadOntologies(ONTOLOGIES_PATH).then(() => {
     sg.dymoGen = new DymoGenerator(sg.store);
@@ -58,7 +40,7 @@ function createStoreAndGens(): Promise<StoreAndGens> {
   });
 }
 
-function createSimpleDymo(path: string): Promise<any> {
+function createSimpleDymo(name: string, path: string): Promise<any> {
   return createStoreAndGens().then(sg => {
     let dymo = sg.dymoGen.addDymo(undefined, 'blib.m4a', uris.CONJUNCTION);
     let rendering = sg.dymoGen.addRendering(undefined, dymo);
@@ -83,8 +65,51 @@ function createSimpleDymo(path: string): Promise<any> {
     `);
 
     return Promise.all([
-      sg.store.uriToJsonld(dymo).then(j => writeJsonld(j, path+'dymo.json')),
-      sg.store.uriToJsonld(rendering).then(j => writeJsonld(j, path+'rendering.json'))
+      sg.store.uriToJsonld(dymo).then(j => writeJsonld(j, path, 'dymo.json')),
+      sg.store.uriToJsonld(rendering).then(j => writeJsonld(j, path, 'rendering.json')),
+      updateConfig(name, path)
+    ])
+  });
+}
+
+function createConstraintsExample(name: string, path: string) {
+  return createStoreAndGens().then(sg => {
+    let D = sg.dymoGen.addDymo();
+    let rendering = sg.dymoGen.addRendering(undefined, D);
+    let a = sg.dymoGen.addControl("a", uris.SLIDER);
+    let b = sg.dymoGen.addControl("b", uris.SLIDER);
+    let c = sg.dymoGen.addControl("1-a", uris.SLIDER);
+    let d = sg.dymoGen.addControl("a+b", uris.SLIDER);
+    //let e = sg.dymoGen.addControl("a-b", uris.SLIDER);
+    let f = sg.dymoGen.addControl("a*b", uris.SLIDER);
+    sg.expressionGen.addConstraint(rendering, `
+      ∀ a in ["`+a+`"]
+      => ∀ c in ["`+c+`"]
+      => c == 1-a
+    `);
+    sg.expressionGen.addConstraint(rendering, `
+      ∀ a in ["`+a+`"]
+      => ∀ b in ["`+b+`"]
+      => ∀ d in ["`+d+`"]
+      => d == a+b
+    `);
+    /*sg.expressionGen.addConstraint(rendering, `
+      ∀ a in ["`+a+`"]
+      => ∀ b in ["`+b+`"]
+      => ∀ e in ["`+e+`"]
+      => e == a-b
+    `);*/
+    sg.expressionGen.addConstraint(rendering, `
+      ∀ a in ["`+a+`"]
+      => ∀ b in ["`+b+`"]
+      => ∀ f in ["`+f+`"]
+      => f == a*b
+    `);
+
+    return Promise.all([
+      sg.store.uriToJsonld(D).then(j => writeJsonld(j, path, 'dymo.json')),
+      sg.store.uriToJsonld(rendering).then(j => writeJsonld(j, path, 'rendering.json')),
+      updateConfig(name, path)
     ])
   });
 }
@@ -110,11 +135,40 @@ function createMixDymo() {
   });
 }
 
-function writeFile(path: string, content: string): Promise<any> {
+function writeJsonld(jsonld: string, path: string, filename: string): Promise<any> {
+  jsonld = jsonld.replace('http://tiny.cc/dymo-context', ONTOLOGIES_PATH+'dymo-context.json');
+  jsonld = JSON.stringify(JSON.parse(jsonld), null, 2);
+  return writeFile(GOAL_PATH+path, filename, jsonld);
+}
+
+function writeFile(path: string, filename: string, content: string): Promise<any> {
   return new Promise((resolve, reject) => {
-    fs.writeFile(path, content, (err) => {
+    if (!fs.existsSync(path)){
+      fs.mkdirSync(path);
+    }
+    fs.writeFile(path+filename, content, (err) => {
       if (err) return reject(err);
-      resolve('file saved at ' + path);
+      resolve('file saved at ' + path+filename);
     });
+  });
+}
+
+function updateConfig(name: string, path: string) {
+  return new Promise((resolve, reject) => {
+    var configfile = 'src/assets/config.json';
+    fs.readFile(configfile, 'utf8', (err,data) => {
+      var content = JSON.parse(data);
+      var dymoinfo = content["dymos"].filter(d => d["name"] == name)[0];
+      if (!dymoinfo) {
+        dymoinfo = { "name": name }
+        content["dymos"].push(dymoinfo);
+      }
+      dymoinfo["dymoUri"] = (GOAL_PATH+path+"dymo.json").replace('src/','');
+      dymoinfo["renderingUri"] = (GOAL_PATH+path+"rendering.json").replace('src/','');
+      fs.writeFile(configfile, JSON.stringify(content, null, 2), (err) => {
+        if (err) return reject(err);
+        resolve('file updated at ' + configfile);
+      });
+    })
   });
 }

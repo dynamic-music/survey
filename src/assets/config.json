@@ -1,16 +1,21 @@
 {
-	"showTitle": true,
-	"title": "Semantic Music Player",
-	"showDymoSelector": true,
-	"showPlaybackButtons": true,
-	"showDymoControls": true,
-	"showSensorSection": true,
-	"autoplay": false,
-	"dymos":[
-		{
-			"name": "example",
-			"dymoUri": "assets/dymos/example/dymo.json",
-			"renderingUri": "assets/dymos/example/rendering.json"
-		}
-	]
+  "showTitle": true,
+  "title": "Semantic Music Player",
+  "showDymoSelector": true,
+  "showPlaybackButtons": true,
+  "showDymoControls": true,
+  "showSensorSection": true,
+  "autoplay": false,
+  "dymos": [
+    {
+      "name": "example",
+      "dymoUri": "assets/dymos/example/dymo.json",
+      "renderingUri": "assets/dymos/example/rendering.json"
+    },
+    {
+      "name": "constraints",
+      "dymoUri": "assets/dymos/constraints/dymo.json",
+      "renderingUri": "assets/dymos/constraints/rendering.json"
+    }
+  ]
 }

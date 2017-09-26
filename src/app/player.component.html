@@ -4,11 +4,8 @@
   </ion-navbar>
   <ion-item large color="dark" *ngIf="config.showPlaybackButtons">
     <ion-label>Select Dynamic Music Object</ion-label>
-    <button ion-button large color="balanced" (click)="manager.startPlaying()">
-      <ion-icon name="play"></ion-icon>
-    </button>
-    <ion-select [(ngModel)]="selectedDymo" (ionChange)="dymoSelected()">
-      <ion-option *ngFor="let d of config.dymos">{{d.name}}</ion-option>
+    <ion-select [(ngModel)]="selectedDymo" multiple="false" (ionChange)="dymoSelected()">
+      <ion-option *ngFor="let d of config.dymos" [value]="d">{{d.name}}</ion-option>
     </ion-select>
   </ion-item>
   <ion-item *ngIf="config.showPlaybackButtons">
@@ -29,10 +26,10 @@
     </ion-item>
   </ion-list>
   <ion-item *ngIf="config.showSensorSection">
-    <button ion-button large color="positive" (click)="compassWatcher.reset(); geolocationWatcher.reset()">
+    <button ion-button color="positive" (click)="compassWatcher.reset(); geolocationWatcher.reset()">
       Reset sensors
     </button>
-    <button ion-button large color="royal" (click)="toggleSensorData()">
+    <button ion-button color="royal" (click)="toggleSensorData()">
       Show sensor data
     </button>
   </ion-item>
