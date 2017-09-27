@@ -35,7 +35,7 @@ export class PlayerComponent {
     this.configService.getConfig()
       .then(config => {
         this.config = config;
-        this.selectedDymo = config['dymos'][0];
+        this.selectedDymo = config['dymos'][1];
         this.dymoSelected();
       });
   }
@@ -47,7 +47,7 @@ export class PlayerComponent {
       this.updateLoading();
       this.manager = new DymoManager(undefined, null, null, null, 'assets/impulse_rev.wav');
       this.manager.init('https://semantic-player.github.io/dymo-core/ontologies/')
-        .then(() => this.manager.loadDymoAndRendering(this.selectedDymo.dymoUri, this.selectedDymo.renderingUri))
+        .then(() => this.manager.loadIntoStore(this.selectedDymo.dymoUri, this.selectedDymo.renderingUri))
         .then(l => {
           this.loadingDymo = false;
           this.controls = l.controls.map(c =>

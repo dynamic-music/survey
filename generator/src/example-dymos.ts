@@ -80,30 +80,38 @@ function createConstraintsExample(name: string, path: string) {
     let b = sg.dymoGen.addControl("b", uris.SLIDER);
     let c = sg.dymoGen.addControl("1-a", uris.SLIDER);
     let d = sg.dymoGen.addControl("a+b", uris.SLIDER);
-    //let e = sg.dymoGen.addControl("a-b", uris.SLIDER);
+    let e = sg.dymoGen.addControl("a-b", uris.SLIDER);
     let f = sg.dymoGen.addControl("a*b", uris.SLIDER);
+    let g = sg.dymoGen.addControl("a/b", uris.SLIDER);
     sg.expressionGen.addConstraint(rendering, `
       ∀ a in ["`+a+`"]
       => ∀ c in ["`+c+`"]
       => c == 1-a
     `);
+    //forAll("x").in(new Slider(100)).forAll("y").of(uris.DYMO).forAll("z", d).maintain("y == x+z").
     sg.expressionGen.addConstraint(rendering, `
       ∀ a in ["`+a+`"]
       => ∀ b in ["`+b+`"]
       => ∀ d in ["`+d+`"]
       => d == a+b
     `);
-    /*sg.expressionGen.addConstraint(rendering, `
+    sg.expressionGen.addConstraint(rendering, `
       ∀ a in ["`+a+`"]
       => ∀ b in ["`+b+`"]
       => ∀ e in ["`+e+`"]
       => e == a-b
-    `);*/
+    `);
     sg.expressionGen.addConstraint(rendering, `
       ∀ a in ["`+a+`"]
       => ∀ b in ["`+b+`"]
       => ∀ f in ["`+f+`"]
       => f == a*b
+    `);
+    sg.expressionGen.addConstraint(rendering, `
+      ∀ a in ["`+a+`"]
+      => ∀ b in ["`+b+`"]
+      => ∀ g in ["`+g+`"]
+      => g == a/b
     `);
 
     return Promise.all([
