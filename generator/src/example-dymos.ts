@@ -1,7 +1,13 @@
 import 'isomorphic-fetch';
 import * as fs from 'fs';
 import * as express from 'express';
-import { DymoStore, DymoGenerator, ExpressionGenerator, uris } from 'dymo-core';
+import { 
+  DymoStore,
+  DymoGenerator,
+  ExpressionGenerator,
+  uris,
+  forAll
+} from 'dymo-core';
 
 //start local server to get files
 
@@ -25,6 +31,7 @@ let GOAL_PATH = 'src/assets/dymos/';
 //generate examples
 createSimpleDymo('example', 'example/')
 .then(() => createConstraintsExample('constraints', 'constraints/'))
+.then(() => createTimeStretchExample('timestretch', 'timestretch/'))
 .then(() => console.log('done!'))
 .then(() => process.exit());
 
@@ -42,7 +49,7 @@ function createStoreAndGens(): Promise<StoreAndGens> {
 
 function createSimpleDymo(name: string, path: string): Promise<any> {
   return createStoreAndGens().then(sg => {
-    let dymo = sg.dymoGen.addDymo(undefined, 'blib.m4a', uris.CONJUNCTION);
+    let dymo = sg.dymoGen.addDymo(undefined, 'amen.wav', uris.CONJUNCTION);
     let rendering = sg.dymoGen.addRendering(undefined, dymo);
     let slider = sg.dymoGen.addControl("Amp", uris.SLIDER);
     let random = sg.dymoGen.addControl(null, uris.BROWNIAN);
@@ -119,6 +126,28 @@ function createConstraintsExample(name: string, path: string) {
       sg.store.uriToJsonld(rendering).then(j => writeJsonld(j, path, 'rendering.json')),
       updateConfig(name, path)
     ])
+  });
+}
+
+function createTimeStretchExample(name: string, path: string) {
+  const serialiseDymoTo = (filename: string) => 
+    (json: string) => writeJsonld(json, path, filename);
+
+  return createStoreAndGens().then(({store, dymoGen, expressionGen}) => {
+    const dymo = dymoGen.addDymo(undefined, 'amen.wav', uris.CONJUNCTION);
+    const rendering = dymoGen.addRendering(undefined, dymo);
+    const ratioCtrl = dymoGen.addControl("ratio", uris.SLIDER);
+    const timeConstraint = 
+      forAll('x').ofType(uris.DYMO)
+      .forAll('y').in(ratioCtrl)
+      .assert('TimeStretchRatio(x) == y');
+    expressionGen.addConstraint(rendering, timeConstraint.toString());
+
+    return Promise.all([
+      store.uriToJsonld(dymo).then(serialiseDymoTo('dymo.json')),
+      store.uriToJsonld(rendering).then(serialiseDymoTo('rendering.json')),
+      updateConfig(name, path)
+    ]);
   });
 }
 
