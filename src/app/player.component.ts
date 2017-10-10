@@ -8,8 +8,7 @@ import { InnoyicSliderWrapper } from './innoyic-slider-wrapper';
 
 interface DymoConfig {
   name: string,
-  dymoUri: string,
-  renderingUri: string
+  saveFile: string
 }
 
 @Component({
@@ -22,8 +21,9 @@ export class PlayerComponent {
   private showSensorData: boolean;
   private loadingDymo: boolean;
   private loading: Loading;
-  private controls: any[];
-  private SLIDER = uris.SLIDER;
+  private sliders: InnoyicSliderWrapper[];
+  private toggles: UIControl[];
+  private buttons: UIControl[];
 
   manager: DymoManager;
   selectedDymo: DymoConfig;
@@ -47,11 +47,13 @@ export class PlayerComponent {
       this.updateLoading();
       this.manager = new DymoManager(undefined, null, null, null, 'assets/impulse_rev.wav');
       this.manager.init('https://semantic-player.github.io/dymo-core/ontologies/')
-        .then(() => this.manager.loadIntoStore(this.selectedDymo.dymoUri, this.selectedDymo.renderingUri))
+        .then(() => this.manager.loadIntoStore(this.selectedDymo.saveFile))
         .then(l => {
           this.loadingDymo = false;
-          this.controls = l.controls.map(c =>
-            c.getType() === this.SLIDER ? new InnoyicSliderWrapper(<UIControl>c) : c);
+          this.sliders = l.controls.filter(c => c.getType() === uris.SLIDER)
+            .map(c => new InnoyicSliderWrapper(<UIControl>c));
+          this.toggles = <UIControl[]>l.controls.filter(c => c.getType() === uris.TOGGLE);
+          this.buttons = <UIControl[]>l.controls.filter(c => c.getType() === uris.BUTTON);
           this.updateLoading();
         });
     }
