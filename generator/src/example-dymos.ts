@@ -13,7 +13,7 @@ app.use(express["static"](__dirname));
 var server = app.listen(PORT);
 console.log('server started at '+SERVER_PATH);
 
-let ONTOLOGIES_PATH = 'https://semantic-player.github.io/dymo-core/ontologies/';
+let ONTOLOGIES_PATH = 'https://raw.githubusercontent.com/semantic-player/dymo-core/master/ontologies/';
 let GOAL_PATH = 'src/assets/dymos/';
 
 let store: DymoStore;
@@ -31,9 +31,9 @@ function createAndSaveDymo(name: string, path: string, generatorFunc: Function):
   dymoGen = new DymoGenerator(store);
   return store.loadOntologies(ONTOLOGIES_PATH)
     //run generatorFunction
-    .then(generatorFunc())
+    .then(() => generatorFunc())
     //save and update config
-    .then(()=>
+    .then(() =>
       Promise.all([
         dymoGen.getRenderingJsonld().then(j => writeJsonld(j, path, 'save.json')),
         updateConfig(name, path)
@@ -64,9 +64,9 @@ function createConstraintsExample() {
   let b = dymoGen.addControl("b", uris.SLIDER);
   addConstraintSlider("1-a", {"a":a}, dymoGen);
   addConstraintSlider("a+b", {"a":a,"b":b}, dymoGen);
-  //addConstraintSlider("a-b", {"a":a,"b":b}, dymoGen);
-  //addConstraintSlider("a*b", {"a":a,"b":b}, dymoGen);
-  //addConstraintSlider("a/b", {"a":a,"b":b}, dymoGen);
+  addConstraintSlider("a-b", {"a":a,"b":b}, dymoGen);
+  addConstraintSlider("a*b", {"a":a,"b":b}, dymoGen);
+  addConstraintSlider("a/b", {"a":a,"b":b}, dymoGen);
   //addConstraintSlider("a>b?a:b", {"a":a,"b":b}, dymoGen);
 }
 
@@ -74,7 +74,6 @@ function addConstraintSlider(expression: string, vars: {}, dymoGen: DymoGenerato
   let slider = dymoGen.addControl(expression, uris.SLIDER);
   let constraint = forAll("c").in(slider);
   Object.keys(vars).forEach(k => constraint = constraint.forAll(k).in(vars[k]));
-  console.log(constraint.assert("c == "+expression).toString())
   dymoGen.addConstraint(constraint.assert("c == "+expression));
 }
 
