@@ -22,6 +22,7 @@ let dymoGen: DymoGenerator;
 //generate examples
 createAndSaveDymo('example', 'example/', createSimpleDymo)
   .then(() => createAndSaveDymo('constraints', 'constraints/', createConstraintsExample))
+  .then(() => createAndSaveDymo('loop', 'loop/', createLoopTimestretchTest))
   .then(() => console.log('done!'))
   .then(() => process.exit());
 
@@ -38,6 +39,16 @@ function createAndSaveDymo(name: string, path: string, generatorFunc: Function):
         dymoGen.getRenderingJsonld().then(j => writeJsonld(j, path, 'save.json')),
         updateConfig(name, path)
       ]));
+}
+
+function createLoopTimestretchTest() {
+  dymoGen.addDymo(undefined, 'tek.wav');
+  let slider = dymoGen.addControl("StretchRatio", uris.SLIDER);
+  let toggle = dymoGen.addControl("Loop", uris.TOGGLE);
+  dymoGen.addConstraint(
+    forAll("d").ofType(uris.DYMO).forAll("c").in(slider).assert("TimeStretchRatio(d) == 2*c"));
+  dymoGen.addConstraint(
+    forAll("d").ofType(uris.DYMO).forAll("c").in(toggle).assert("Loop(d) == c"));
 }
 
 function createSimpleDymo() {
@@ -67,14 +78,15 @@ function createConstraintsExample() {
   addConstraintSlider("a-b", {"a":a,"b":b}, dymoGen);
   addConstraintSlider("a*b", {"a":a,"b":b}, dymoGen);
   addConstraintSlider("a/b", {"a":a,"b":b}, dymoGen);
-  //addConstraintSlider("a>b?a:b", {"a":a,"b":b}, dymoGen);
+  addConstraintSlider("(a>b?a:b)", {"a":a,"b":b}, dymoGen, true);
+  addConstraintSlider("sin(a)", {"a":a}, dymoGen, true);
 }
 
-function addConstraintSlider(expression: string, vars: {}, dymoGen: DymoGenerator) {
+function addConstraintSlider(expression: string, vars: {}, dymoGen: DymoGenerator, directed?: boolean) {
   let slider = dymoGen.addControl(expression, uris.SLIDER);
   let constraint = forAll("c").in(slider);
   Object.keys(vars).forEach(k => constraint = constraint.forAll(k).in(vars[k]));
-  dymoGen.addConstraint(constraint.assert("c == "+expression));
+  dymoGen.addConstraint(constraint.assert("c == "+expression, directed));
 }
 
 function createMixDymo() {

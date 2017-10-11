@@ -14,6 +14,10 @@
     {
       "name": "constraints",
       "saveFile": "assets/dymos/constraints/save.json"
+    },
+    {
+      "name": "loop",
+      "saveFile": "assets/dymos/loop/save.json"
     }
   ]
 }

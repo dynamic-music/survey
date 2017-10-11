@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { LoadingController, Loading } from 'ionic-angular';
 
-import { DymoManager, UIControl, uris } from 'dymo-core';
+import { DymoManager, GlobalVars, UIControl, uris } from 'dymo-core';
 
 import { ConfigService } from './config.service';
 import { InnoyicSliderWrapper } from './innoyic-slider-wrapper';
@@ -35,7 +35,7 @@ export class PlayerComponent {
     this.configService.getConfig()
       .then(config => {
         this.config = config;
-        this.selectedDymo = config['dymos'][0];
+        this.selectedDymo = config['dymos'][2];
         this.dymoSelected();
       });
   }
@@ -45,6 +45,7 @@ export class PlayerComponent {
       this.resetUI();
       this.loadingDymo = true;
       this.updateLoading();
+      GlobalVars.LOGGING_ON = true;
       this.manager = new DymoManager(undefined, null, null, null, 'assets/impulse_rev.wav');
       this.manager.init('https://raw.githubusercontent.com/semantic-player/dymo-core/master/ontologies/')
         .then(() => this.manager.loadIntoStore(this.selectedDymo.saveFile))
