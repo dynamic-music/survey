@@ -35,7 +35,7 @@ export class PlayerComponent {
     this.configService.getConfig()
       .then(config => {
         this.config = config;
-        this.selectedDymo = config['dymos'][2];
+        this.selectedDymo = config['dymos'][3];
         this.dymoSelected();
       });
   }

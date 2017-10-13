@@ -18,6 +18,10 @@
     {
       "name": "loop",
       "saveFile": "assets/dymos/loop/save.json"
+    },
+    {
+      "name": "sensor",
+      "saveFile": "assets/dymos/sensor/save.json"
     }
   ]
 }

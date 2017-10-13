@@ -23,6 +23,7 @@ let dymoGen: DymoGenerator;
 createAndSaveDymo('example', 'example/', createSimpleDymo)
   .then(() => createAndSaveDymo('constraints', 'constraints/', createConstraintsExample))
   .then(() => createAndSaveDymo('loop', 'loop/', createLoopTimestretchTest))
+  .then(() => createAndSaveDymo('sensor', 'sensor/', createSensorExample))
   .then(() => console.log('done!'))
   .then(() => process.exit());
 
@@ -41,8 +42,24 @@ function createAndSaveDymo(name: string, path: string, generatorFunc: Function):
       ]));
 }
 
+function createSensorExample() {
+  dymoGen.addDymo(undefined, 'loop.wav');
+  addSensorSliderConstraint("Amp", uris.ACCELEROMETER_X, "Amplitude");
+  addSensorSliderConstraint("Rate", uris.ACCELEROMETER_Y, "PlaybackRate");
+  addSensorSliderConstraint("Verb", uris.ACCELEROMETER_Z, "Reverb");
+}
+
+function addSensorSliderConstraint(name: string, sensorType: string, param: string) {
+  let slider = dymoGen.addControl(name, uris.SLIDER);
+  dymoGen.addConstraint(
+    forAll("d").ofType(uris.DYMO).forAll("c").in(slider).assert(param+"(d) == c"));
+  let sensor = dymoGen.addControl(undefined, sensorType);
+  dymoGen.addConstraint(
+    forAll("d").ofType(uris.DYMO).forAll("c").in(sensor).assert(param+"(d) == c"));
+}
+
 function createLoopTimestretchTest() {
-  dymoGen.addDymo(undefined, 'tek.wav');
+  dymoGen.addDymo(undefined, 'loop.wav');
   let slider = dymoGen.addControl("StretchRatio", uris.SLIDER);
   let toggle = dymoGen.addControl("Loop", uris.TOGGLE);
   dymoGen.addConstraint(
@@ -52,7 +69,7 @@ function createLoopTimestretchTest() {
 }
 
 function createSimpleDymo() {
-  dymoGen.addDymo(undefined, 'blib.m4a');
+  dymoGen.addDymo(undefined, 'creak.wav');
   let slider = dymoGen.addControl("Amp", uris.SLIDER);
   let random = dymoGen.addControl(null, uris.BROWNIAN);
   let toggle = dymoGen.addControl("Play", uris.TOGGLE);
