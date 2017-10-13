@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { LoadingController, Loading } from 'ionic-angular';
 
-import { DymoManager, UIControl, uris } from 'dymo-core';
+import { DymoManager, GlobalVars, UIControl, uris } from 'dymo-core';
 
 import { ConfigService } from './config.service';
 import { InnoyicSliderWrapper } from './innoyic-slider-wrapper';
 
 interface DymoConfig {
   name: string,
-  dymoUri: string,
-  renderingUri: string
+  saveFile: string
 }
 
 @Component({
@@ -22,8 +21,9 @@ export class PlayerComponent {
   private showSensorData: boolean;
   private loadingDymo: boolean;
   private loading: Loading;
-  private controls: any[];
-  private SLIDER = uris.SLIDER;
+  private sliders: InnoyicSliderWrapper[];
+  private toggles: UIControl[];
+  private buttons: UIControl[];
 
   manager: DymoManager;
   selectedDymo: DymoConfig;
@@ -35,7 +35,7 @@ export class PlayerComponent {
     this.configService.getConfig()
       .then(config => {
         this.config = config;
-        this.selectedDymo = config['dymos'][1];
+        this.selectedDymo = config['dymos'][3];
         this.dymoSelected();
       });
   }
@@ -45,13 +45,16 @@ export class PlayerComponent {
       this.resetUI();
       this.loadingDymo = true;
       this.updateLoading();
+      GlobalVars.LOGGING_ON = true;
       this.manager = new DymoManager(undefined, null, null, null, 'assets/impulse_rev.wav');
-      this.manager.init('https://semantic-player.github.io/dymo-core/ontologies/')
-        .then(() => this.manager.loadIntoStore(this.selectedDymo.dymoUri, this.selectedDymo.renderingUri))
+      this.manager.init('https://raw.githubusercontent.com/semantic-player/dymo-core/master/ontologies/')
+        .then(() => this.manager.loadIntoStore(this.selectedDymo.saveFile))
         .then(l => {
           this.loadingDymo = false;
-          this.controls = l.controls.map(c =>
-            c.getType() === this.SLIDER ? new InnoyicSliderWrapper(<UIControl>c) : c);
+          this.sliders = l.controls.filter(c => c.getType() === uris.SLIDER)
+            .map(c => new InnoyicSliderWrapper(<UIControl>c));
+          this.toggles = <UIControl[]>l.controls.filter(c => c.getType() === uris.TOGGLE);
+          this.buttons = <UIControl[]>l.controls.filter(c => c.getType() === uris.BUTTON);
           this.updateLoading();
         });
     }

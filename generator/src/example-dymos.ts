@@ -1,13 +1,7 @@
 import 'isomorphic-fetch';
 import * as fs from 'fs';
 import * as express from 'express';
-import { 
-  DymoStore,
-  DymoGenerator,
-  ExpressionGenerator,
-  uris,
-  forAll
-} from 'dymo-core';
+import { DymoStore, DymoGenerator, forAll, uris } from 'dymo-core';
 
 //start local server to get files
 
@@ -19,157 +13,114 @@ app.use(express["static"](__dirname));
 var server = app.listen(PORT);
 console.log('server started at '+SERVER_PATH);
 
-interface StoreAndGens {
-  store: DymoStore,
-  dymoGen: DymoGenerator,
-  expressionGen: ExpressionGenerator
-}
-
-let ONTOLOGIES_PATH = 'https://semantic-player.github.io/dymo-core/ontologies/';
+let ONTOLOGIES_PATH = 'https://raw.githubusercontent.com/semantic-player/dymo-core/master/ontologies/';
 let GOAL_PATH = 'src/assets/dymos/';
 
+let store: DymoStore;
+let dymoGen: DymoGenerator;
+
 //generate examples
-createSimpleDymo('example', 'example/')
-.then(() => createConstraintsExample('constraints', 'constraints/'))
-.then(() => createTimeStretchExample('timestretch', 'timestretch/'))
-.then(() => console.log('done!'))
-.then(() => process.exit());
+createAndSaveDymo('example', 'example/', createSimpleDymo)
+  .then(() => createAndSaveDymo('constraints', 'constraints/', createConstraintsExample))
+  .then(() => createAndSaveDymo('loop', 'loop/', createLoopTimestretchTest))
+  .then(() => createAndSaveDymo('sensor', 'sensor/', createSensorExample))
+  .then(() => console.log('done!'))
+  .then(() => process.exit());
 
-function createStoreAndGens(): Promise<StoreAndGens> {
-  let sg: StoreAndGens = { store: null, dymoGen: null, expressionGen: null };
-  sg.store = new DymoStore();
-  //console.log(SERVER_PATH+'node_modules/dymo-core/ontologies/')
-  //'https://semantic-player.github.io/dymo-core/ontologies/'
-  return sg.store.loadOntologies(ONTOLOGIES_PATH).then(() => {
-    sg.dymoGen = new DymoGenerator(sg.store);
-    sg.expressionGen = new ExpressionGenerator(sg.store);
-    return sg;
-  });
+function createAndSaveDymo(name: string, path: string, generatorFunc: Function): Promise<any> {
+  //reset store and generator
+  store = new DymoStore();
+  dymoGen = new DymoGenerator(store);
+  return store.loadOntologies(ONTOLOGIES_PATH)
+    //run generatorFunction
+    .then(() => generatorFunc())
+    //save and update config
+    .then(() =>
+      Promise.all([
+        dymoGen.getRenderingJsonld().then(j => writeJsonld(j, path, 'save.json')),
+        updateConfig(name, path)
+      ]));
 }
 
-function createSimpleDymo(name: string, path: string): Promise<any> {
-  return createStoreAndGens().then(sg => {
-    let dymo = sg.dymoGen.addDymo(undefined, 'amen.wav', uris.CONJUNCTION);
-    let rendering = sg.dymoGen.addRendering(undefined, dymo);
-    let slider = sg.dymoGen.addControl("Amp", uris.SLIDER);
-    let random = sg.dymoGen.addControl(null, uris.BROWNIAN);
-    //mapTo(slider).to(uris.AMPLITUDE, dymo)
-    //forAll("x", uris.DYMO).forAll("c", slider).constrain("Amplitude(x) == c")
-    sg.expressionGen.addConstraint(rendering, `
-      ∀ x : `+uris.DYMO+`
-      => ∀ c in ["`+slider+`"]
-      => Amplitude(x) == c
-    `);
-    sg.expressionGen.addConstraint(rendering, `
-      ∀ x : `+uris.DYMO+`
-      => ∀ c in ["`+random+`"]
-      => Amplitude(x) == c
-    `);
-    sg.expressionGen.addConstraint(rendering, `
-      ∀ x : `+uris.DYMO+`
-      => ∀ c in ["`+random+`"]
-      => PlaybackRate(x) == 1-c
-    `);
-
-    return Promise.all([
-      sg.store.uriToJsonld(dymo).then(j => writeJsonld(j, path, 'dymo.json')),
-      sg.store.uriToJsonld(rendering).then(j => writeJsonld(j, path, 'rendering.json')),
-      updateConfig(name, path)
-    ])
-  });
+function createSensorExample() {
+  dymoGen.addDymo(undefined, 'loop.wav');
+  addSensorSliderConstraint("Amp", uris.ACCELEROMETER_X, "Amplitude");
+  addSensorSliderConstraint("Rate", uris.ACCELEROMETER_Y, "PlaybackRate");
+  addSensorSliderConstraint("Verb", uris.ACCELEROMETER_Z, "Reverb");
 }
 
-function createConstraintsExample(name: string, path: string) {
-  return createStoreAndGens().then(sg => {
-    let D = sg.dymoGen.addDymo();
-    let rendering = sg.dymoGen.addRendering(undefined, D);
-    let a = sg.dymoGen.addControl("a", uris.SLIDER);
-    let b = sg.dymoGen.addControl("b", uris.SLIDER);
-    let c = sg.dymoGen.addControl("1-a", uris.SLIDER);
-    let d = sg.dymoGen.addControl("a+b", uris.SLIDER);
-    let e = sg.dymoGen.addControl("a-b", uris.SLIDER);
-    let f = sg.dymoGen.addControl("a*b", uris.SLIDER);
-    let g = sg.dymoGen.addControl("a/b", uris.SLIDER);
-    sg.expressionGen.addConstraint(rendering, `
-      ∀ a in ["`+a+`"]
-      => ∀ c in ["`+c+`"]
-      => c == 1-a
-    `);
-    //forAll("x").in(new Slider(100)).forAll("y").of(uris.DYMO).forAll("z", d).maintain("y == x+z").
-    sg.expressionGen.addConstraint(rendering, `
-      ∀ a in ["`+a+`"]
-      => ∀ b in ["`+b+`"]
-      => ∀ d in ["`+d+`"]
-      => d == a+b
-    `);
-    sg.expressionGen.addConstraint(rendering, `
-      ∀ a in ["`+a+`"]
-      => ∀ b in ["`+b+`"]
-      => ∀ e in ["`+e+`"]
-      => e == a-b
-    `);
-    sg.expressionGen.addConstraint(rendering, `
-      ∀ a in ["`+a+`"]
-      => ∀ b in ["`+b+`"]
-      => ∀ f in ["`+f+`"]
-      => f == a*b
-    `);
-    sg.expressionGen.addConstraint(rendering, `
-      ∀ a in ["`+a+`"]
-      => ∀ b in ["`+b+`"]
-      => ∀ g in ["`+g+`"]
-      => g == a/b
-    `);
-
-    return Promise.all([
-      sg.store.uriToJsonld(D).then(j => writeJsonld(j, path, 'dymo.json')),
-      sg.store.uriToJsonld(rendering).then(j => writeJsonld(j, path, 'rendering.json')),
-      updateConfig(name, path)
-    ])
-  });
+function addSensorSliderConstraint(name: string, sensorType: string, param: string) {
+  let slider = dymoGen.addControl(name, uris.SLIDER);
+  dymoGen.addConstraint(
+    forAll("d").ofType(uris.DYMO).forAll("c").in(slider).assert(param+"(d) == c"));
+  let sensor = dymoGen.addControl(undefined, sensorType);
+  dymoGen.addConstraint(
+    forAll("d").ofType(uris.DYMO).forAll("c").in(sensor).assert(param+"(d) == c"));
 }
 
-function createTimeStretchExample(name: string, path: string) {
-  const serialiseDymoTo = (filename: string) => 
-    (json: string) => writeJsonld(json, path, filename);
+function createLoopTimestretchTest() {
+  dymoGen.addDymo(undefined, 'loop.wav');
+  let slider = dymoGen.addControl("StretchRatio", uris.SLIDER);
+  let toggle = dymoGen.addControl("Loop", uris.TOGGLE);
+  dymoGen.addConstraint(
+    forAll("d").ofType(uris.DYMO).forAll("c").in(slider).assert("TimeStretchRatio(d) == 2*c"));
+  dymoGen.addConstraint(
+    forAll("d").ofType(uris.DYMO).forAll("c").in(toggle).assert("Loop(d) == c"));
+}
 
-  return createStoreAndGens().then(({store, dymoGen, expressionGen}) => {
-    const dymo = dymoGen.addDymo(undefined, 'amen.wav', uris.CONJUNCTION);
-    const rendering = dymoGen.addRendering(undefined, dymo);
-    const ratioCtrl = dymoGen.addControl("ratio", uris.SLIDER);
-    const timeConstraint = 
-      forAll('x').ofType(uris.DYMO)
-      .forAll('y').in(ratioCtrl)
-      .assert('TimeStretchRatio(x) == y');
-    expressionGen.addConstraint(rendering, timeConstraint.toString());
+function createSimpleDymo() {
+  dymoGen.addDymo(undefined, 'creak.wav');
+  let slider = dymoGen.addControl("Amp", uris.SLIDER);
+  let random = dymoGen.addControl(null, uris.BROWNIAN);
+  let toggle = dymoGen.addControl("Play", uris.TOGGLE);
+  let button = dymoGen.addControl("Play", uris.BUTTON);
+  dymoGen.addConstraint(
+    forAll("d").ofType(uris.DYMO).forAll("c").in(slider).assert("Amplitude(d) == c"));
+  dymoGen.addConstraint(
+    forAll("d").ofType(uris.DYMO).forAll("c").in(random).assert("Amplitude(d) == c"));
+  dymoGen.addConstraint(
+    forAll("d").ofType(uris.DYMO).forAll("c").in(random).assert("PlaybackRate(d) == 1-c"));
+  dymoGen.addConstraint(
+    forAll("d").ofType(uris.DYMO).forAll("c").in(toggle).assert("Play(d) == c"));
+  dymoGen.addConstraint(
+    forAll("d").ofType(uris.DYMO).forAll("c").in(button).assert("Play(d) == c"));
+}
 
-    return Promise.all([
-      store.uriToJsonld(dymo).then(serialiseDymoTo('dymo.json')),
-      store.uriToJsonld(rendering).then(serialiseDymoTo('rendering.json')),
-      updateConfig(name, path)
-    ]);
-  });
+function createConstraintsExample() {
+  dymoGen.addDymo();
+  let a = dymoGen.addControl("a", uris.SLIDER);
+  let b = dymoGen.addControl("b", uris.SLIDER);
+  addConstraintSlider("1-a", {"a":a}, dymoGen);
+  addConstraintSlider("a+b", {"a":a,"b":b}, dymoGen);
+  addConstraintSlider("a-b", {"a":a,"b":b}, dymoGen);
+  addConstraintSlider("a*b", {"a":a,"b":b}, dymoGen);
+  addConstraintSlider("a/b", {"a":a,"b":b}, dymoGen);
+  addConstraintSlider("(a>b?a:b)", {"a":a,"b":b}, dymoGen, true);
+  addConstraintSlider("sin(a)", {"a":a}, dymoGen, true);
+}
+
+function addConstraintSlider(expression: string, vars: {}, dymoGen: DymoGenerator, directed?: boolean) {
+  let slider = dymoGen.addControl(expression, uris.SLIDER);
+  let constraint = forAll("c").in(slider);
+  Object.keys(vars).forEach(k => constraint = constraint.forAll(k).in(vars[k]));
+  dymoGen.addConstraint(constraint.assert("c == "+expression, directed));
 }
 
 function createMixDymo() {
-  return createStoreAndGens().then(sg => {
-    let mixDymoUri = sg.dymoGen.addDymo(null, null, uris.CONJUNCTION, uris.CONTEXT_URI+"mixdymo");
-    let fadeParam = sg.dymoGen.addCustomParameter(uris.CONTEXT_URI+"Fade", mixDymoUri);
-    let tempoParam = sg.dymoGen.addCustomParameter(uris.CONTEXT_URI+"Tempo", mixDymoUri);
-    sg.dymoGen.addDymo(mixDymoUri, null, uris.DISJUNCTION, uris.CONTEXT_URI+"dymo0");
-    sg.dymoGen.addDymo(mixDymoUri, null, uris.DISJUNCTION, uris.CONTEXT_URI+"dymo00");
-    sg.expressionGen.addConstraint(mixDymoUri, `
-      ∀ d : `+uris.DYMO+`, LevelFeature(d) == 1
-      => ∀ f in ["`+fadeParam+`"]
-      => Amplitude(d) == (1-f)*(1-IndexFeature(d)) + f*IndexFeature(d)
-    `);
-    sg.expressionGen.addConstraint(mixDymoUri, `
-      ∀ d : `+uris.DYMO+`, LevelFeature(d) == 3
-      => ∀ t in ["`+tempoParam+`"]
-      => TimeStretchRatio(d) == t/60*DurationFeature(d)
-    `);
-    return sg.store.uriToJsonld(mixDymoUri);
-  });
+  let mixDymoUri = dymoGen.addDymo(null, null, uris.CONJUNCTION, uris.CONTEXT_URI+"mixdymo");
+  let fadeParam = dymoGen.addCustomParameter(uris.CONTEXT_URI+"Fade", mixDymoUri);
+  let tempoParam = dymoGen.addCustomParameter(uris.CONTEXT_URI+"Tempo", mixDymoUri);
+  dymoGen.addDymo(mixDymoUri, null, uris.DISJUNCTION, uris.CONTEXT_URI+"dymo0");
+  dymoGen.addDymo(mixDymoUri, null, uris.DISJUNCTION, uris.CONTEXT_URI+"dymo00");
+  dymoGen.addConstraint(
+    forAll("d").ofTypeWith(uris.DYMO, "LevelFeature(d) == 1")
+      .forAll("f").in(fadeParam)
+      .assert("Amplitude(d) == (1-f)*(1-IndexFeature(d)) + f*IndexFeature(d)"));
+  dymoGen.addConstraint(
+    forAll("d").ofTypeWith(uris.DYMO, "LevelFeature(d) == 3")
+      .forAll("t").in(tempoParam)
+      .assert("TimeStretchRatio(d) == t/60*DurationFeature(d)"));
+  return store.uriToJsonld(mixDymoUri);
 }
 
 function writeJsonld(jsonld: string, path: string, filename: string): Promise<any> {
@@ -200,8 +151,7 @@ function updateConfig(name: string, path: string) {
         dymoinfo = { "name": name }
         content["dymos"].push(dymoinfo);
       }
-      dymoinfo["dymoUri"] = (GOAL_PATH+path+"dymo.json").replace('src/','');
-      dymoinfo["renderingUri"] = (GOAL_PATH+path+"rendering.json").replace('src/','');
+      dymoinfo["saveFile"] = (GOAL_PATH+path+"save.json").replace('src/','');
       fs.writeFile(configfile, JSON.stringify(content, null, 2), (err) => {
         if (err) return reject(err);
         resolve('file updated at ' + configfile);
