@@ -4,6 +4,7 @@ import { LoadingController, Loading } from 'ionic-angular';
 import { DymoManager, GlobalVars, UIControl, uris } from 'dymo-core';
 
 import { ConfigService } from './config.service';
+import { FetchService } from './fetch.service';
 import { InnoyicSliderWrapper } from './innoyic-slider-wrapper';
 
 interface DymoConfig {
@@ -29,7 +30,7 @@ export class PlayerComponent {
   selectedDymo: DymoConfig;
 
   constructor(private loadingController: LoadingController,
-    private configService: ConfigService) { }
+    private configService: ConfigService, private fetcher: FetchService) { }
 
   ngOnInit(): void {
     this.configService.getConfig()
@@ -46,7 +47,7 @@ export class PlayerComponent {
       this.loadingDymo = true;
       this.updateLoading();
       GlobalVars.LOGGING_ON = true;
-      this.manager = new DymoManager(undefined, null, null, null, 'assets/impulse_rev.wav');
+      this.manager = new DymoManager(undefined, null, null, null, 'assets/impulse_rev.wav', this.fetcher);
       this.manager.init('https://raw.githubusercontent.com/semantic-player/dymo-core/master/ontologies/')
         .then(() => this.manager.loadIntoStore(this.selectedDymo.saveFile))
         .then(l => {
