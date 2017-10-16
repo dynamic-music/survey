@@ -10,7 +10,11 @@ import { PlayerComponent } from './player.component';
 export class AppComponent {
   rootPage:any = PlayerComponent;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(
+    platform: Platform,
+    statusBar: StatusBar,
+    splashScreen: SplashScreen
+  ) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
