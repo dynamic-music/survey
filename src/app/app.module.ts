@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule, Injectable, Inject } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -10,29 +10,12 @@ import { PlayerComponent } from './player.component';
 
 import { ConfigService } from './config.service';
 import { FetchService } from './fetch.service';
-
-import {Observable} from 'rxjs/Observable';
-
-@Injectable()
-export class AccelerometerSensor {
-  constructor(@Inject('AccelerationObservable') protected obs: Observable<Acceleration>) {}
-}
-
-
-// This isn't really idiomatic angular (the use of browser specific events and window object)
-export interface Acceleration {
-  x: number;
-  y: number;
-  z: number;
-}
-
-export function createAccelerationObservable(): Observable<Acceleration> {
-  return Observable.fromEvent(window, 'devicemotion', (ev: DeviceMotionEvent) => ({
-    x: ev.accelerationIncludingGravity.x,
-    y: ev.accelerationIncludingGravity.y,
-    z: ev.accelerationIncludingGravity.z,
-  })).share();
-}
+import { 
+  AccelerationService,
+  createAccelerationWatcherFrom,
+  createDeviceMotionAccelerationObservable,
+  toAccelerationServiceFactoryWith
+} from './acceleration.service';
 
 @NgModule({
   declarations: [
@@ -55,7 +38,14 @@ export function createAccelerationObservable(): Observable<Acceleration> {
     ConfigService,
     FetchService,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    {provide: 'AccelerationObservable', useFactory: createAccelerationObservable}
+    {
+      provide: AccelerationService,
+      useFactory: toAccelerationServiceFactoryWith(
+        createAccelerationWatcherFrom(
+          createDeviceMotionAccelerationObservable(window)
+        )
+      )
+    }
   ]
 })
 export class AppModule {}
