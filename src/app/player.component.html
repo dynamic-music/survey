@@ -2,7 +2,7 @@
   <ion-navbar color="dark" *ngIf="config.showTitle">
     <ion-title>{{config.title}}</ion-title>
   </ion-navbar>
-  <ion-item large color="dark" *ngIf="config.showPlaybackButtons">
+  <ion-item large color="dark" *ngIf="config.showDymoSelector">
     <ion-label>Select Dynamic Music Object</ion-label>
     <ion-select [(ngModel)]="selectedDymo" multiple="false" (ionChange)="dymoSelected()">
       <ion-option *ngFor="let d of config.dymos" [value]="d">{{d.name}}</ion-option>

@@ -3,15 +3,31 @@ import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
+export interface PlayerConfig {
+  showTitle?: boolean,
+  title?: string,
+  showDymoSelector?: boolean,
+  showPlaybackButtons?: boolean,
+  showDymoControls?: boolean,
+  showSensorSection?: boolean,
+  autoplay?: boolean,
+  loadLiveDymo?: boolean,
+  dymos?: DymoConfig[]
+}
+
+export interface DymoConfig {
+  name: string,
+  saveFile: string
+}
+
 @Injectable()
 export class ConfigService {
 
   constructor(private http: Http) {}
 
-  getConfig(): Promise<Object> {
+  getConfig(): Promise<PlayerConfig> {
     return this.http.get('assets/config.json')
       .toPromise()
-    //return fetch('assets/config.json')
       .then(response => response.json())
       .catch((error: any) => {
         console.error(error);

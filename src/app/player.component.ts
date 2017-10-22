@@ -1,17 +1,14 @@
 import { Component } from '@angular/core';
 import { LoadingController, Loading } from 'ionic-angular';
 
-import { DymoManager, GlobalVars, UIControl, uris } from 'dymo-core';
+import { DymoManager, GlobalVars, UIControl, uris, DymoGenerator } from 'dymo-core';
 
-import { ConfigService } from './config.service';
+import { ConfigService, PlayerConfig, DymoConfig } from './config.service';
 import { FetchService } from './fetch.service';
 import { InnoyicSliderWrapper } from './innoyic-slider-wrapper';
 import { AccelerationService } from './acceleration.service';
 
-interface DymoConfig {
-  name: string,
-  saveFile: string
-}
+import { LiveDymo } from './live-dymo';
 
 @Component({
   selector: 'semantic-player',
@@ -19,9 +16,8 @@ interface DymoConfig {
 })
 export class PlayerComponent {
 
-  private config: Object = {};
+  private config: PlayerConfig = {};
   private showSensorData: boolean;
-  private loadingDymo: boolean;
   private loading: Loading;
   private sliders: InnoyicSliderWrapper[];
   private toggles: UIControl[];
@@ -36,69 +32,81 @@ export class PlayerComponent {
     private acceleration: AccelerationService
   ) { }
 
-  ngOnInit(): void {
-    this.configService.getConfig()
-      .then(config => {
-        this.config = config;
-        this.selectedDymo = config['dymos'][3];
-        this.dymoSelected();
-      });
+  async ngOnInit() {
+    GlobalVars.LOGGING_ON = true; //TURN OFF IF NOT DEBUGGING
+    this.config = await this.configService.getConfig();
+    if (this.config.loadLiveDymo) {
+      this.config.showDymoSelector = false;
+    } else {
+      this.selectedDymo = this.config.dymos[0];
+    }
+    this.loadOrCreateDymo();
   }
 
-  dymoSelected(): void {
-    if (this.selectedDymo) {
-      this.resetUI();
-      this.loadingDymo = true;
-      this.updateLoading();
-      GlobalVars.LOGGING_ON = true;
-      this.manager = new DymoManager(undefined, null, null, null, 'assets/impulse_rev.wav', this.fetcher);
-      this.manager.init('https://raw.githubusercontent.com/semantic-player/dymo-core/master/ontologies/')
-        .then(() => this.manager.loadIntoStore(this.selectedDymo.saveFile))
-        .then(l => {
-          this.loadingDymo = false;
-          this.sliders = l.controls.filter(c => c.getType() === uris.SLIDER)
-            .map(c => new InnoyicSliderWrapper(<UIControl>c));
-          this.toggles = <UIControl[]>l.controls.filter(c => c.getType() === uris.TOGGLE);
-          this.buttons = <UIControl[]>l.controls.filter(c => c.getType() === uris.BUTTON);
+  dymoSelected() {
+    this.loadOrCreateDymo();
+  }
 
-          this.updateLoading();
-          const watcherLookup = new Map([
-            [uris.ACCELEROMETER_X, this.acceleration.watchX],
-            [uris.ACCELEROMETER_Y, this.acceleration.watchY],
-            [uris.ACCELEROMETER_Z, this.acceleration.watchZ],
-          ]);
-          this.manager.getSensorControls().forEach(control => {
-            if (watcherLookup.has(control.getType())) {
-              control.setSensor({
-                watch: watcherLookup.get(control.getType())
-              });
-              control.startUpdate();
-            }
-          });
-        });
+  private async loadOrCreateDymo() {
+    this.resetUI();
+    this.showLoadingDymo();
+    this.manager = new DymoManager(undefined, null, null, null, 'assets/impulse_rev.wav', this.fetcher);
+    await this.manager.init('https://raw.githubusercontent.com/semantic-player/dymo-core/master/ontologies/')
+    if (this.config.loadLiveDymo) {
+      new LiveDymo(new DymoGenerator(this.manager.getStore())).create();
+      await this.manager.loadFromStore();
+    } else if (this.selectedDymo) {
+      await this.manager.loadIntoStore(this.selectedDymo.saveFile);
     }
+    this.initSensorsAndUI();
+    this.hideLoading();
+  }
+
+  private initSensorsAndUI() {
+    //init sensors
+    const watcherLookup = new Map([
+      [uris.ACCELEROMETER_X, this.acceleration.watchX],
+      [uris.ACCELEROMETER_Y, this.acceleration.watchY],
+      [uris.ACCELEROMETER_Z, this.acceleration.watchZ],
+    ]);
+    this.manager.getSensorControls().forEach(control => {
+      if (watcherLookup.has(control.getType())) {
+        control.setSensor({
+          watch: watcherLookup.get(control.getType())
+        });
+        control.startUpdate();
+      }
+    });
+    //init ui
+    this.manager.getUIControls().forEach(control => {
+      switch (control.getType()) {
+        case uris.SLIDER: this.sliders.push(new InnoyicSliderWrapper(control)); break;
+        case uris.TOGGLE: this.toggles.push(control); break;
+        case uris.BUTTON: this.buttons.push(control); break;
+      }
+    });
   }
 
   resetUI(): void {
-    /*if ($scope.rendering) {
-      $scope.rendering.stop();
+    this.sliders = [];
+    this.toggles = [];
+    this.buttons = [];
+    if (this.manager) {
+      this.manager.stopPlaying();
     }
-    $scope.sensorControls = {};
-    $scope.uiControls = {};
-    $scope.manager;*/
   }
 
   toggleSensorData(): void {
     this.showSensorData = !this.showSensorData;
   }
 
-  updateLoading(): void {
-    if (this.loadingDymo) {
-      this.initOrUpdateLoader('Loading dymo...');
-    } else {
-      this.loading.dismissAll();
-      this.loading = null;
-    }
+  showLoadingDymo(): void {
+    this.initOrUpdateLoader('Loading dymo...');
+  }
+
+  hideLoading(): void {
+    this.loading.dismissAll();
+    this.loading = null;
   }
 
   initOrUpdateLoader(content: string): void {
