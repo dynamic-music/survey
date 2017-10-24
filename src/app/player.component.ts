@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { LoadingController, Loading } from 'ionic-angular';
+import { Platform, LoadingController, Loading } from 'ionic-angular';
 
 import { DymoManager, GlobalVars, UIControl, uris, DymoGenerator } from 'dymo-core';
 
 import { ConfigService, PlayerConfig, DymoConfig } from './config.service';
 import { FetchService } from './fetch.service';
 import { InnoyicSliderWrapper } from './innoyic-slider-wrapper';
-import { AccelerationService } from './acceleration.service';
+import { AccelerationService } from './sensors/acceleration.service';
+import { OrientationService } from './sensors/orientation.service';
 
 import { LiveDymo } from './live-dymo';
 
@@ -26,10 +27,12 @@ export class PlayerComponent {
   manager: DymoManager;
   selectedDymo: DymoConfig;
 
-  constructor(private loadingController: LoadingController,
+  constructor(private platform: Platform,
+    private loadingController: LoadingController,
     private configService: ConfigService,
     private fetcher: FetchService,
-    private acceleration: AccelerationService
+    private acceleration: AccelerationService,
+    private orientation: OrientationService
   ) { }
 
   async ngOnInit() {
@@ -63,20 +66,23 @@ export class PlayerComponent {
   }
 
   private initSensorsAndUI() {
-    //init sensors
-    const watcherLookup = new Map([
-      [uris.ACCELEROMETER_X, this.acceleration.watchX],
-      [uris.ACCELEROMETER_Y, this.acceleration.watchY],
-      [uris.ACCELEROMETER_Z, this.acceleration.watchZ],
-    ]);
-    this.manager.getSensorControls().forEach(control => {
-      if (watcherLookup.has(control.getType())) {
-        control.setSensor({
-          watch: watcherLookup.get(control.getType())
-        });
-        control.startUpdate();
-      }
-    });
+    if (this.platform.is('cordova')) {
+      //init sensors
+      const watcherLookup = new Map([
+        [uris.ACCELEROMETER_X, this.acceleration.watchX],
+        [uris.ACCELEROMETER_Y, this.acceleration.watchY],
+        [uris.ACCELEROMETER_Z, this.acceleration.watchZ],
+        [uris.COMPASS_HEADING, this.orientation.watch]
+      ]);
+      this.manager.getSensorControls().forEach(control => {
+        if (watcherLookup.has(control.getType())) {
+          control.setSensor({
+            watch: watcherLookup.get(control.getType())
+          });
+          control.startUpdate();
+        }
+      });
+    }
     //init ui
     this.manager.getUIControls().forEach(control => {
       switch (control.getType()) {

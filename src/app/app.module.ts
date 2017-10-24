@@ -4,18 +4,20 @@ import { HttpModule } from '@angular/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { DeviceOrientation } from '@ionic-native/device-orientation';
 
 import { AppComponent } from './app.component';
 import { PlayerComponent } from './player.component';
 
 import { ConfigService } from './config.service';
 import { FetchService } from './fetch.service';
-import { 
+import {
   AccelerationService,
   createAccelerationWatcherFrom,
   createDeviceMotionAccelerationObservable,
   toAccelerationServiceFactoryWith
-} from './acceleration.service';
+} from './sensors/acceleration.service';
+import { OrientationService } from './sensors/orientation.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import {
           createDeviceMotionAccelerationObservable(window)
         )
       )
-    }
+    },
+    DeviceOrientation,
+    OrientationService
   ]
 })
 export class AppModule {}

@@ -88,4 +88,5 @@
     <plugin name="cordova-plugin-device-motion" spec="^1.2.5" />
     <plugin name="cordova-plugin-device-orientation" spec="^1.0.7" />
     <plugin name="cordova-plugin-geolocation" spec="^2.4.3" />
+    <allow-navigation href="http://161.23.160.137:8102" />
 </widget>

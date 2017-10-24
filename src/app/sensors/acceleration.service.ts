@@ -21,10 +21,15 @@ export function createDeviceMotionAccelerationObservable(
     windowObj,
     'devicemotion',
     (ev: DeviceMotionEvent) => ({
-      x: ev.accelerationIncludingGravity.x,
-      y: ev.accelerationIncludingGravity.y,
-      z: ev.accelerationIncludingGravity.z,
+      x: normalizeAcceleration(ev.accelerationIncludingGravity.x),
+      y: normalizeAcceleration(ev.accelerationIncludingGravity.y),
+      z: normalizeAcceleration(ev.accelerationIncludingGravity.z),
     })).share();
+}
+
+// normalizes acceleration to interval [0,1]
+function normalizeAcceleration(acceleration: number): number {
+  return (acceleration / 9.81 + 1) / 2;
 }
 
 export function createAccelerationWatcherFrom(
