@@ -10,7 +10,7 @@ export class OrientationService {
 
   constructor(private deviceOrientation: DeviceOrientation) {
     this.watch = this.deviceOrientation.watchHeading()
-      .map(h => { console.log(h); return h.trueHeading/360 });
+      .map(h => h.trueHeading/360);
   }
 
 }

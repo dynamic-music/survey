@@ -17,7 +17,7 @@ export class LiveDymo {
 
   create(): void {
     let drums = this.dymoGen.addDymo(null, this.DIR+'Drums/All loops 17-Audio.m4a');
-    this.map(uris.COMPASS_HEADING, drums, "Amplitude", "c");
+    this.map(uris.SLIDER, drums, "Amplitude", "c");
     this.map(uris.SLIDER, drums, "Amplitude");
   }
 

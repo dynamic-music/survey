@@ -5,6 +5,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { DeviceOrientation } from '@ionic-native/device-orientation';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { AppComponent } from './app.component';
 import { PlayerComponent } from './player.component';
@@ -18,6 +19,7 @@ import {
   toAccelerationServiceFactoryWith
 } from './sensors/acceleration.service';
 import { OrientationService } from './sensors/orientation.service';
+import { GeolocationService } from './sensors/geolocation.service';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { OrientationService } from './sensors/orientation.service';
     SplashScreen,
     ConfigService,
     FetchService,
+    DeviceOrientation,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {
       provide: AccelerationService,
@@ -48,8 +52,8 @@ import { OrientationService } from './sensors/orientation.service';
         )
       )
     },
-    DeviceOrientation,
-    OrientationService
+    OrientationService,
+    GeolocationService
   ]
 })
 export class AppModule {}

@@ -8,6 +8,7 @@ import { FetchService } from './fetch.service';
 import { InnoyicSliderWrapper } from './innoyic-slider-wrapper';
 import { AccelerationService } from './sensors/acceleration.service';
 import { OrientationService } from './sensors/orientation.service';
+import { GeolocationService } from './sensors/geolocation.service';
 
 import { LiveDymo } from './live-dymo';
 
@@ -32,7 +33,8 @@ export class PlayerComponent {
     private configService: ConfigService,
     private fetcher: FetchService,
     private acceleration: AccelerationService,
-    private orientation: OrientationService
+    private orientation: OrientationService,
+    private geolocation: GeolocationService
   ) { }
 
   async ngOnInit() {
@@ -72,7 +74,9 @@ export class PlayerComponent {
         [uris.ACCELEROMETER_X, this.acceleration.watchX],
         [uris.ACCELEROMETER_Y, this.acceleration.watchY],
         [uris.ACCELEROMETER_Z, this.acceleration.watchZ],
-        [uris.COMPASS_HEADING, this.orientation.watch]
+        [uris.COMPASS_HEADING, this.orientation.watch],
+        [uris.GEOLOCATION_LATITUDE, this.geolocation.watchLatitude],
+        [uris.GEOLOCATION_LONGITUDE, this.geolocation.watchLongitude],
       ]);
       this.manager.getSensorControls().forEach(control => {
         if (watcherLookup.has(control.getType())) {
