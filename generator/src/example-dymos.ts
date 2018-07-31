@@ -1,55 +1,23 @@
-import 'isomorphic-fetch';
-import * as fs from 'fs';
-import * as express from 'express';
 import { DymoStore, DymoGenerator, forAll, uris } from 'dymo-core';
+import { DymoWriter, DymoDefinition } from './dymo-writer';
 
-//start local server to get files
 
-let PORT = '4111';
-let SERVER_PATH = 'http://localhost:' + PORT + '/';
+new DymoWriter('src/assets/dymos/', 'src/assets/config.json').generateAndWriteDymos([
+  {name: 'example', path: 'example/', func: createSimpleDymo},
+  {name: 'constraints', path: 'constraints/', func: createConstraintsExample},
+  {name: 'loop', path: 'loop/', func: createLoopTimestretchTest},
+  {name: 'sensor', path: 'sensor/', func: createSensorExample}
+]);
 
-var app = express();
-app.use(express["static"](__dirname));
-var server = app.listen(PORT);
-console.log('server started at '+SERVER_PATH);
 
-let ONTOLOGIES_PATH = 'https://raw.githubusercontent.com/semantic-player/dymo-core/master/ontologies/';
-let GOAL_PATH = 'src/assets/dymos/';
-
-let store: DymoStore;
-let dymoGen: DymoGenerator;
-
-//generate examples
-createAndSaveDymo('example', 'example/', createSimpleDymo)
-  .then(() => createAndSaveDymo('constraints', 'constraints/', createConstraintsExample))
-  .then(() => createAndSaveDymo('loop', 'loop/', createLoopTimestretchTest))
-  .then(() => createAndSaveDymo('sensor', 'sensor/', createSensorExample))
-  .then(() => console.log('done!'))
-  .then(() => process.exit());
-
-function createAndSaveDymo(name: string, path: string, generatorFunc: Function): Promise<any> {
-  //reset store and generator
-  store = new DymoStore();
-  dymoGen = new DymoGenerator(store);
-  return store.loadOntologies(ONTOLOGIES_PATH)
-    //run generatorFunction
-    .then(() => generatorFunc())
-    //save and update config
-    .then(() =>
-      Promise.all([
-        dymoGen.getRenderingJsonld().then(j => writeJsonld(j, path, 'save.json')),
-        updateConfig(name, path)
-      ]));
-}
-
-function createSensorExample() {
+function createSensorExample(dymoGen: DymoGenerator) {
   dymoGen.addDymo(undefined, 'loop.wav');
-  addSensorSliderConstraint("Amp", uris.ACCELEROMETER_X, "Amplitude");
-  addSensorSliderConstraint("Rate", uris.ACCELEROMETER_Y, "PlaybackRate");
-  addSensorSliderConstraint("Verb", uris.ACCELEROMETER_Z, "Reverb");
+  addSensorSliderConstraint(dymoGen, "Amp", uris.ACCELEROMETER_X, "Amplitude");
+  addSensorSliderConstraint(dymoGen, "Rate", uris.ACCELEROMETER_Y, "PlaybackRate");
+  addSensorSliderConstraint(dymoGen, "Verb", uris.ACCELEROMETER_Z, "Reverb");
 }
 
-function addSensorSliderConstraint(name: string, sensorType: string, param: string) {
+function addSensorSliderConstraint(dymoGen: DymoGenerator, name: string, sensorType: string, param: string) {
   let slider = dymoGen.addControl(name, uris.SLIDER);
   dymoGen.addConstraint(
     forAll("d").ofType(uris.DYMO).forAll("c").in(slider).assert(param+"(d) == c"));
@@ -58,7 +26,7 @@ function addSensorSliderConstraint(name: string, sensorType: string, param: stri
     forAll("d").ofType(uris.DYMO).forAll("c").in(sensor).assert(param+"(d) == c"));
 }
 
-function createLoopTimestretchTest() {
+function createLoopTimestretchTest(dymoGen: DymoGenerator) {
   dymoGen.addDymo(undefined, 'loop.wav');
   let slider = dymoGen.addControl("StretchRatio", uris.SLIDER);
   let toggle = dymoGen.addControl("Loop", uris.TOGGLE);
@@ -68,7 +36,7 @@ function createLoopTimestretchTest() {
     forAll("d").ofType(uris.DYMO).forAll("c").in(toggle).assert("Loop(d) == c"));
 }
 
-function createSimpleDymo() {
+function createSimpleDymo(dymoGen: DymoGenerator) {
   dymoGen.addDymo(undefined, 'creak.wav');
   let slider = dymoGen.addControl("Amp", uris.SLIDER);
   let random = dymoGen.addControl(null, uris.BROWNIAN);
@@ -86,7 +54,7 @@ function createSimpleDymo() {
     forAll("d").ofType(uris.DYMO).forAll("c").in(button).assert("Play(d) == c"));
 }
 
-function createConstraintsExample() {
+function createConstraintsExample(dymoGen: DymoGenerator) {
   dymoGen.addDymo();
   let a = dymoGen.addControl("a", uris.SLIDER);
   let b = dymoGen.addControl("b", uris.SLIDER);
@@ -106,7 +74,7 @@ function addConstraintSlider(expression: string, vars: {}, dymoGen: DymoGenerato
   dymoGen.addConstraint(constraint.assert("c == "+expression, directed));
 }
 
-function createMixDymo() {
+function createMixDymo(dymoGen: DymoGenerator) {
   let mixDymoUri = dymoGen.addDymo(null, null, uris.CONJUNCTION, uris.CONTEXT_URI+"mixdymo");
   let fadeParam = dymoGen.addCustomParameter(uris.CONTEXT_URI+"Fade", mixDymoUri);
   let tempoParam = dymoGen.addCustomParameter(uris.CONTEXT_URI+"Tempo", mixDymoUri);
@@ -120,42 +88,5 @@ function createMixDymo() {
     forAll("d").ofTypeWith(uris.DYMO, "LevelFeature(d) == 3")
       .forAll("t").in(tempoParam)
       .assert("TimeStretchRatio(d) == t/60*DurationFeature(d)"));
-  return store.uriToJsonld(mixDymoUri);
-}
-
-function writeJsonld(jsonld: string, path: string, filename: string): Promise<any> {
-  jsonld = jsonld.replace('http://tiny.cc/dymo-context', ONTOLOGIES_PATH+'dymo-context.json');
-  jsonld = JSON.stringify(JSON.parse(jsonld), null, 2);
-  return writeFile(GOAL_PATH+path, filename, jsonld);
-}
-
-function writeFile(path: string, filename: string, content: string): Promise<any> {
-  return new Promise((resolve, reject) => {
-    if (!fs.existsSync(path)){
-      fs.mkdirSync(path);
-    }
-    fs.writeFile(path+filename, content, (err) => {
-      if (err) return reject(err);
-      resolve('file saved at ' + path+filename);
-    });
-  });
-}
-
-function updateConfig(name: string, path: string) {
-  return new Promise((resolve, reject) => {
-    var configfile = 'src/assets/config.json';
-    fs.readFile(configfile, 'utf8', (err,data) => {
-      var content = JSON.parse(data);
-      var dymoinfo = content["dymos"].filter(d => d["name"] == name)[0];
-      if (!dymoinfo) {
-        dymoinfo = { "name": name }
-        content["dymos"].push(dymoinfo);
-      }
-      dymoinfo["saveFile"] = (GOAL_PATH+path+"save.json").replace('src/','');
-      fs.writeFile(configfile, JSON.stringify(content, null, 2), (err) => {
-        if (err) return reject(err);
-        resolve('file updated at ' + configfile);
-      });
-    })
-  });
+  return dymoGen.getStore().uriToJsonld(mixDymoUri);
 }
