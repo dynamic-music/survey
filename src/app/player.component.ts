@@ -56,7 +56,7 @@ export class PlayerComponent {
     this.resetUI();
     this.showLoadingDymo();
     this.manager = new DymoManager(undefined, null, null, null, 'assets/impulse_rev.wav', this.fetcher);
-    await this.manager.init('https://raw.githubusercontent.com/semantic-player/dymo-core/master/ontologies/')
+    await this.manager.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/')
     if (this.config.loadLiveDymo) {
       new LiveDymo(new DymoGenerator(this.manager.getStore())).create();
       await this.manager.loadFromStore();

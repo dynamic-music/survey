@@ -6,11 +6,27 @@
   "showDymoControls": true,
   "showSensorSection": true,
   "autoplay": false,
-  "loadLiveDymo": true,
+  "loadLiveDymo": false,
   "dymos": [
     {
       "name": "example",
       "saveFile": "assets/dymos/example/save.json"
+    },
+    {
+      "name": "constraints",
+      "saveFile": "assets/dymos/constraints/save.json"
+    },
+    {
+      "name": "loop",
+      "saveFile": "assets/dymos/loop/save.json"
+    },
+    {
+      "name": "sensor",
+      "saveFile": "assets/dymos/sensor/save.json"
+    },
+    {
+      "name": "machine",
+      "saveFile": "assets/dymos/machine/save.json"
     }
   ]
 }
