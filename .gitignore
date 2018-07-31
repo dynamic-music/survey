@@ -38,3 +38,4 @@ generator/lib
 src/assets/dymos
 machine
 resources
+package-lock.json

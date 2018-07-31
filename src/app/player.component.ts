@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Platform, LoadingController, Loading } from 'ionic-angular';
 
-import { DymoManager, GlobalVars, UIControl, uris, DymoGenerator } from 'dymo-core';
+import { DymoPlayerManager } from 'dymo-player';
+import { UIControl, uris, DymoGenerator } from 'dymo-core';
 
 import { ConfigService, PlayerConfig, DymoConfig } from './config.service';
 import { FetchService } from './fetch.service';
@@ -25,7 +26,7 @@ export class PlayerComponent {
   private toggles: UIControl[];
   private buttons: UIControl[];
 
-  manager: DymoManager;
+  player: DymoPlayerManager;
   selectedDymo: DymoConfig;
 
   constructor(private platform: Platform,
@@ -38,7 +39,6 @@ export class PlayerComponent {
   ) { }
 
   async ngOnInit() {
-    GlobalVars.LOGGING_ON = true; //TURN OFF IF NOT DEBUGGING
     this.config = await this.configService.getConfig();
     if (this.config.loadLiveDymo) {
       this.config.showDymoSelector = false;
@@ -48,20 +48,38 @@ export class PlayerComponent {
     this.loadOrCreateDymo();
   }
 
+  ////functions called from ui
+
   dymoSelected() {
     this.loadOrCreateDymo();
+  }
+
+  play() {
+    this.player.startPlaying();
+  }
+
+  pause() {
+    //TODO IMPLEMENT WITH SCHEDULO!!!!!
+  }
+
+  stop() {
+    this.player.stopPlaying();
+  }
+
+  toggleSensorData(): void {
+    this.showSensorData = !this.showSensorData;
   }
 
   private async loadOrCreateDymo() {
     this.resetUI();
     this.showLoadingDymo();
-    this.manager = new DymoManager(undefined, null, null, null, 'assets/impulse_rev.wav', this.fetcher);
-    await this.manager.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/')
+    this.player = new DymoPlayerManager(true, false, undefined, undefined, undefined, this.fetcher);
+    await this.player.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/')
     if (this.config.loadLiveDymo) {
-      new LiveDymo(new DymoGenerator(this.manager.getStore())).create();
-      await this.manager.loadFromStore();
+      new LiveDymo(new DymoGenerator(this.player.getDymoManager().getStore())).create();
+      await this.player.getDymoManager().loadFromStore();
     } else if (this.selectedDymo) {
-      await this.manager.loadIntoStore(this.selectedDymo.saveFile);
+      await this.player.getDymoManager().loadIntoStore(this.selectedDymo.saveFile);
     }
     this.initSensorsAndUI();
     this.hideLoading();
@@ -78,7 +96,7 @@ export class PlayerComponent {
         [uris.GEOLOCATION_LATITUDE, this.geolocation.watchLatitude],
         [uris.GEOLOCATION_LONGITUDE, this.geolocation.watchLongitude],
       ]);
-      this.manager.getSensorControls().forEach(control => {
+      this.player.getDymoManager().getSensorControls().forEach(control => {
         if (watcherLookup.has(control.getType())) {
           control.setSensor({
             watch: watcherLookup.get(control.getType())
@@ -88,7 +106,7 @@ export class PlayerComponent {
       });
     }
     //init ui
-    this.manager.getUIControls().forEach(control => {
+    this.player.getDymoManager().getUIControls().forEach(control => {
       switch (control.getType()) {
         case uris.SLIDER: this.sliders.push(new InnoyicSliderWrapper(control)); break;
         case uris.TOGGLE: this.toggles.push(control); break;
@@ -97,29 +115,25 @@ export class PlayerComponent {
     });
   }
 
-  resetUI(): void {
+  private resetUI(): void {
     this.sliders = [];
     this.toggles = [];
     this.buttons = [];
-    if (this.manager) {
-      this.manager.stopPlaying();
+    if (this.player) {
+      this.player.stopPlaying();
     }
   }
 
-  toggleSensorData(): void {
-    this.showSensorData = !this.showSensorData;
-  }
-
-  showLoadingDymo(): void {
+  private showLoadingDymo(): void {
     this.initOrUpdateLoader('Loading dymo...');
   }
 
-  hideLoading(): void {
+  private hideLoading(): void {
     this.loading.dismissAll();
     this.loading = null;
   }
 
-  initOrUpdateLoader(content: string): void {
+  private initOrUpdateLoader(content: string): void {
     if (!this.loading) {
       this.loading = this.loadingController.create({
         content: content

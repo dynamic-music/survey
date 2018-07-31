@@ -9,13 +9,13 @@
     </ion-select>
   </ion-item>
   <ion-item *ngIf="config.showPlaybackButtons">
-    <button ion-button large color="balanced" (click)="manager.startPlaying()">
+    <button ion-button large color="balanced" (click)="play()">
       <ion-icon name="play"></ion-icon>
     </button>
-    <button ion-button large color="energized" (click)="manager.pausePlaying()">
+    <button ion-button large color="energized" (click)="pause()">
       <ion-icon name="pause"></ion-icon>
     </button>
-    <button ion-button large color="assertive" (click)="manager.stopPlaying()">
+    <button ion-button large color="assertive" (click)="stop()">
       <ion-icon name="square"></ion-icon>
     </button>
   </ion-item>
