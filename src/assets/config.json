@@ -5,8 +5,8 @@
   "showPlaybackButtons": true,
   "showDymoControls": true,
   "showSensorSection": true,
-  "autoplay": false,
-  "loadLiveDymo": false,
+  "autoplay": true,
+  "loadLiveDymo": true,
   "dymos": [
     {
       "name": "example",

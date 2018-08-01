@@ -45,7 +45,8 @@ export class PlayerComponent {
     } else {
       this.selectedDymo = this.config.dymos[0];
     }
-    this.loadOrCreateDymo();
+    await this.loadOrCreateDymo();
+    if (this.config.autoplay) this.play();
   }
 
   ////functions called from ui
@@ -59,7 +60,7 @@ export class PlayerComponent {
   }
 
   pause() {
-    //TODO IMPLEMENT WITH SCHEDULO!!!!!
+    this.player.pause();
   }
 
   stop() {
@@ -76,7 +77,7 @@ export class PlayerComponent {
     this.player = new DymoPlayerManager(false, false, undefined, undefined, undefined, this.fetcher);
     await this.player.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/')
     if (this.config.loadLiveDymo) {
-      new LiveDymo(new DymoGenerator(this.player.getDymoManager().getStore())).create();
+      await new LiveDymo(new DymoGenerator(this.player.getDymoManager().getStore())).create();
       await this.player.getDymoManager().loadFromStore();
     } else if (this.selectedDymo) {
       await this.player.getDymoManager().loadIntoStore(this.selectedDymo.saveFile);
