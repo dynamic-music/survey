@@ -1,6 +1,6 @@
 import 'isomorphic-fetch';
 import * as fs from 'fs';
-import { DymoStore, DymoGenerator, forAll, uris } from 'dymo-core';
+import { DymoGenerator, forAll, uris } from 'dymo-core';
 
 export interface DymoDefinition {
   name: string,
@@ -21,15 +21,13 @@ export class DymoWriter {
       .then(() => process.exit());
   }
 
-  private createAndSaveDymo(definition: DymoDefinition): Promise<any> {
+  private async createAndSaveDymo(definition: DymoDefinition): Promise<any> {
     //reset store and generator
-    let store = new DymoStore();
-    let dymoGen = new DymoGenerator(store);
-    return store.loadOntologies(this.ONTOLOGIES_PATH)
-      //run generatorFunction
-      .then(() => definition.func(dymoGen))
-      //save and update config
-      .then(() => dymoGen.getRenderingJsonld().then(j => this.writeJsonld(j, definition.path, 'save.json')));
+    let dymoGen = new DymoGenerator();
+    //run generatorFunction
+    await definition.func(dymoGen)
+    //save and update config
+    await dymoGen.getRenderingJsonld().then(j => this.writeJsonld(j, definition.path, 'save.json'));
   }
 
   private writeJsonld(jsonld: string, path: string, filename: string): Promise<any> {
