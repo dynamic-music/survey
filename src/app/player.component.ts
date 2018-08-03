@@ -27,6 +27,7 @@ export class PlayerComponent {
   private toggles: UIControl[];
   private buttons: UIControl[];
   private performanceInfo: string;
+  private numPlayingDymos: number;
 
   player: DymoPlayerManager;
   selectedDymo: DymoConfig;
@@ -48,25 +49,28 @@ export class PlayerComponent {
       this.selectedDymo = this.config.dymos[0];
     }
     await this.loadOrCreateDymo();
+    this.initSensorsAndUI();
+    this.hideLoading();
     setInterval(this.updatePerformanceInfo.bind(this), 500);
+    this.player.getPlayingDymoUris().subscribe(d => this.numPlayingDymos = d.length);
     if (this.config.autoplay) this.play();
   }
 
   ////functions called from ui
 
-  dymoSelected() {
+  private dymoSelected() {
     this.loadOrCreateDymo();
   }
 
-  play() {
+  private play() {
     this.player.play();
   }
 
-  pause() {
+  private pause() {
     this.player.pause();
   }
 
-  stop() {
+  private stop() {
     this.player.stop();
   }
 
@@ -75,8 +79,12 @@ export class PlayerComponent {
   }
 
   private async updatePerformanceInfo() {
-    const observers = await this.player.getDymoManager().getStore().getValueObserverCount();
-    this.performanceInfo = "observers: " + observers;
+    let info: string[] = [];
+    const store = this.player.getDymoManager().getStore();
+    info.push("triples: " + await store.size());
+    info.push("observers: " + await store.getValueObserverCount());
+    info.push("dymos: " + this.numPlayingDymos);
+    this.performanceInfo = info.join(', ');
   }
 
   private async loadOrCreateDymo() {
@@ -90,8 +98,6 @@ export class PlayerComponent {
     } else if (this.selectedDymo) {
       await this.player.getDymoManager().loadIntoStore(this.selectedDymo.saveFile);
     }
-    this.initSensorsAndUI();
-    this.hideLoading();
   }
 
   private initSensorsAndUI() {
