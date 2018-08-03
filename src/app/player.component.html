@@ -33,7 +33,7 @@
     </ion-item>
   </ion-list>
   <ion-item *ngIf="config.showSensorSection">
-    <button ion-button color="positive" (click)="compassWatcher.reset(); geolocationWatcher.reset()">
+    <button ion-button color="positive" (click)="resetSensors()">
       Reset sensors
     </button>
     <button ion-button color="royal" (click)="toggleSensorData()">
@@ -41,8 +41,11 @@
     </button>
   </ion-item>
   <ion-item *ngIf="config.showSensorSection&&showSensorData">
-    <ion-label *ngFor="let s of sensorControls">
+    <ion-label *ngFor="let s of sensors">
       {{ s.getName() }}: {{ s.getValue() }}
     </ion-label>
   </ion-item>
+  <ion-label>
+    {{ performanceInfo }}
+  </ion-label>
 </ion-content>

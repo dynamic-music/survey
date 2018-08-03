@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { DymoGenerator, uris, forAll } from 'dymo-core';
 
 export class LiveDymo {
@@ -6,7 +7,41 @@ export class LiveDymo {
 
   constructor(private dymoGen: DymoGenerator) {}
 
-  async create3() {
+  async create() {
+    await this.createSpaceDemo();
+  }
+
+  async createSpaceDemo() {
+    const DIR = 'assets/dymos/100/';
+    const music = await this.dymoGen.addDymo(null, null, uris.CONJUNCTION);
+    //await this.dymoGen.setDymoParameter(music, uris.LOOP, 1);
+    await Promise.all(_.range(1).map(async n => {//_.sampleSize(_.range(100), 5).map(async n => {
+      const d = await this.dymoGen.addDymo(music, DIR+n+".wav");
+      await this.dymoGen.setDymoParameter(d, uris.LOOP, 1);
+      await this.dymoGen.setDymoParameter(d, uris.HEIGHT, 0.1);
+      //await this.addSlider(d, "Pan", n+"", "(c-0.5)*2");
+      //await this.map(uris.BROWNIAN, d, "Amplitude", "c/2", 100);
+      //await this.map(uris.BROWNIAN, d, "Pan", "(c-0.5)/2", 100);
+      await this.map(uris.BROWNIAN, d, "DurationRatio", "c+0.1", 100);
+      //await this.map(uris.BROWNIAN, d, "Reverb", "c/4", 100); //"c<0.2?0.1-(c-0.1):0", 100);
+    }));
+    /*
+    await this.dymoGen.setDymoParameter(music, uris.LOOP, 1);
+    const drums = await this.dymoGen.addDymo(music, null, uris.CONJUNCTION);
+    const drums1 = await this.dymoGen.addDymo(drums, this.DIR+'Drums/All loops 17-Audio.m4a');
+    await this.dymoGen.addDymo(drums, this.DIR+'Drums/All loops 18-Audio.m4a');
+    const synth = await this.dymoGen.addDymo(music, null, uris.CONJUNCTION);
+    await this.dymoGen.addDymo(synth, this.DIR+'Synth/synth1.m4a');
+    await this.dymoGen.setDymoParameter(music, uris.AMPLITUDE, 1);
+    await this.dymoGen.setDymoParameter(drums, uris.AMPLITUDE, 1);
+    await this.dymoGen.setDymoParameter(drums1, uris.AMPLITUDE, 1);
+
+    await this.addSlider(drums1, "Amplitude", "drums1");
+    await this.addSlider(drums, "Amplitude", "drums");
+    await this.addSlider(music, "Amplitude", "music");*/
+  }
+
+  async createDisjunctionDemo() {
     const music = await this.dymoGen.addDymo(null, null, uris.CONJUNCTION);
     const bass = await this.dymoGen.addDymo(music, null, uris.DISJUNCTION);
     const drums = await this.dymoGen.addDymo(music, this.DIR+'Drums/All loops 17-Audio.m4a');
@@ -15,7 +50,7 @@ export class LiveDymo {
     await this.addSlider(drums, "Amplitude");
   }
 
-  async create7() {
+  async createSensorDemo() {
     const drums = await this.dymoGen.addDymo(null, null, uris.SEQUENCE);
     const drums1 = await this.dymoGen.addDymo(drums, this.DIR+'drm/drm 1-Audio.m4a');
     const drums2 = await this.dymoGen.addDymo(drums, this.DIR+'drm/drm 2-Audio.m4a');
@@ -28,7 +63,7 @@ export class LiveDymo {
     await this.addSlider(drums3, "DurationRatio");
   }
 
-  async create6() {
+  async createTriggerDemo() {
     const drums = await this.dymoGen.addDymo(null, null, uris.SEQUENCE);
     const drums1 = await this.dymoGen.addDymo(drums, this.DIR+'drm/drm 1-Audio.m4a');
     const drums2 = await this.dymoGen.addDymo(drums, this.DIR+'drm/drm 2-Audio.m4a');
@@ -38,7 +73,7 @@ export class LiveDymo {
     await this.map(uris.ACCELEROMETER_Z, drums3, "Play", "(c>0.8?1:0)");
   }
 
-  async create5() {
+  async createFadingDemo() {
     const music = await this.dymoGen.addDymo(null, null, uris.SEQUENCE);
     const part1 = await this.dymoGen.addDymo(music, null, uris.CONJUNCTION);
     const part2 = await this.dymoGen.addDymo(music, null, uris.CONJUNCTION);
@@ -50,7 +85,7 @@ export class LiveDymo {
     await this.addSlider(drums, "Amplitude");
   }
 
-  async createN() {
+  async createFadingDemo2() {
     const music = await this.dymoGen.addDymo(null, null, uris.CONJUNCTION);
     const drums = await this.dymoGen.addDymo(music, null, uris.CONJUNCTION);
     const drums1 = await this.dymoGen.addDymo(drums, this.DIR+'Drums/All loops 17-Audio.m4a');
@@ -71,7 +106,7 @@ export class LiveDymo {
     await this.map(uris.ACCELEROMETER_Z, music, "Reverb", "c/3");
   }
 
-  async create() {
+  async createAmpSumDemo() {
     const music = await this.dymoGen.addDymo(null, null, uris.CONJUNCTION);
     await this.dymoGen.setDymoParameter(music, uris.LOOP, 1);
     const drums = await this.dymoGen.addDymo(music, this.DIR+'Drums/All loops 17-Audio.m4a');
@@ -95,7 +130,7 @@ export class LiveDymo {
     await this.map(uris.RANDOM, space, "Reverb", "c*3", 100);
   }
 
-  async create4() {
+  async createHierarchyDemo() {
     const music = await this.dymoGen.addDymo(null, null, uris.CONJUNCTION);
     await this.dymoGen.setDymoParameter(music, uris.LOOP, 1);
     const drums = await this.dymoGen.addDymo(music, null, uris.CONJUNCTION);
@@ -103,14 +138,17 @@ export class LiveDymo {
     await this.dymoGen.addDymo(drums, this.DIR+'Drums/All loops 18-Audio.m4a');
     const synth = await this.dymoGen.addDymo(music, null, uris.CONJUNCTION);
     await this.dymoGen.addDymo(synth, this.DIR+'Synth/synth1.m4a');
+    await this.dymoGen.setDymoParameter(music, uris.AMPLITUDE, 1);
+    await this.dymoGen.setDymoParameter(drums, uris.AMPLITUDE, 1);
+    await this.dymoGen.setDymoParameter(drums1, uris.AMPLITUDE, 1);
 
-    await this.addSlider(drums1, "Amplitude");
-    await this.addSlider(drums, "Amplitude");
-    await this.addSlider(music, "Amplitude");
+    await this.addSlider(drums1, "Amplitude", "drums1");
+    await this.addSlider(drums, "Amplitude", "drums");
+    await this.addSlider(music, "Amplitude", "music");
   }
 
-  private async addSlider(dymo: string, param: string, name?: string) {
-    await this.constrain(uris.SLIDER, dymo, param, "==c", undefined, name);
+  private async addSlider(dymo: string, param: string, name?: string, formula: string = "c") {
+    await this.constrain(uris.SLIDER, dymo, param, "=="+formula, 50, name);
   }
 
   private async map(controlType: string, dymo: string, param: string, formula: string = "c", freq?: number) {

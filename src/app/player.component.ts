@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Platform, LoadingController, Loading } from 'ionic-angular';
 
 import { DymoPlayerManager } from 'dymo-player';
-import { UIControl, uris, DymoGenerator } from 'dymo-core';
+import { UIControl, SensorControl, uris, DymoGenerator } from 'dymo-core';
 
 import { ConfigService, PlayerConfig, DymoConfig } from './config.service';
 import { FetchService } from './fetch.service';
@@ -22,9 +22,11 @@ export class PlayerComponent {
   private config: PlayerConfig = {};
   private showSensorData: boolean;
   private loading: Loading;
+  private sensors: SensorControl[];
   private sliders: InnoyicSliderWrapper[];
   private toggles: UIControl[];
   private buttons: UIControl[];
+  private performanceInfo: string;
 
   player: DymoPlayerManager;
   selectedDymo: DymoConfig;
@@ -46,6 +48,7 @@ export class PlayerComponent {
       this.selectedDymo = this.config.dymos[0];
     }
     await this.loadOrCreateDymo();
+    setInterval(this.updatePerformanceInfo.bind(this), 500);
     if (this.config.autoplay) this.play();
   }
 
@@ -56,7 +59,7 @@ export class PlayerComponent {
   }
 
   play() {
-    this.player.startPlaying();
+    this.player.play();
   }
 
   pause() {
@@ -64,17 +67,22 @@ export class PlayerComponent {
   }
 
   stop() {
-    this.player.stopPlaying();
+    this.player.stop();
   }
 
-  toggleSensorData(): void {
+  private toggleSensorData(): void {
     this.showSensorData = !this.showSensorData;
+  }
+
+  private async updatePerformanceInfo() {
+    const observers = await this.player.getDymoManager().getStore().getValueObserverCount();
+    this.performanceInfo = "observers: " + observers;
   }
 
   private async loadOrCreateDymo() {
     this.resetUI();
     this.showLoadingDymo();
-    this.player = new DymoPlayerManager(false, false, undefined, undefined, undefined, this.fetcher);
+    this.player = new DymoPlayerManager(true, false, 0.5, 1, undefined, this.fetcher);
     await this.player.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/')
     if (this.config.loadLiveDymo) {
       await new LiveDymo(new DymoGenerator(this.player.getDymoManager().getStore())).create();
@@ -99,6 +107,7 @@ export class PlayerComponent {
       ]);
       this.player.getDymoManager().getSensorControls().forEach(control => {
         if (watcherLookup.has(control.getType())) {
+          this.sensors.push(control);
           control.setSensor({
             watch: watcherLookup.get(control.getType())
           });
@@ -121,8 +130,12 @@ export class PlayerComponent {
     this.toggles = [];
     this.buttons = [];
     if (this.player) {
-      this.player.stopPlaying();
+      this.player.stop();
     }
+  }
+
+  private resetSensors(): void {
+    this.sensors.forEach(s => s.reset());
   }
 
   private showLoadingDymo(): void {
