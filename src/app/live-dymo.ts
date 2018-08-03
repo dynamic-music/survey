@@ -8,23 +8,35 @@ export class LiveDymo {
   constructor(private dymoGen: DymoGenerator) {}
 
   async create() {
-    await this.createSpaceDemo();
+    await this.createMathDemo();
+  }
+
+  async createMathDemo() {
+    const music = await this.dymoGen.addDymo(null, null, uris.CONJUNCTION);
+    await this.addSlider(music, "Amplitude", "sin(a)", "c*2-1");
+    await this.addSlider(music, "Amplitude", "a", "Math.sin(c*6)");
   }
 
   async createSpaceDemo() {
     const DIR = 'assets/dymos/100/';
     const music = await this.dymoGen.addDymo(null, null, uris.CONJUNCTION);
     //await this.dymoGen.setDymoParameter(music, uris.LOOP, 1);
-    await Promise.all(_.range(1).map(async n => {//_.sampleSize(_.range(100), 5).map(async n => {
+    await Promise.all(_.sampleSize(_.range(100), 5).map(async n => {
       const d = await this.dymoGen.addDymo(music, DIR+n+".wav");
       await this.dymoGen.setDymoParameter(d, uris.LOOP, 1);
       await this.dymoGen.setDymoParameter(d, uris.HEIGHT, 0.1);
       //await this.addSlider(d, "Pan", n+"", "(c-0.5)*2");
-      //await this.map(uris.BROWNIAN, d, "Amplitude", "c/2", 100);
-      //await this.map(uris.BROWNIAN, d, "Pan", "(c-0.5)/2", 100);
-      await this.map(uris.BROWNIAN, d, "DurationRatio", "c+0.1", 100);
-      //await this.map(uris.BROWNIAN, d, "Reverb", "c/4", 100); //"c<0.2?0.1-(c-0.1):0", 100);
+      await this.map(uris.BROWNIAN, d, "Amplitude", "c/4", 300);
+      await this.map(uris.BROWNIAN, d, "Pan", "(c-0.5)/2", 300);
+      await this.map(uris.RANDOM, d, "DurationRatio", "c+0.5", 800);
+      await this.map(uris.BROWNIAN, d, "PlaybackRate", "c+0.5", 500);
+      await this.map(uris.RANDOM, d, "Reverb", "(c<0.2?0.1-(c-0.1):0)", 300); //"c/4", 300);
     }));
+    const d = await this.dymoGen.addDymo(music, "assets/dymos/flo/808 Bass Lex.wav");
+    await this.dymoGen.setDymoParameter(d, uris.LOOP, 1);
+    await this.dymoGen.setDymoParameter(d, uris.DURATION_RATIO, Math.random()/5+0.1);
+    await this.dymoGen.setDymoParameter(d, uris.AMPLITUDE, 0.5);
+
     /*
     await this.dymoGen.setDymoParameter(music, uris.LOOP, 1);
     const drums = await this.dymoGen.addDymo(music, null, uris.CONJUNCTION);
