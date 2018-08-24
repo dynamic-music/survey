@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Platform, LoadingController, Loading } from 'ionic-angular';
 
-import { DymoPlayerManager } from 'dymo-player';
+import { DymoPlayer } from 'dymo-player';
 import { UIControl, SensorControl, uris, DymoGenerator } from 'dymo-core';
 
 import { ConfigService, PlayerConfig, DymoConfig } from './config.service';
@@ -29,7 +29,7 @@ export class PlayerComponent {
   private performanceInfo: string;
   private numPlayingDymos: number;
 
-  player: DymoPlayerManager;
+  player: DymoPlayer;
   selectedDymo: DymoConfig;
 
   constructor(private platform: Platform,
@@ -49,8 +49,6 @@ export class PlayerComponent {
       this.selectedDymo = this.config.dymos[0];
     }
     await this.loadOrCreateDymo();
-    this.initSensorsAndUI();
-    this.hideLoading();
     setInterval(this.updatePerformanceInfo.bind(this), 500);
     this.player.getPlayingDymoUris().subscribe(d => this.numPlayingDymos = d.length);
     if (this.config.autoplay) this.play();
@@ -90,14 +88,17 @@ export class PlayerComponent {
   private async loadOrCreateDymo() {
     this.resetUI();
     this.showLoadingDymo();
-    this.player = new DymoPlayerManager(true, false, 0.5, 1, undefined, this.fetcher);
+    this.player = new DymoPlayer(true, false, 0.5, 1, undefined, this.fetcher);
     await this.player.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/')
     if (this.config.loadLiveDymo) {
-      await new LiveDymo(new DymoGenerator(this.player.getDymoManager().getStore())).create();
+      //strange ionic typescript error needs me to cast to any :(
+      await new LiveDymo(new DymoGenerator(<any>this.player.getDymoManager().getStore())).create();
       await this.player.getDymoManager().loadFromStore();
     } else if (this.selectedDymo) {
       await this.player.getDymoManager().loadIntoStore(this.selectedDymo.saveFile);
     }
+    this.initSensorsAndUI();
+    this.hideLoading();
   }
 
   private initSensorsAndUI() {

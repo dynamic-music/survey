@@ -13,9 +13,9 @@ new DymoWriter('src/assets/dymos/', 'src/assets/config.json').generateAndWriteDy
 async function createSensorExample(dymoGen: DymoGenerator) {
   const dymo = await dymoGen.addDymo(undefined, 'loop.wav');
   await dymoGen.setDymoParameter(dymo, uris.LOOP, 1);
-  addSensorSliderConstraint(dymoGen, "Amp", uris.ACCELEROMETER_X, "Amplitude");
-  addSensorSliderConstraint(dymoGen, "Rate", uris.ACCELEROMETER_Y, "PlaybackRate");
-  addSensorSliderConstraint(dymoGen, "Verb", uris.ACCELEROMETER_Z, "Reverb");
+  await addSensorSliderConstraint(dymoGen, "Amp", uris.ACCELEROMETER_X, "Amplitude");
+  await addSensorSliderConstraint(dymoGen, "Rate", uris.ACCELEROMETER_Y, "PlaybackRate");
+  await addSensorSliderConstraint(dymoGen, "Verb", uris.ACCELEROMETER_Z, "Reverb");
 }
 
 async function addSensorSliderConstraint(dymoGen: DymoGenerator, name: string, sensorType: string, param: string) {
@@ -43,7 +43,7 @@ async function createSimpleDymo(dymoGen: DymoGenerator) {
   await dymoGen.setDymoParameter(dymo, uris.LOOP, 1);
   let slider = await dymoGen.addControl("Rate", uris.SLIDER);
   let random = await dymoGen.addControl(null, uris.BROWNIAN);
-  let toggle = await dymoGen.addControl("Play", uris.TOGGLE);
+  let toggle = await dymoGen.addControl("Play", uris.TOGGLE, undefined, 0);
   let button = await dymoGen.addControl("Play", uris.BUTTON);
   await dymoGen.addConstraint(
     forAll("d").ofType(uris.DYMO).forAll("c").in(slider).assert("Amplitude(d) == c"));
@@ -63,13 +63,13 @@ async function createConstraintsExample(dymoGen: DymoGenerator) {
   await dymoGen.addDymo();
   let a = await dymoGen.addControl("a", uris.SLIDER);
   let b = await dymoGen.addControl("b", uris.SLIDER);
-  addConstraintSlider("1-a", {"a":a}, dymoGen);
-  addConstraintSlider("a+b", {"a":a,"b":b}, dymoGen);
-  addConstraintSlider("a-b", {"a":a,"b":b}, dymoGen);
-  addConstraintSlider("a*b", {"a":a,"b":b}, dymoGen);
-  addConstraintSlider("a/b", {"a":a,"b":b}, dymoGen);
-  addConstraintSlider("(a>b?a:b)", {"a":a,"b":b}, dymoGen, true);
-  addConstraintSlider("sin(a)", {"a":a}, dymoGen, true);
+  await addConstraintSlider("1-a", {"a":a}, dymoGen);
+  await addConstraintSlider("a+b", {"a":a,"b":b}, dymoGen);
+  await addConstraintSlider("a-b", {"a":a,"b":b}, dymoGen);
+  await addConstraintSlider("a*b", {"a":a,"b":b}, dymoGen);
+  await addConstraintSlider("a/b", {"a":a,"b":b}, dymoGen);
+  await addConstraintSlider("(a>b?a:b)", {"a":a,"b":b}, dymoGen, true);
+  await addConstraintSlider("Math.sin(Math.PI*a)", {"a":a}, dymoGen, true);
 }
 
 async function addConstraintSlider(expression: string, vars: {}, dymoGen: DymoGenerator, directed?: boolean) {

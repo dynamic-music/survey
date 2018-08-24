@@ -21,12 +21,14 @@
   </ion-item>
   <ion-list *ngIf="config.showDymoControls">
     <ion-item *ngFor="let s of sliders">
-      <ion-label item-start fixed>{{s.getName()}}</ion-label>
-      <ion-range item-content large color="energized" min="0" max="1000" step="1" [(ngModel)]="s.uiValue" (ionChange)="s.update()"></ion-range>
+      <ion-range item-content large color="energized" min="0" max="1000" step="1" [(ngModel)]="s.uiValue" (ionChange)="s.update()">
+        <ion-label range-left class="fixedLabel">{{s.getName()}}</ion-label>
+      </ion-range>
     </ion-item>
     <ion-item *ngFor="let t of toggles">
-      <ion-label item-start fixed>{{t.getName()}}</ion-label>
-      <ion-toggle item-content large color="energized" [(ngModel)]="t.uiValue" (ionChange)="t.update()"></ion-toggle>
+      <ion-toggle item-content large color="energized" [(ngModel)]="t.uiValue" (ionChange)="t.update()">
+        <ion-label item-start class="fixedLabel">{{t.getName()}}</ion-label>
+      </ion-toggle>
     </ion-item>
     <ion-item *ngFor="let b of buttons">
       <button ion-button large color="stable" (click)="b.update()">{{b.getName()}}</button>
