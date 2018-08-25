@@ -36,6 +36,7 @@ UserInterfaceState.xcuserstate
 
 generator/lib
 src/assets/dymos
+src/assets/ontologies
 machine
 resources
 package-lock.json

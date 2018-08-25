@@ -10,8 +10,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { AppComponent } from './app.component';
 import { PlayerComponent } from './player.component';
 
-import { ConfigService } from './config.service';
-import { FetchService } from './fetch.service';
+import { ConfigService } from './services/config.service';
+import { FetchService } from './services/fetch.service';
 import {
   AccelerationService,
   createAccelerationWatcherFrom,

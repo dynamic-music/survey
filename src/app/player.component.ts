@@ -4,8 +4,8 @@ import { Platform, LoadingController, Loading } from 'ionic-angular';
 import { DymoPlayer } from 'dymo-player';
 import { UIControl, SensorControl, uris, DymoGenerator } from 'dymo-core';
 
-import { ConfigService, PlayerConfig, DymoConfig } from './config.service';
-import { FetchService } from './fetch.service';
+import { ConfigService, PlayerConfig, DymoConfig } from './services/config.service';
+import { FetchService } from './services/fetch.service';
 import { InnoyicSliderWrapper } from './innoyic-slider-wrapper';
 import { AccelerationService } from './sensors/acceleration.service';
 import { OrientationService } from './sensors/orientation.service';
@@ -89,7 +89,7 @@ export class PlayerComponent {
     this.resetUI();
     this.showLoadingDymo();
     this.player = new DymoPlayer(true, false, 0.5, 1, undefined, this.fetcher);
-    await this.player.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/')
+    await this.player.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/');
     if (this.config.loadLiveDymo) {
       //strange ionic typescript error needs me to cast to any :(
       await new LiveDymo(new DymoGenerator(<any>this.player.getDymoManager().getStore())).create();
