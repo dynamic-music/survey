@@ -91,8 +91,7 @@ export class PlayerComponent {
     this.player = new DymoPlayer(true, false, 0.5, 1, undefined, this.fetcher);
     await this.player.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/');
     if (this.config.loadLiveDymo) {
-      //strange ionic typescript error needs me to cast to any :(
-      await new LiveDymo(new DymoGenerator(<any>this.player.getDymoManager().getStore())).create();
+      await new LiveDymo(new DymoGenerator(true, this.player.getDymoManager().getStore())).create();
       await this.player.getDymoManager().loadFromStore();
     } else if (this.selectedDymo) {
       await this.player.getDymoManager().loadIntoStore(this.selectedDymo.saveFile);

@@ -7,8 +7,8 @@ export class LiveDymo {
 
   constructor(private dymoGen: DymoGenerator) {}
 
-  async create() {
-    await this.createMathDemo();
+  create(): Promise<any> {
+    return this.createAmpSumDemo();
   }
 
   async createMathDemo() {
