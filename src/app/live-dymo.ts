@@ -8,7 +8,7 @@ export class LiveDymo {
   constructor(private dymoGen: DymoGenerator) {}
 
   create(): Promise<any> {
-    return this.createLoopTimestretchDemo();
+    return this.createSpaceDemo();
   }
 
   async createLoopTimestretchDemo() {

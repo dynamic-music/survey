@@ -28,6 +28,7 @@ export class PlayerComponent {
   private buttons: UIControl[];
   private performanceInfo: string;
   private numPlayingDymos: number;
+  private numLoadedBuffers: number;
 
   player: DymoPlayer;
   selectedDymo: DymoConfig;
@@ -51,6 +52,7 @@ export class PlayerComponent {
     await this.loadOrCreateDymo();
     setInterval(this.updatePerformanceInfo.bind(this), 500);
     this.player.getPlayingDymoUris().subscribe(d => this.numPlayingDymos = d.length);
+    this.player.getAudioBank().getBufferCount().subscribe(n => this.numLoadedBuffers = n);
     if (this.config.autoplay) this.play();
   }
 
@@ -82,6 +84,7 @@ export class PlayerComponent {
     info.push("triples: " + await store.size());
     info.push("observers: " + await store.getValueObserverCount());
     info.push("dymos: " + this.numPlayingDymos);
+    info.push("buffers: " + this.numLoadedBuffers);
     this.performanceInfo = info.join(', ');
   }
 
