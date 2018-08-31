@@ -8,7 +8,14 @@ export class LiveDymo {
   constructor(private dymoGen: DymoGenerator) {}
 
   create(): Promise<any> {
-    return this.createAmpSumDemo();
+    return this.createLoopTimestretchDemo();
+  }
+
+  async createLoopTimestretchDemo() {
+    const dymo = await this.dymoGen.addDymo(undefined, "assets/dymos/loop/loop.wav");
+    await this.dymoGen.setDymoParameter(dymo, uris.LOOP, 1);
+    await this.dymoGen.setDymoParameter(dymo, uris.TIME_STRETCH_RATIO, 1);
+    await this.addSlider(dymo, "TimeStretchRatio", "stretch", "2*c");
   }
 
   async createMathDemo() {

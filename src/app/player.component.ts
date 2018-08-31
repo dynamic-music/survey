@@ -88,10 +88,10 @@ export class PlayerComponent {
   private async loadOrCreateDymo() {
     this.resetUI();
     this.showLoadingDymo();
-    this.player = new DymoPlayer(true, false, 0.5, 1, undefined, this.fetcher);
+    this.player = new DymoPlayer(true, false, 0.3, 1, undefined, this.fetcher, true);
     await this.player.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/');
     if (this.config.loadLiveDymo) {
-      await new LiveDymo(new DymoGenerator(true, this.player.getDymoManager().getStore())).create();
+      await new LiveDymo(new DymoGenerator(false, this.player.getDymoManager().getStore())).create();
       await this.player.getDymoManager().loadFromStore();
     } else if (this.selectedDymo) {
       await this.player.getDymoManager().loadIntoStore(this.selectedDymo.saveFile);

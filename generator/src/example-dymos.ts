@@ -52,8 +52,6 @@ async function createSimpleDymo(dymoGen: DymoGenerator) {
   await dymoGen.addConstraint(
     forAll("d").ofType(uris.DYMO).forAll("c").in(random).assert("PlaybackRate(d) == c"));
   await dymoGen.addConstraint(
-    forAll("d").ofType(uris.DYMO).forAll("c").in(random).assert("DurationRatio(d) == 1/c"));
-  await dymoGen.addConstraint(
     forAll("d").ofType(uris.DYMO).forAll("c").in(toggle).assert("Play(d) == c"));
   await dymoGen.addConstraint(
     forAll("d").ofType(uris.DYMO).forAll("c").in(button).assert("Play(d) == c"));
