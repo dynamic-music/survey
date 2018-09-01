@@ -58,25 +58,31 @@ export class PlayerComponent {
 
   ////functions called from ui
 
-  private dymoSelected() {
+  protected dymoSelected() {
     this.loadOrCreateDymo();
   }
 
-  private play() {
+  protected play() {
     this.player.play();
   }
 
-  private pause() {
+  protected pause() {
     this.player.pause();
   }
 
-  private stop() {
+  protected stop() {
     this.player.stop();
   }
 
-  private toggleSensorData(): void {
+  protected toggleSensorData(): void {
     this.showSensorData = !this.showSensorData;
   }
+
+  protected resetSensors(): void {
+    this.sensors.forEach(s => s.reset());
+  }
+
+  ////internal functions
 
   private async updatePerformanceInfo() {
     let info: string[] = [];
@@ -91,7 +97,14 @@ export class PlayerComponent {
   private async loadOrCreateDymo() {
     this.resetUI();
     this.showLoadingDymo();
-    this.player = new DymoPlayer(true, false, 0.3, 1, undefined, this.fetcher, true);
+    this.player = new DymoPlayer({
+      useWorkers: true,
+      scheduleAheadTime: 0.3,
+      loadAheadTime: 1,
+      fetcher: this.fetcher,
+      ignoreInaudible: true,
+      loggingOn: true
+    });
     await this.player.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/');
     if (this.config.loadLiveDymo) {
       await new LiveDymo(new DymoGenerator(false, this.player.getDymoManager().getStore())).create();
@@ -141,10 +154,6 @@ export class PlayerComponent {
     if (this.player) {
       this.player.stop();
     }
-  }
-
-  private resetSensors(): void {
-    this.sensors.forEach(s => s.reset());
   }
 
   private showLoadingDymo(): void {

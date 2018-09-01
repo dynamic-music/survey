@@ -8,7 +8,18 @@ export class LiveDymo {
   constructor(private dymoGen: DymoGenerator) {}
 
   create(): Promise<any> {
-    return this.createSpaceDemo();
+    return this.createIgnoredBufferDemo();
+  }
+
+  async createIgnoredBufferDemo() {
+    const DIR = 'assets/dymos/100/';
+    const music = await this.dymoGen.addDymo(null, null, uris.CONJUNCTION);
+    await Promise.all(_.sampleSize(_.range(100), 10).map(async n => {
+      const d = await this.dymoGen.addDymo(music, DIR+n+".wav");
+      const amp = _.random(1);
+      await this.dymoGen.setDymoParameter(d, uris.AMPLITUDE, amp);
+      console.log(amp)
+    }));
   }
 
   async createLoopTimestretchDemo() {
