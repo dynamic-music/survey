@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform, LoadingController, Loading } from 'ionic-angular';
+import { Observable } from 'rxjs/Observable';
 
 import { DymoPlayer } from 'dymo-player';
 import { UIControl, SensorControl, uris, DymoGenerator } from 'dymo-core';
@@ -119,7 +120,7 @@ export class PlayerComponent {
   private initSensorsAndUI() {
     if (this.platform.is('cordova')) {
       //init sensors
-      const watcherLookup = new Map([
+      const watcherLookup: Map<string, Observable<number>> = new Map([
         [uris.ACCELEROMETER_X, this.acceleration.watchX],
         [uris.ACCELEROMETER_Y, this.acceleration.watchY],
         [uris.ACCELEROMETER_Z, this.acceleration.watchZ],

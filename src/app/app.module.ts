@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { DeviceMotion } from '@ionic-native/device-motion';
 import { DeviceOrientation } from '@ionic-native/device-orientation';
 import { Geolocation } from '@ionic-native/geolocation';
 
@@ -12,12 +13,7 @@ import { PlayerComponent } from './player.component';
 
 import { ConfigService } from './services/config.service';
 import { FetchService } from './services/fetch.service';
-import {
-  AccelerationService,
-  createAccelerationWatcherFrom,
-  createDeviceMotionAccelerationObservable,
-  toAccelerationServiceFactoryWith
-} from './sensors/acceleration.service';
+import { AccelerationService } from './sensors/acceleration.service';
 import { OrientationService } from './sensors/orientation.service';
 import { GeolocationService } from './sensors/geolocation.service';
 
@@ -43,15 +39,9 @@ import { GeolocationService } from './sensors/geolocation.service';
     FetchService,
     DeviceOrientation,
     Geolocation,
+    DeviceMotion,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    {
-      provide: AccelerationService,
-      useFactory: toAccelerationServiceFactoryWith(
-        createAccelerationWatcherFrom(
-          createDeviceMotionAccelerationObservable(window)
-        )
-      )
-    },
+    AccelerationService,
     OrientationService,
     GeolocationService
   ]

@@ -6,7 +6,7 @@
   "showDymoControls": true,
   "showSensorSection": true,
   "autoplay": false,
-  "loadLiveDymo": true,
+  "loadLiveDymo": false,
   "dymos": [
     {
       "name": "constraints",
