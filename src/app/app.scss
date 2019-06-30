@@ -4,3 +4,36 @@
 // styles are for the entire app and not just one component. Additionally, this 
 // file can hold Sass mixins, functions, and placeholder classes to be imported 
 // and used throughout the application.
+
+.fixedLabel {
+  min-width: 25% !important;
+  max-width: 25% !important;
+}
+
+.scroll-content {
+  background-image: url('../assets/img/background.png');
+  background-repeat: no-repeat;
+  background-size:cover;
+}
+
+ion-content {
+  --background: none;
+  background-image: url('/assets/img/background.png');
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+ion-item, ion-list {
+  --ion-background-color: transparent;
+  background: transparent; 
+}
+
+.ion-color-transp {
+  --ion-color-base: transparent;
+  --ion-color-base-rgb: 0, 0, 0, 0;
+  --ion-color-contrast: #ffffff;
+  --ion-color-contrast-rgb: 255, 255, 255;
+  --ion-color-shade: transparent;
+  --ion-color-tint: transparent;
+}
