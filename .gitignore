@@ -34,3 +34,5 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 
 package-lock.json
+
+generator/lib
