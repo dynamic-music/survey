@@ -11,8 +11,8 @@ let dymoGen: DymoGenerator;
 let store: SuperDymoStore;
 
 console.log('creating the semantic machine');
-new DymoWriter('src/assets/dymos/', 'src/assets/config.json').generateAndWriteDymos([
-  {name: 'semantic-machine', path: 'semantic-machine/', func: generate}
+new DymoWriter('src/assets/dymo/', 'src/assets/config.json').generateAndWriteDymos([
+  {name: 'semantic-machine', path: '/', func: generate}
 ]);
 
 
@@ -116,7 +116,7 @@ async function initSemanticMachine(): Promise<any> {
   //Promise.all(vocalUris.map(v => dymoGen.setDymoParameter(v, uris.DYMO_ONTOLOGY_URI+"Amplitude", 2)));
 
   //TEMPERATURE TO WARMTH
-  await addConstrainedSlider("Temperature", machine, "coldness", "1-s");
+  /*await addConstrainedSlider("Temperature", machine, "coldness", "1-s");
   await addDataControl(machine, "coldness", "return json['main']['temp']", "1-((c-273.16+5)/20)");
   //WIND TO FLUX
   await addConstrainedSlider("Wind", machine, "flux", "1-s");
@@ -209,9 +209,9 @@ async function addVoices(parent: string, voiceNamesAndSearches: [string[], strin
   const voices = await dymoGen.addDymo(parent, null,
     await addParamDependentType(uris.MULTI_SELECTION, uris.CONTEXT_URI+"instruments"));
   let duration;
-  await mapSeries(voiceNamesAndSearches, async vs =>
-    mapSeries(vs[0], async v => {
-      const selection = (await getDymosWithSources(vs[1].concat([[v]])))[0];
+  await mapSeries(voiceNamesAndSearches, async ([names, searches]) =>
+    mapSeries(names, async v => {
+      const selection = (await getDymosWithSources(searches.concat([[v]])))[0];
       if (selection) {
         duration = await getDuration(await store.getSourcePath(selection));
         await dymoGen.setDymoParameter(selection, uris.DURATION, duration);

@@ -31,8 +31,8 @@
     "@ionic/angular": "^4.1.0",
     "@types/lodash": "^4.14.135",
     "core-js": "^2.5.4",
-    "dymo-player": "^0.3.3",
-    "lodash": "^4.17.11",
+    "dymo-player": "^0.3.4",
+    "lodash": "^4.17.15",
     "rxjs": "~6.5.1",
     "stream": "0.0.2",
     "tslib": "^1.9.0",
@@ -52,6 +52,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.0.10",
     "codelyzer": "~4.5.0",
+    "isomorphic-fetch": "^2.2.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
@@ -62,7 +63,8 @@
     "protractor": "~5.4.0",
     "ts-node": "~8.3.0",
     "tslint": "~5.17.0",
-    "typescript": "~3.1.6"
+    "typescript": "~3.1.6",
+    "wav-file-info": "0.0.8"
   },
   "description": "An Ionic project"
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Platform, LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
@@ -58,6 +58,11 @@ export class PlayerComponent {
     this.player.getAudioBank().getBufferCount().subscribe(n => this.numLoadedBuffers = n);
     if (this.config.autoplay) this.play();
   }
+  
+  @HostListener('document:click', ['$event'])
+  documentClick(_: MouseEvent) {
+    this.player.isPlaying() ? this.player.stop() : this.player.play();
+  }
 
   ////functions called from ui
 
@@ -102,8 +107,8 @@ export class PlayerComponent {
     this.showLoadingDymo();
     this.player = new DymoPlayer({
       useWorkers: true,
-      scheduleAheadTime: 5,
-      loadAheadTime: 10,
+      scheduleAheadTime: 1,//5,
+      loadAheadTime: 2,//10,
       fetcher: this.fetcher,
       ignoreInaudible: true,
       loggingOn: true,
@@ -127,14 +132,18 @@ export class PlayerComponent {
   }
 
   private async generateVersion() {
+    const INSTRUMENT_COUNT = 17;
     const store = this.player.getDymoManager().getStore();
     await store.setParameter(null, uris.CONTEXT_URI+"material", _.random(2));
-    const tod = this.sliders[0].uiValue/1000;
-    const partCount = _.round((1-(2*Math.abs(tod-0.5)))*9)+3;
-    console.log(tod, (1-Math.abs(tod-0.5)), partCount);
-    await store.setParameter(null, uris.CONTEXT_URI+"instruments", _.sampleSize(_.range(17), partCount));
-    console.log(await store.findParameterValue(null, uris.CONTEXT_URI+"material"));
-    console.log(await store.findParameterValue(null, uris.CONTEXT_URI+"instruments"));
+    if (this.sliders.length > 0) {
+      const timeOfDay = this.sliders[0].uiValue/1000;
+      const partCount = _.round((1-(2*Math.abs(timeOfDay-0.5)))*9)+3;
+      console.log(timeOfDay, (1-Math.abs(timeOfDay-0.5)), partCount);
+      await store.setParameter(null, uris.CONTEXT_URI+"instruments",
+        _.sampleSize(_.range(INSTRUMENT_COUNT), partCount));
+      console.log("MATERIAL", await store.findParameterValue(null, uris.CONTEXT_URI+"material"));
+      console.log("INSTRUMENTS", await store.findParameterValue(null, uris.CONTEXT_URI+"instruments"));
+    }
   }
 
   private async preloadFirstTwoSections() {

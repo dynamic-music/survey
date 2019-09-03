@@ -30,7 +30,7 @@ export class DymoWriter {
     //save and update config
     const jsonld = await dymoGen.getRenderingJsonld();
     const topDymos = await dymoGen.getStore().findTopDymos();
-    console.log(jsonld.split("dymo257").length - 1);
+    //console.log(jsonld.split("dymo257").length - 1);
     //console.log(topDymos, topDymos.map(d => jsonld.indexOf(d.replace(uris.CONTEXT_URI, ''))))
     await this.writeJsonld(jsonld, definition.path, 'save.json');
   }
