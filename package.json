@@ -11,7 +11,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "generate": "tsc -p generator/ && node generator/lib/semantic-machine.js",
-    "extract": "tsc -p generator/ && node generator/lib/extractor.js"
+    "extract": "tsc -p generator/ && node generator/lib/extractor.js",
+    "deploy": "ionic build --prod -- --base-href https://dynamic-music.github.io/semantic-machine/"
   },
   "private": true,
   "dependencies": {

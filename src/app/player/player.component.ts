@@ -22,8 +22,8 @@ import * as _ from 'lodash';
 })
 export class PlayerComponent {
 
-  private config: PlayerConfig = {};
-  private showSensorData: boolean;
+  public config: PlayerConfig = {};
+  public showSensorData: boolean;
   private loading: HTMLIonLoadingElement;
   private sensors: SensorControl[];
   private sliders: InnoyicSliderWrapper[];
@@ -107,8 +107,8 @@ export class PlayerComponent {
     this.showLoadingDymo();
     this.player = new DymoPlayer({
       useWorkers: true,
-      scheduleAheadTime: 1,//5,
-      loadAheadTime: 2,//10,
+      scheduleAheadTime: 3,//5,
+      loadAheadTime: 5,//10,
       fetcher: this.fetcher,
       ignoreInaudible: true,
       loggingOn: true,
@@ -126,7 +126,7 @@ export class PlayerComponent {
     this.sliders.forEach(s => {s.uiValue = _.random(1000); s.update()});
     await this.generateVersion();
     console.log("preloading")
-    await this.preloadFirstTwoSections();
+    //await this.preloadFirstTwoSections();
     console.log("preloaded")
     this.hideLoading();
   }
