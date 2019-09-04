@@ -18642,7 +18642,7 @@
       "parameters": {
         "@id": "_:b2686"
       },
-      "source": "audio/BD_1_G2Bells.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G2Bells.m4a"
     },
     {
       "@id": "dymo100",
@@ -18670,7 +18670,7 @@
       "parameters": {
         "@id": "_:b3147"
       },
-      "source": "audio/C2_3_G1Strings.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G1Strings.m4a"
     },
     {
       "@id": "dymo101",
@@ -18698,7 +18698,7 @@
       "parameters": {
         "@id": "_:b3128"
       },
-      "source": "audio/C2_3_G1Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G1Vox.m4a"
     },
     {
       "@id": "dymo102",
@@ -18726,7 +18726,7 @@
       "parameters": {
         "@id": "_:b3169"
       },
-      "source": "audio/C2_3_G2Bass.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G2Bass.m4a"
     },
     {
       "@id": "dymo103",
@@ -18754,7 +18754,7 @@
       "parameters": {
         "@id": "_:b3166"
       },
-      "source": "audio/C2_3_G2DPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G2DPad.m4a"
     },
     {
       "@id": "dymo104",
@@ -18779,7 +18779,7 @@
           "@id": "_:b309"
         }
       ],
-      "source": "audio/C2_3_G2Drums.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G2Drums.m4a"
     },
     {
       "@id": "dymo105",
@@ -18807,7 +18807,7 @@
       "parameters": {
         "@id": "_:b3163"
       },
-      "source": "audio/C2_3_G2PTone.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G2PTone.m4a"
     },
     {
       "@id": "dymo106",
@@ -18835,7 +18835,7 @@
       "parameters": {
         "@id": "_:b3171"
       },
-      "source": "audio/C2_3_G2SPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G2SPad.m4a"
     },
     {
       "@id": "dymo107",
@@ -18863,7 +18863,7 @@
       "parameters": {
         "@id": "_:b3173"
       },
-      "source": "audio/C2_3_G2Strings2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G2Strings2.m4a"
     },
     {
       "@id": "dymo108",
@@ -18891,7 +18891,7 @@
       "parameters": {
         "@id": "_:b3197"
       },
-      "source": "audio/C2_3_G3BVs.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G3BVs.m4a"
     },
     {
       "@id": "dymo109",
@@ -18919,7 +18919,7 @@
       "parameters": {
         "@id": "_:b3195"
       },
-      "source": "audio/C2_3_G3Bass.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G3Bass.m4a"
     },
     {
       "@id": "dymo11",
@@ -18947,7 +18947,7 @@
       "parameters": {
         "@id": "_:b2690"
       },
-      "source": "audio/BD_1_G2DPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G2DPad.m4a"
     },
     {
       "@id": "dymo110",
@@ -18975,7 +18975,7 @@
       "parameters": {
         "@id": "_:b3199"
       },
-      "source": "audio/C2_3_G3Drums4.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G3Drums4.m4a"
     },
     {
       "@id": "dymo111",
@@ -19003,7 +19003,7 @@
       "parameters": {
         "@id": "_:b3201"
       },
-      "source": "audio/C2_3_G3Kick.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G3Kick.m4a"
     },
     {
       "@id": "dymo112",
@@ -19031,7 +19031,7 @@
       "parameters": {
         "@id": "_:b3204"
       },
-      "source": "audio/C2_3_G3Pedal.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G3Pedal.m4a"
     },
     {
       "@id": "dymo113",
@@ -19059,7 +19059,7 @@
       "parameters": {
         "@id": "_:b3207"
       },
-      "source": "audio/C2_3_G3Strings.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G3Strings.m4a"
     },
     {
       "@id": "dymo114",
@@ -19087,7 +19087,7 @@
       "parameters": {
         "@id": "_:b3209"
       },
-      "source": "audio/C2_3_G3Synth1.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G3Synth1.m4a"
     },
     {
       "@id": "dymo115",
@@ -19115,7 +19115,7 @@
       "parameters": {
         "@id": "_:b3192"
       },
-      "source": "audio/C2_3_G3Synth2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G3Synth2.m4a"
     },
     {
       "@id": "dymo116",
@@ -19143,7 +19143,7 @@
       "parameters": {
         "@id": "_:b3132"
       },
-      "source": "audio/C2_3_G3Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G3Vox.m4a"
     },
     {
       "@id": "dymo117",
@@ -19171,7 +19171,7 @@
       "parameters": {
         "@id": "_:b2424"
       },
-      "source": "audio/C_1G2Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1G2Vox.m4a"
     },
     {
       "@id": "dymo118",
@@ -19196,7 +19196,7 @@
           "@id": "_:b351"
         }
       ],
-      "source": "audio/C_1_G1BSynth.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G1BSynth.m4a"
     },
     {
       "@id": "dymo119",
@@ -19224,7 +19224,7 @@
       "parameters": {
         "@id": "_:b2442"
       },
-      "source": "audio/C_1_G1Drums2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G1Drums2.m4a"
     },
     {
       "@id": "dymo12",
@@ -19249,7 +19249,7 @@
           "@id": "_:b33"
         }
       ],
-      "source": "audio/BD_1_G2Drums.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G2Drums.m4a"
     },
     {
       "@id": "dymo120",
@@ -19277,7 +19277,7 @@
       "parameters": {
         "@id": "_:b2448"
       },
-      "source": "audio/C_1_G1LSound.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G1LSound.m4a"
     },
     {
       "@id": "dymo121",
@@ -19305,7 +19305,7 @@
       "parameters": {
         "@id": "_:b2445"
       },
-      "source": "audio/C_1_G1Piano.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G1Piano.m4a"
     },
     {
       "@id": "dymo122",
@@ -19333,7 +19333,7 @@
       "parameters": {
         "@id": "_:b2422"
       },
-      "source": "audio/C_1_G1Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G1Vox.m4a"
     },
     {
       "@id": "dymo123",
@@ -19361,7 +19361,7 @@
       "parameters": {
         "@id": "_:b2460"
       },
-      "source": "audio/C_1_G2Bass.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G2Bass.m4a"
     },
     {
       "@id": "dymo124",
@@ -19389,7 +19389,7 @@
       "parameters": {
         "@id": "_:b2452"
       },
-      "source": "audio/C_1_G2Bells.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G2Bells.m4a"
     },
     {
       "@id": "dymo125",
@@ -19417,7 +19417,7 @@
       "parameters": {
         "@id": "_:b2456"
       },
-      "source": "audio/C_1_G2DPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G2DPad.m4a"
     },
     {
       "@id": "dymo126",
@@ -19442,7 +19442,7 @@
           "@id": "_:b375"
         }
       ],
-      "source": "audio/C_1_G2Drums.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G2Drums.m4a"
     },
     {
       "@id": "dymo127",
@@ -19470,7 +19470,7 @@
       "parameters": {
         "@id": "_:b2458"
       },
-      "source": "audio/C_1_G2Keys.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G2Keys.m4a"
     },
     {
       "@id": "dymo128",
@@ -19498,7 +19498,7 @@
       "parameters": {
         "@id": "_:b2462"
       },
-      "source": "audio/C_1_G2SPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G2SPad.m4a"
     },
     {
       "@id": "dymo129",
@@ -19526,7 +19526,7 @@
       "parameters": {
         "@id": "_:b2488"
       },
-      "source": "audio/C_1_G3BVs.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G3BVs.m4a"
     },
     {
       "@id": "dymo13",
@@ -19554,7 +19554,7 @@
       "parameters": {
         "@id": "_:b2692"
       },
-      "source": "audio/BD_1_G2Keys.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G2Keys.m4a"
     },
     {
       "@id": "dymo130",
@@ -19582,7 +19582,7 @@
       "parameters": {
         "@id": "_:b2486"
       },
-      "source": "audio/C_1_G3Bass.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G3Bass.m4a"
     },
     {
       "@id": "dymo131",
@@ -19607,7 +19607,7 @@
           "@id": "_:b390"
         }
       ],
-      "source": "audio/C_1_G3Bells.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G3Bells.m4a"
     },
     {
       "@id": "dymo132",
@@ -19635,7 +19635,7 @@
       "parameters": {
         "@id": "_:b2484"
       },
-      "source": "audio/C_1_G3Drums3.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G3Drums3.m4a"
     },
     {
       "@id": "dymo133",
@@ -19663,7 +19663,7 @@
       "parameters": {
         "@id": "_:b2491"
       },
-      "source": "audio/C_1_G3Kick.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G3Kick.m4a"
     },
     {
       "@id": "dymo134",
@@ -19691,7 +19691,7 @@
       "parameters": {
         "@id": "_:b2493"
       },
-      "source": "audio/C_1_G3Noise.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G3Noise.m4a"
     },
     {
       "@id": "dymo135",
@@ -19719,7 +19719,7 @@
       "parameters": {
         "@id": "_:b2495"
       },
-      "source": "audio/C_1_G3Pedal.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G3Pedal.m4a"
     },
     {
       "@id": "dymo136",
@@ -19747,7 +19747,7 @@
       "parameters": {
         "@id": "_:b2499"
       },
-      "source": "audio/C_1_G3Synth1.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G3Synth1.m4a"
     },
     {
       "@id": "dymo137",
@@ -19775,7 +19775,7 @@
       "parameters": {
         "@id": "_:b2482"
       },
-      "source": "audio/C_1_G3Synth2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G3Synth2.m4a"
     },
     {
       "@id": "dymo138",
@@ -19803,7 +19803,7 @@
       "parameters": {
         "@id": "_:b2426"
       },
-      "source": "audio/C_1_G3Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_1_G3Vox.m4a"
     },
     {
       "@id": "dymo139",
@@ -19831,7 +19831,7 @@
       "parameters": {
         "@id": "_:b2540"
       },
-      "source": "audio/C_2G2Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2G2Vox.m4a"
     },
     {
       "@id": "dymo14",
@@ -19859,7 +19859,7 @@
       "parameters": {
         "@id": "_:b2696"
       },
-      "source": "audio/BD_1_G2SPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G2SPad.m4a"
     },
     {
       "@id": "dymo140",
@@ -19884,7 +19884,7 @@
           "@id": "_:b417"
         }
       ],
-      "source": "audio/C_2_G1BSynth.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G1BSynth.m4a"
     },
     {
       "@id": "dymo141",
@@ -19912,7 +19912,7 @@
       "parameters": {
         "@id": "_:b2558"
       },
-      "source": "audio/C_2_G1Drums2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G1Drums2.m4a"
     },
     {
       "@id": "dymo142",
@@ -19940,7 +19940,7 @@
       "parameters": {
         "@id": "_:b2564"
       },
-      "source": "audio/C_2_G1LSound.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G1LSound.m4a"
     },
     {
       "@id": "dymo143",
@@ -19968,7 +19968,7 @@
       "parameters": {
         "@id": "_:b2561"
       },
-      "source": "audio/C_2_G1Piano.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G1Piano.m4a"
     },
     {
       "@id": "dymo144",
@@ -19996,7 +19996,7 @@
       "parameters": {
         "@id": "_:b2538"
       },
-      "source": "audio/C_2_G1Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G1Vox.m4a"
     },
     {
       "@id": "dymo145",
@@ -20024,7 +20024,7 @@
       "parameters": {
         "@id": "_:b2576"
       },
-      "source": "audio/C_2_G2Bass.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G2Bass.m4a"
     },
     {
       "@id": "dymo146",
@@ -20052,7 +20052,7 @@
       "parameters": {
         "@id": "_:b2568"
       },
-      "source": "audio/C_2_G2Bells.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G2Bells.m4a"
     },
     {
       "@id": "dymo147",
@@ -20080,7 +20080,7 @@
       "parameters": {
         "@id": "_:b2572"
       },
-      "source": "audio/C_2_G2DPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G2DPad.m4a"
     },
     {
       "@id": "dymo148",
@@ -20105,7 +20105,7 @@
           "@id": "_:b441"
         }
       ],
-      "source": "audio/C_2_G2Drums.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G2Drums.m4a"
     },
     {
       "@id": "dymo149",
@@ -20133,7 +20133,7 @@
       "parameters": {
         "@id": "_:b2574"
       },
-      "source": "audio/C_2_G2Keys.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G2Keys.m4a"
     },
     {
       "@id": "dymo15",
@@ -20161,7 +20161,7 @@
       "parameters": {
         "@id": "_:b2698"
       },
-      "source": "audio/BD_1_G2Strings2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G2Strings2.m4a"
     },
     {
       "@id": "dymo150",
@@ -20189,7 +20189,7 @@
       "parameters": {
         "@id": "_:b2578"
       },
-      "source": "audio/C_2_G2SPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G2SPad.m4a"
     },
     {
       "@id": "dymo151",
@@ -20217,7 +20217,7 @@
       "parameters": {
         "@id": "_:b2580"
       },
-      "source": "audio/C_2_G2Strings2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G2Strings2.m4a"
     },
     {
       "@id": "dymo152",
@@ -20245,7 +20245,7 @@
       "parameters": {
         "@id": "_:b2605"
       },
-      "source": "audio/C_2_G3BVs.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G3BVs.m4a"
     },
     {
       "@id": "dymo153",
@@ -20273,7 +20273,7 @@
       "parameters": {
         "@id": "_:b2603"
       },
-      "source": "audio/C_2_G3Bass.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G3Bass.m4a"
     },
     {
       "@id": "dymo154",
@@ -20301,7 +20301,7 @@
       "parameters": {
         "@id": "_:b2601"
       },
-      "source": "audio/C_2_G3Drums3.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G3Drums3.m4a"
     },
     {
       "@id": "dymo155",
@@ -20329,7 +20329,7 @@
       "parameters": {
         "@id": "_:b2608"
       },
-      "source": "audio/C_2_G3Kick.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G3Kick.m4a"
     },
     {
       "@id": "dymo156",
@@ -20357,7 +20357,7 @@
       "parameters": {
         "@id": "_:b2610"
       },
-      "source": "audio/C_2_G3Noise.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G3Noise.m4a"
     },
     {
       "@id": "dymo157",
@@ -20385,7 +20385,7 @@
       "parameters": {
         "@id": "_:b2614"
       },
-      "source": "audio/C_2_G3Strings.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G3Strings.m4a"
     },
     {
       "@id": "dymo158",
@@ -20413,7 +20413,7 @@
       "parameters": {
         "@id": "_:b2616"
       },
-      "source": "audio/C_2_G3Synth1.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G3Synth1.m4a"
     },
     {
       "@id": "dymo159",
@@ -20441,7 +20441,7 @@
       "parameters": {
         "@id": "_:b2599"
       },
-      "source": "audio/C_2_G3Synth2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G3Synth2.m4a"
     },
     {
       "@id": "dymo16",
@@ -20469,7 +20469,7 @@
       "parameters": {
         "@id": "_:b2722"
       },
-      "source": "audio/BD_1_G3BVs.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G3BVs.m4a"
     },
     {
       "@id": "dymo160",
@@ -20497,7 +20497,7 @@
       "parameters": {
         "@id": "_:b2542"
       },
-      "source": "audio/C_2_G3Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C_2_G3Vox.m4a"
     },
     {
       "@id": "dymo161",
@@ -20522,7 +20522,7 @@
           "@id": "_:b480"
         }
       ],
-      "source": "audio/I_1_G1BSynth.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_1_G1BSynth.m4a"
     },
     {
       "@id": "dymo162",
@@ -20550,7 +20550,7 @@
       "parameters": {
         "@id": "_:b1904"
       },
-      "source": "audio/I_1_G1LSound.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_1_G1LSound.m4a"
     },
     {
       "@id": "dymo163",
@@ -20578,7 +20578,7 @@
       "parameters": {
         "@id": "_:b1912"
       },
-      "source": "audio/I_1_G2Keys.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_1_G2Keys.m4a"
     },
     {
       "@id": "dymo164",
@@ -20606,7 +20606,7 @@
       "parameters": {
         "@id": "_:b1915"
       },
-      "source": "audio/I_1_G2SPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_1_G2SPad.m4a"
     },
     {
       "@id": "dymo165",
@@ -20634,7 +20634,7 @@
       "parameters": {
         "@id": "_:b1941"
       },
-      "source": "audio/I_1_G3Noise.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_1_G3Noise.m4a"
     },
     {
       "@id": "dymo166",
@@ -20662,7 +20662,7 @@
       "parameters": {
         "@id": "_:b1943"
       },
-      "source": "audio/I_1_G3Pedal.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_1_G3Pedal.m4a"
     },
     {
       "@id": "dymo167",
@@ -20687,7 +20687,7 @@
           "@id": "_:b498"
         }
       ],
-      "source": "audio/I_2_G1BSynth.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_2_G1BSynth.m4a"
     },
     {
       "@id": "dymo168",
@@ -20715,7 +20715,7 @@
       "parameters": {
         "@id": "_:b2004"
       },
-      "source": "audio/I_2_G1FWave.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_2_G1FWave.m4a"
     },
     {
       "@id": "dymo169",
@@ -20743,7 +20743,7 @@
       "parameters": {
         "@id": "_:b2008"
       },
-      "source": "audio/I_2_G1LSound.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_2_G1LSound.m4a"
     },
     {
       "@id": "dymo17",
@@ -20771,7 +20771,7 @@
       "parameters": {
         "@id": "_:b2719"
       },
-      "source": "audio/BD_1_G3Drums3.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G3Drums3.m4a"
     },
     {
       "@id": "dymo170",
@@ -20799,7 +20799,7 @@
       "parameters": {
         "@id": "_:b2015"
       },
-      "source": "audio/I_2_G2DPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_2_G2DPad.m4a"
     },
     {
       "@id": "dymo171",
@@ -20824,7 +20824,7 @@
           "@id": "_:b510"
         }
       ],
-      "source": "audio/I_2_G2Drums.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_2_G2Drums.m4a"
     },
     {
       "@id": "dymo172",
@@ -20852,7 +20852,7 @@
       "parameters": {
         "@id": "_:b2017"
       },
-      "source": "audio/I_2_G2Keys.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_2_G2Keys.m4a"
     },
     {
       "@id": "dymo173",
@@ -20880,7 +20880,7 @@
       "parameters": {
         "@id": "_:b2020"
       },
-      "source": "audio/I_2_G2SPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_2_G2SPad.m4a"
     },
     {
       "@id": "dymo174",
@@ -20905,7 +20905,7 @@
           "@id": "_:b519"
         }
       ],
-      "source": "audio/I_2_G3Bells.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_2_G3Bells.m4a"
     },
     {
       "@id": "dymo175",
@@ -20933,7 +20933,7 @@
       "parameters": {
         "@id": "_:b2046"
       },
-      "source": "audio/I_2_G3Noise.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_2_G3Noise.m4a"
     },
     {
       "@id": "dymo176",
@@ -20961,7 +20961,7 @@
       "parameters": {
         "@id": "_:b2048"
       },
-      "source": "audio/I_2_G3Pedal.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/I_2_G3Pedal.m4a"
     },
     {
       "@id": "dymo177",
@@ -20989,7 +20989,7 @@
       "parameters": {
         "@id": "_:b3250"
       },
-      "source": "audio/O_1G2Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/O_1G2Vox.m4a"
     },
     {
       "@id": "dymo178",
@@ -21017,7 +21017,7 @@
       "parameters": {
         "@id": "_:b3274"
       },
-      "source": "audio/O_1_2G2SEnd.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/O_1_2G2SEnd.m4a"
     },
     {
       "@id": "dymo179",
@@ -21042,7 +21042,7 @@
           "@id": "_:b534"
         }
       ],
-      "source": "audio/O_1_G1BSynth.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/O_1_G1BSynth.m4a"
     },
     {
       "@id": "dymo18",
@@ -21070,7 +21070,7 @@
       "parameters": {
         "@id": "_:b2725"
       },
-      "source": "audio/BD_1_G3Kick.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G3Kick.m4a"
     },
     {
       "@id": "dymo180",
@@ -21098,7 +21098,7 @@
       "parameters": {
         "@id": "_:b3272"
       },
-      "source": "audio/O_1_G1LSound.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/O_1_G1LSound.m4a"
     },
     {
       "@id": "dymo181",
@@ -21126,7 +21126,7 @@
       "parameters": {
         "@id": "_:b3266"
       },
-      "source": "audio/O_1_G1Strings.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/O_1_G1Strings.m4a"
     },
     {
       "@id": "dymo182",
@@ -21154,7 +21154,7 @@
       "parameters": {
         "@id": "_:b3281"
       },
-      "source": "audio/O_1_G2DPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/O_1_G2DPad.m4a"
     },
     {
       "@id": "dymo183",
@@ -21182,7 +21182,7 @@
       "parameters": {
         "@id": "_:b3278"
       },
-      "source": "audio/O_1_G2PTone.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/O_1_G2PTone.m4a"
     },
     {
       "@id": "dymo184",
@@ -21210,7 +21210,7 @@
       "parameters": {
         "@id": "_:b3285"
       },
-      "source": "audio/O_1_G2SPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/O_1_G2SPad.m4a"
     },
     {
       "@id": "dymo185",
@@ -21238,7 +21238,7 @@
       "parameters": {
         "@id": "_:b3308"
       },
-      "source": "audio/O_1_G3BVs.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/O_1_G3BVs.m4a"
     },
     {
       "@id": "dymo186",
@@ -21266,7 +21266,7 @@
       "parameters": {
         "@id": "_:b3315"
       },
-      "source": "audio/O_1_G3Strings.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/O_1_G3Strings.m4a"
     },
     {
       "@id": "dymo187",
@@ -21294,7 +21294,7 @@
       "parameters": {
         "@id": "_:b3317"
       },
-      "source": "audio/O_1_G3Synth1.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/O_1_G3Synth1.m4a"
     },
     {
       "@id": "dymo188",
@@ -21322,7 +21322,7 @@
       "parameters": {
         "@id": "_:b2092"
       },
-      "source": "audio/V_1G2Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_1G2Vox.m4a"
     },
     {
       "@id": "dymo189",
@@ -21347,7 +21347,7 @@
           "@id": "_:b564"
         }
       ],
-      "source": "audio/V_1_G1Bsynth.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_1_G1Bsynth.m4a"
     },
     {
       "@id": "dymo19",
@@ -21375,7 +21375,7 @@
       "parameters": {
         "@id": "_:b2727"
       },
-      "source": "audio/BD_1_G3Noise.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G3Noise.m4a"
     },
     {
       "@id": "dymo190",
@@ -21403,7 +21403,7 @@
       "parameters": {
         "@id": "_:b2111"
       },
-      "source": "audio/V_1_G1FWave.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_1_G1FWave.m4a"
     },
     {
       "@id": "dymo191",
@@ -21431,7 +21431,7 @@
       "parameters": {
         "@id": "_:b2115"
       },
-      "source": "audio/V_1_G1LSound.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_1_G1LSound.m4a"
     },
     {
       "@id": "dymo192",
@@ -21459,7 +21459,7 @@
       "parameters": {
         "@id": "_:b2090"
       },
-      "source": "audio/V_1_G1Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_1_G1Vox.m4a"
     },
     {
       "@id": "dymo193",
@@ -21487,7 +21487,7 @@
       "parameters": {
         "@id": "_:b2122"
       },
-      "source": "audio/V_1_G2DPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_1_G2DPad.m4a"
     },
     {
       "@id": "dymo194",
@@ -21512,7 +21512,7 @@
           "@id": "_:b579"
         }
       ],
-      "source": "audio/V_1_G2Drums.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_1_G2Drums.m4a"
     },
     {
       "@id": "dymo195",
@@ -21540,7 +21540,7 @@
       "parameters": {
         "@id": "_:b2124"
       },
-      "source": "audio/V_1_G2Keys.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_1_G2Keys.m4a"
     },
     {
       "@id": "dymo196",
@@ -21568,7 +21568,7 @@
       "parameters": {
         "@id": "_:b2127"
       },
-      "source": "audio/V_1_G2SPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_1_G2SPad.m4a"
     },
     {
       "@id": "dymo197",
@@ -21593,7 +21593,7 @@
           "@id": "_:b588"
         }
       ],
-      "source": "audio/V_1_G3Bells.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_1_G3Bells.m4a"
     },
     {
       "@id": "dymo198",
@@ -21621,7 +21621,7 @@
       "parameters": {
         "@id": "_:b2148"
       },
-      "source": "audio/V_1_G3Drums3.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_1_G3Drums3.m4a"
     },
     {
       "@id": "dymo199",
@@ -21649,7 +21649,7 @@
       "parameters": {
         "@id": "_:b2154"
       },
-      "source": "audio/V_1_G3Noise.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_1_G3Noise.m4a"
     },
     {
       "@id": "dymo2",
@@ -21677,7 +21677,7 @@
       "parameters": {
         "@id": "_:b2657"
       },
-      "source": "audio/BD_1G2Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1G2Vox.m4a"
     },
     {
       "@id": "dymo20",
@@ -21705,7 +21705,7 @@
       "parameters": {
         "@id": "_:b2731"
       },
-      "source": "audio/BD_1_G3Strings.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G3Strings.m4a"
     },
     {
       "@id": "dymo200",
@@ -21733,7 +21733,7 @@
       "parameters": {
         "@id": "_:b2156"
       },
-      "source": "audio/V_1_G3Pedal.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_1_G3Pedal.m4a"
     },
     {
       "@id": "dymo201",
@@ -21761,7 +21761,7 @@
       "parameters": {
         "@id": "_:b2159"
       },
-      "source": "audio/V_1_G3Strings.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_1_G3Strings.m4a"
     },
     {
       "@id": "dymo202",
@@ -21789,7 +21789,7 @@
       "parameters": {
         "@id": "_:b2201"
       },
-      "source": "audio/V_2G2Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2G2Vox.m4a"
     },
     {
       "@id": "dymo203",
@@ -21814,7 +21814,7 @@
           "@id": "_:b606"
         }
       ],
-      "source": "audio/V_2_G1BSynth.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2_G1BSynth.m4a"
     },
     {
       "@id": "dymo204",
@@ -21842,7 +21842,7 @@
       "parameters": {
         "@id": "_:b2220"
       },
-      "source": "audio/V_2_G1FWave.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2_G1FWave.m4a"
     },
     {
       "@id": "dymo205",
@@ -21870,7 +21870,7 @@
       "parameters": {
         "@id": "_:b2224"
       },
-      "source": "audio/V_2_G1LSound.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2_G1LSound.m4a"
     },
     {
       "@id": "dymo206",
@@ -21898,7 +21898,7 @@
       "parameters": {
         "@id": "_:b2199"
       },
-      "source": "audio/V_2_G1Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2_G1Vox.m4a"
     },
     {
       "@id": "dymo207",
@@ -21926,7 +21926,7 @@
       "parameters": {
         "@id": "_:b2231"
       },
-      "source": "audio/V_2_G2DPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2_G2DPad.m4a"
     },
     {
       "@id": "dymo208",
@@ -21951,7 +21951,7 @@
           "@id": "_:b621"
         }
       ],
-      "source": "audio/V_2_G2Drums.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2_G2Drums.m4a"
     },
     {
       "@id": "dymo209",
@@ -21979,7 +21979,7 @@
       "parameters": {
         "@id": "_:b2233"
       },
-      "source": "audio/V_2_G2Keys.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2_G2Keys.m4a"
     },
     {
       "@id": "dymo21",
@@ -22007,7 +22007,7 @@
       "parameters": {
         "@id": "_:b2733"
       },
-      "source": "audio/BD_1_G3Synth1.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G3Synth1.m4a"
     },
     {
       "@id": "dymo210",
@@ -22035,7 +22035,7 @@
       "parameters": {
         "@id": "_:b2236"
       },
-      "source": "audio/V_2_G2SPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2_G2SPad.m4a"
     },
     {
       "@id": "dymo211",
@@ -22063,7 +22063,7 @@
       "parameters": {
         "@id": "_:b2260"
       },
-      "source": "audio/V_2_G3BVs.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2_G3BVs.m4a"
     },
     {
       "@id": "dymo212",
@@ -22088,7 +22088,7 @@
           "@id": "_:b633"
         }
       ],
-      "source": "audio/V_2_G3Bells.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2_G3Bells.m4a"
     },
     {
       "@id": "dymo213",
@@ -22116,7 +22116,7 @@
       "parameters": {
         "@id": "_:b2257"
       },
-      "source": "audio/V_2_G3Drums3.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2_G3Drums3.m4a"
     },
     {
       "@id": "dymo214",
@@ -22144,7 +22144,7 @@
       "parameters": {
         "@id": "_:b2267"
       },
-      "source": "audio/V_2_G3Horn.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2_G3Horn.m4a"
     },
     {
       "@id": "dymo215",
@@ -22172,7 +22172,7 @@
       "parameters": {
         "@id": "_:b2264"
       },
-      "source": "audio/V_2_G3Noise.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2_G3Noise.m4a"
     },
     {
       "@id": "dymo216",
@@ -22200,7 +22200,7 @@
       "parameters": {
         "@id": "_:b2269"
       },
-      "source": "audio/V_2_G3Strings.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_2_G3Strings.m4a"
     },
     {
       "@id": "dymo217",
@@ -22228,7 +22228,7 @@
       "parameters": {
         "@id": "_:b2311"
       },
-      "source": "audio/V_3G2Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3G2Vox.m4a"
     },
     {
       "@id": "dymo218",
@@ -22253,7 +22253,7 @@
           "@id": "_:b651"
         }
       ],
-      "source": "audio/V_3_G1BSynth.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G1BSynth.m4a"
     },
     {
       "@id": "dymo219",
@@ -22281,7 +22281,7 @@
       "parameters": {
         "@id": "_:b2329"
       },
-      "source": "audio/V_3_G1Drums2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G1Drums2.m4a"
     },
     {
       "@id": "dymo22",
@@ -22309,7 +22309,7 @@
       "parameters": {
         "@id": "_:b2717"
       },
-      "source": "audio/BD_1_G3Synth2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G3Synth2.m4a"
     },
     {
       "@id": "dymo220",
@@ -22337,7 +22337,7 @@
       "parameters": {
         "@id": "_:b2334"
       },
-      "source": "audio/V_3_G1LSound.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G1LSound.m4a"
     },
     {
       "@id": "dymo221",
@@ -22365,7 +22365,7 @@
       "parameters": {
         "@id": "_:b2309"
       },
-      "source": "audio/V_3_G1Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G1Vox.m4a"
     },
     {
       "@id": "dymo222",
@@ -22393,7 +22393,7 @@
       "parameters": {
         "@id": "_:b2346"
       },
-      "source": "audio/V_3_G2Bass.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G2Bass.m4a"
     },
     {
       "@id": "dymo223",
@@ -22421,7 +22421,7 @@
       "parameters": {
         "@id": "_:b2338"
       },
-      "source": "audio/V_3_G2Bells.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G2Bells.m4a"
     },
     {
       "@id": "dymo224",
@@ -22449,7 +22449,7 @@
       "parameters": {
         "@id": "_:b2342"
       },
-      "source": "audio/V_3_G2DPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G2DPad.m4a"
     },
     {
       "@id": "dymo225",
@@ -22474,7 +22474,7 @@
           "@id": "_:b672"
         }
       ],
-      "source": "audio/V_3_G2Drums.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G2Drums.m4a"
     },
     {
       "@id": "dymo226",
@@ -22502,7 +22502,7 @@
       "parameters": {
         "@id": "_:b2344"
       },
-      "source": "audio/V_3_G2Keys.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G2Keys.m4a"
     },
     {
       "@id": "dymo227",
@@ -22530,7 +22530,7 @@
       "parameters": {
         "@id": "_:b2348"
       },
-      "source": "audio/V_3_G2SPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G2SPad.m4a"
     },
     {
       "@id": "dymo228",
@@ -22558,7 +22558,7 @@
       "parameters": {
         "@id": "_:b2373"
       },
-      "source": "audio/V_3_G3BVs.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G3BVs.m4a"
     },
     {
       "@id": "dymo229",
@@ -22586,7 +22586,7 @@
       "parameters": {
         "@id": "_:b2371"
       },
-      "source": "audio/V_3_G3Bass.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G3Bass.m4a"
     },
     {
       "@id": "dymo23",
@@ -22614,7 +22614,7 @@
       "parameters": {
         "@id": "_:b2774"
       },
-      "source": "audio/BD_2G2Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2G2Vox.m4a"
     },
     {
       "@id": "dymo230",
@@ -22639,7 +22639,7 @@
           "@id": "_:b687"
         }
       ],
-      "source": "audio/V_3_G3Bells.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G3Bells.m4a"
     },
     {
       "@id": "dymo231",
@@ -22667,7 +22667,7 @@
       "parameters": {
         "@id": "_:b2369"
       },
-      "source": "audio/V_3_G3Drums3.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G3Drums3.m4a"
     },
     {
       "@id": "dymo232",
@@ -22695,7 +22695,7 @@
       "parameters": {
         "@id": "_:b2380"
       },
-      "source": "audio/V_3_G3Horn.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G3Horn.m4a"
     },
     {
       "@id": "dymo233",
@@ -22723,7 +22723,7 @@
       "parameters": {
         "@id": "_:b2377"
       },
-      "source": "audio/V_3_G3Noise.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G3Noise.m4a"
     },
     {
       "@id": "dymo234",
@@ -22751,7 +22751,7 @@
       "parameters": {
         "@id": "_:b2382"
       },
-      "source": "audio/V_3_G3Strings.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/V_3_G3Strings.m4a"
     },
     {
       "@id": "dymo235",
@@ -23353,7 +23353,7 @@
           "@id": "_:b69"
         }
       ],
-      "source": "audio/BD_2_G1BSynth.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G1BSynth.m4a"
     },
     {
       "@id": "dymo240",
@@ -23881,7 +23881,7 @@
       "parameters": {
         "@id": "_:b2792"
       },
-      "source": "audio/BD_2_G1Drums2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G1Drums2.m4a"
     },
     {
       "@id": "dymo250",
@@ -24218,7 +24218,7 @@
       "parameters": {
         "@id": "_:b2794"
       },
-      "source": "audio/BD_2_G1FWave.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G1FWave.m4a"
     },
     {
       "@id": "dymo260",
@@ -24622,7 +24622,7 @@
       "parameters": {
         "@id": "_:b2799"
       },
-      "source": "audio/BD_2_G1LSound.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G1LSound.m4a"
     },
     {
       "@id": "dymo270",
@@ -24971,7 +24971,7 @@
       "parameters": {
         "@id": "_:b2796"
       },
-      "source": "audio/BD_2_G1Piano.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G1Piano.m4a"
     },
     {
       "@id": "dymo280",
@@ -25375,7 +25375,7 @@
       "parameters": {
         "@id": "_:b2772"
       },
-      "source": "audio/BD_2_G1Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G1Vox.m4a"
     },
     {
       "@id": "dymo290",
@@ -25758,7 +25758,7 @@
           "@id": "_:b6"
         }
       ],
-      "source": "audio/BD_1_G1BSynth.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G1BSynth.m4a"
     },
     {
       "@id": "dymo30",
@@ -25786,7 +25786,7 @@
       "parameters": {
         "@id": "_:b2803"
       },
-      "source": "audio/BD_2_G2Bells.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G2Bells.m4a"
     },
     {
       "@id": "dymo300",
@@ -26172,7 +26172,7 @@
       "parameters": {
         "@id": "_:b2807"
       },
-      "source": "audio/BD_2_G2DPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G2DPad.m4a"
     },
     {
       "@id": "dymo310",
@@ -26576,7 +26576,7 @@
       "parameters": {
         "@id": "_:b2811"
       },
-      "source": "audio/BD_2_G2SPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G2SPad.m4a"
     },
     {
       "@id": "dymo320",
@@ -26970,7 +26970,7 @@
       "parameters": {
         "@id": "_:b2836"
       },
-      "source": "audio/BD_2_G3BVs.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G3BVs.m4a"
     },
     {
       "@id": "dymo330",
@@ -27364,7 +27364,7 @@
       "parameters": {
         "@id": "_:b2833"
       },
-      "source": "audio/BD_2_G3Drums3.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G3Drums3.m4a"
     },
     {
       "@id": "dymo340",
@@ -27705,7 +27705,7 @@
       "parameters": {
         "@id": "_:b2844"
       },
-      "source": "audio/BD_2_G3Horn.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G3Horn.m4a"
     },
     {
       "@id": "dymo350",
@@ -28104,7 +28104,7 @@
       "parameters": {
         "@id": "_:b2839"
       },
-      "source": "audio/BD_2_G3Kick.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G3Kick.m4a"
     },
     {
       "@id": "dymo360",
@@ -28436,7 +28436,7 @@
       "parameters": {
         "@id": "_:b2841"
       },
-      "source": "audio/BD_2_G3Noise.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G3Noise.m4a"
     },
     {
       "@id": "dymo370",
@@ -28840,7 +28840,7 @@
       "parameters": {
         "@id": "_:b2846"
       },
-      "source": "audio/BD_2_G3Strings.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G3Strings.m4a"
     },
     {
       "@id": "dymo380",
@@ -29053,7 +29053,7 @@
       "parameters": {
         "@id": "_:b2848"
       },
-      "source": "audio/BD_2_G3Synth1.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G3Synth1.m4a"
     },
     {
       "@id": "dymo4",
@@ -29081,7 +29081,7 @@
       "parameters": {
         "@id": "_:b2675"
       },
-      "source": "audio/BD_1_G1Drums2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G1Drums2.m4a"
     },
     {
       "@id": "dymo40",
@@ -29109,7 +29109,7 @@
       "parameters": {
         "@id": "_:b2831"
       },
-      "source": "audio/BD_2_G3Synth2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_2_G3Synth2.m4a"
     },
     {
       "@id": "dymo41",
@@ -29137,7 +29137,7 @@
       "parameters": {
         "@id": "_:b2918"
       },
-      "source": "audio/C2_1G2BVs.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1G2BVs.m4a"
     },
     {
       "@id": "dymo42",
@@ -29165,7 +29165,7 @@
       "parameters": {
         "@id": "_:b2889"
       },
-      "source": "audio/C2_1G2Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1G2Vox.m4a"
     },
     {
       "@id": "dymo43",
@@ -29190,7 +29190,7 @@
           "@id": "_:b126"
         }
       ],
-      "source": "audio/C2_1_G1BSynth.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G1BSynth.m4a"
     },
     {
       "@id": "dymo44",
@@ -29218,7 +29218,7 @@
       "parameters": {
         "@id": "_:b2908"
       },
-      "source": "audio/C2_1_G1Drums2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G1Drums2.m4a"
     },
     {
       "@id": "dymo45",
@@ -29246,7 +29246,7 @@
       "parameters": {
         "@id": "_:b2904"
       },
-      "source": "audio/C2_1_G1Flutey.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G1Flutey.m4a"
     },
     {
       "@id": "dymo46",
@@ -29274,7 +29274,7 @@
       "parameters": {
         "@id": "_:b2915"
       },
-      "source": "audio/C2_1_G1LSound.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G1LSound.m4a"
     },
     {
       "@id": "dymo47",
@@ -29302,7 +29302,7 @@
       "parameters": {
         "@id": "_:b2912"
       },
-      "source": "audio/C2_1_G1Piano.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G1Piano.m4a"
     },
     {
       "@id": "dymo48",
@@ -29330,7 +29330,7 @@
       "parameters": {
         "@id": "_:b2906"
       },
-      "source": "audio/C2_1_G1Strings.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G1Strings.m4a"
     },
     {
       "@id": "dymo49",
@@ -29358,7 +29358,7 @@
       "parameters": {
         "@id": "_:b2887"
       },
-      "source": "audio/C2_1_G1Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G1Vox.m4a"
     },
     {
       "@id": "dymo5",
@@ -29386,7 +29386,7 @@
       "parameters": {
         "@id": "_:b2677"
       },
-      "source": "audio/BD_1_G1FWave.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G1FWave.m4a"
     },
     {
       "@id": "dymo50",
@@ -29414,7 +29414,7 @@
       "parameters": {
         "@id": "_:b2928"
       },
-      "source": "audio/C2_1_G2Bass.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G2Bass.m4a"
     },
     {
       "@id": "dymo51",
@@ -29442,7 +29442,7 @@
       "parameters": {
         "@id": "_:b2924"
       },
-      "source": "audio/C2_1_G2DPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G2DPad.m4a"
     },
     {
       "@id": "dymo52",
@@ -29467,7 +29467,7 @@
           "@id": "_:b153"
         }
       ],
-      "source": "audio/C2_1_G2Drums.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G2Drums.m4a"
     },
     {
       "@id": "dymo53",
@@ -29495,7 +29495,7 @@
       "parameters": {
         "@id": "_:b2926"
       },
-      "source": "audio/C2_1_G2Keys.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G2Keys.m4a"
     },
     {
       "@id": "dymo54",
@@ -29523,7 +29523,7 @@
       "parameters": {
         "@id": "_:b2921"
       },
-      "source": "audio/C2_1_G2PTone.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G2PTone.m4a"
     },
     {
       "@id": "dymo55",
@@ -29551,7 +29551,7 @@
       "parameters": {
         "@id": "_:b2930"
       },
-      "source": "audio/C2_1_G2SPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G2SPad.m4a"
     },
     {
       "@id": "dymo56",
@@ -29579,7 +29579,7 @@
       "parameters": {
         "@id": "_:b2956"
       },
-      "source": "audio/C2_1_G3BVs.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G3BVs.m4a"
     },
     {
       "@id": "dymo57",
@@ -29607,7 +29607,7 @@
       "parameters": {
         "@id": "_:b2954"
       },
-      "source": "audio/C2_1_G3Bass.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G3Bass.m4a"
     },
     {
       "@id": "dymo58",
@@ -29635,7 +29635,7 @@
       "parameters": {
         "@id": "_:b2952"
       },
-      "source": "audio/C2_1_G3Drums3.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G3Drums3.m4a"
     },
     {
       "@id": "dymo59",
@@ -29663,7 +29663,7 @@
       "parameters": {
         "@id": "_:b2959"
       },
-      "source": "audio/C2_1_G3Kick.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G3Kick.m4a"
     },
     {
       "@id": "dymo6",
@@ -29691,7 +29691,7 @@
       "parameters": {
         "@id": "_:b2682"
       },
-      "source": "audio/BD_1_G1LSound.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G1LSound.m4a"
     },
     {
       "@id": "dymo60",
@@ -29719,7 +29719,7 @@
       "parameters": {
         "@id": "_:b2961"
       },
-      "source": "audio/C2_1_G3Noise.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G3Noise.m4a"
     },
     {
       "@id": "dymo61",
@@ -29747,7 +29747,7 @@
       "parameters": {
         "@id": "_:b2963"
       },
-      "source": "audio/C2_1_G3Pedal.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G3Pedal.m4a"
     },
     {
       "@id": "dymo62",
@@ -29775,7 +29775,7 @@
       "parameters": {
         "@id": "_:b2967"
       },
-      "source": "audio/C2_1_G3Synth1.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G3Synth1.m4a"
     },
     {
       "@id": "dymo63",
@@ -29803,7 +29803,7 @@
       "parameters": {
         "@id": "_:b2950"
       },
-      "source": "audio/C2_1_G3Synth2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G3Synth2.m4a"
     },
     {
       "@id": "dymo64",
@@ -29831,7 +29831,7 @@
       "parameters": {
         "@id": "_:b2891"
       },
-      "source": "audio/C2_1_G3Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_1_G3Vox.m4a"
     },
     {
       "@id": "dymo65",
@@ -29859,7 +29859,7 @@
       "parameters": {
         "@id": "_:b3038"
       },
-      "source": "audio/C2_2G2BVs.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2G2BVs.m4a"
     },
     {
       "@id": "dymo66",
@@ -29887,7 +29887,7 @@
       "parameters": {
         "@id": "_:b3036"
       },
-      "source": "audio/C2_2G2SEnd.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2G2SEnd.m4a"
     },
     {
       "@id": "dymo67",
@@ -29915,7 +29915,7 @@
       "parameters": {
         "@id": "_:b3008"
       },
-      "source": "audio/C2_2G2Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2G2Vox.m4a"
     },
     {
       "@id": "dymo68",
@@ -29940,7 +29940,7 @@
           "@id": "_:b201"
         }
       ],
-      "source": "audio/C2_2_G1BSynth.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G1BSynth.m4a"
     },
     {
       "@id": "dymo69",
@@ -29968,7 +29968,7 @@
       "parameters": {
         "@id": "_:b3027"
       },
-      "source": "audio/C2_2_G1Drums2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G1Drums2.m4a"
     },
     {
       "@id": "dymo7",
@@ -29996,7 +29996,7 @@
       "parameters": {
         "@id": "_:b2679"
       },
-      "source": "audio/BD_1_G1Piano.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G1Piano.m4a"
     },
     {
       "@id": "dymo70",
@@ -30024,7 +30024,7 @@
       "parameters": {
         "@id": "_:b3023"
       },
-      "source": "audio/C2_2_G1Flutey.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G1Flutey.m4a"
     },
     {
       "@id": "dymo71",
@@ -30052,7 +30052,7 @@
       "parameters": {
         "@id": "_:b3034"
       },
-      "source": "audio/C2_2_G1LSound.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G1LSound.m4a"
     },
     {
       "@id": "dymo72",
@@ -30080,7 +30080,7 @@
       "parameters": {
         "@id": "_:b3031"
       },
-      "source": "audio/C2_2_G1Piano.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G1Piano.m4a"
     },
     {
       "@id": "dymo73",
@@ -30108,7 +30108,7 @@
       "parameters": {
         "@id": "_:b3025"
       },
-      "source": "audio/C2_2_G1Strings.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G1Strings.m4a"
     },
     {
       "@id": "dymo74",
@@ -30136,7 +30136,7 @@
       "parameters": {
         "@id": "_:b3006"
       },
-      "source": "audio/C2_2_G1Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G1Vox.m4a"
     },
     {
       "@id": "dymo75",
@@ -30164,7 +30164,7 @@
       "parameters": {
         "@id": "_:b3048"
       },
-      "source": "audio/C2_2_G2Bass.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G2Bass.m4a"
     },
     {
       "@id": "dymo76",
@@ -30192,7 +30192,7 @@
       "parameters": {
         "@id": "_:b3044"
       },
-      "source": "audio/C2_2_G2DPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G2DPad.m4a"
     },
     {
       "@id": "dymo77",
@@ -30217,7 +30217,7 @@
           "@id": "_:b228"
         }
       ],
-      "source": "audio/C2_2_G2Drums.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G2Drums.m4a"
     },
     {
       "@id": "dymo78",
@@ -30245,7 +30245,7 @@
       "parameters": {
         "@id": "_:b3046"
       },
-      "source": "audio/C2_2_G2Keys.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G2Keys.m4a"
     },
     {
       "@id": "dymo79",
@@ -30273,7 +30273,7 @@
       "parameters": {
         "@id": "_:b3041"
       },
-      "source": "audio/C2_2_G2PTone.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G2PTone.m4a"
     },
     {
       "@id": "dymo8",
@@ -30301,7 +30301,7 @@
       "parameters": {
         "@id": "_:b2655"
       },
-      "source": "audio/BD_1_G1Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G1Vox.m4a"
     },
     {
       "@id": "dymo80",
@@ -30329,7 +30329,7 @@
       "parameters": {
         "@id": "_:b3050"
       },
-      "source": "audio/C2_2_G2SPad.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G2SPad.m4a"
     },
     {
       "@id": "dymo81",
@@ -30357,7 +30357,7 @@
       "parameters": {
         "@id": "_:b3052"
       },
-      "source": "audio/C2_2_G2Strings2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G2Strings2.m4a"
     },
     {
       "@id": "dymo82",
@@ -30385,7 +30385,7 @@
       "parameters": {
         "@id": "_:b3077"
       },
-      "source": "audio/C2_2_G3BVs.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G3BVs.m4a"
     },
     {
       "@id": "dymo83",
@@ -30413,7 +30413,7 @@
       "parameters": {
         "@id": "_:b3075"
       },
-      "source": "audio/C2_2_G3Bass.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G3Bass.m4a"
     },
     {
       "@id": "dymo84",
@@ -30441,7 +30441,7 @@
       "parameters": {
         "@id": "_:b3073"
       },
-      "source": "audio/C2_2_G3Drums3.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G3Drums3.m4a"
     },
     {
       "@id": "dymo85",
@@ -30469,7 +30469,7 @@
       "parameters": {
         "@id": "_:b3079"
       },
-      "source": "audio/C2_2_G3Drums4.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G3Drums4.m4a"
     },
     {
       "@id": "dymo86",
@@ -30497,7 +30497,7 @@
       "parameters": {
         "@id": "_:b3081"
       },
-      "source": "audio/C2_2_G3Kick.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G3Kick.m4a"
     },
     {
       "@id": "dymo87",
@@ -30525,7 +30525,7 @@
       "parameters": {
         "@id": "_:b3084"
       },
-      "source": "audio/C2_2_G3Pedal.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G3Pedal.m4a"
     },
     {
       "@id": "dymo88",
@@ -30553,7 +30553,7 @@
       "parameters": {
         "@id": "_:b3087"
       },
-      "source": "audio/C2_2_G3Strings.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G3Strings.m4a"
     },
     {
       "@id": "dymo89",
@@ -30581,7 +30581,7 @@
       "parameters": {
         "@id": "_:b3089"
       },
-      "source": "audio/C2_2_G3Synth1.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G3Synth1.m4a"
     },
     {
       "@id": "dymo9",
@@ -30609,7 +30609,7 @@
       "parameters": {
         "@id": "_:b2694"
       },
-      "source": "audio/BD_1_G2Bass.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/BD_1_G2Bass.m4a"
     },
     {
       "@id": "dymo90",
@@ -30637,7 +30637,7 @@
       "parameters": {
         "@id": "_:b3071"
       },
-      "source": "audio/C2_2_G3Synth2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G3Synth2.m4a"
     },
     {
       "@id": "dymo91",
@@ -30665,7 +30665,7 @@
       "parameters": {
         "@id": "_:b3010"
       },
-      "source": "audio/C2_2_G3Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_2_G3Vox.m4a"
     },
     {
       "@id": "dymo92",
@@ -30693,7 +30693,7 @@
       "parameters": {
         "@id": "_:b3160"
       },
-      "source": "audio/C2_3G2BVs.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3G2BVs.m4a"
     },
     {
       "@id": "dymo93",
@@ -30721,7 +30721,7 @@
       "parameters": {
         "@id": "_:b3158"
       },
-      "source": "audio/C2_3G2SEnd.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3G2SEnd.m4a"
     },
     {
       "@id": "dymo94",
@@ -30749,7 +30749,7 @@
       "parameters": {
         "@id": "_:b3130"
       },
-      "source": "audio/C2_3G2Vox.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3G2Vox.m4a"
     },
     {
       "@id": "dymo95",
@@ -30774,7 +30774,7 @@
           "@id": "_:b282"
         }
       ],
-      "source": "audio/C2_3_G1BSynth.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G1BSynth.m4a"
     },
     {
       "@id": "dymo96",
@@ -30802,7 +30802,7 @@
       "parameters": {
         "@id": "_:b3149"
       },
-      "source": "audio/C2_3_G1Drums2.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G1Drums2.m4a"
     },
     {
       "@id": "dymo97",
@@ -30830,7 +30830,7 @@
       "parameters": {
         "@id": "_:b3145"
       },
-      "source": "audio/C2_3_G1Flutey.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G1Flutey.m4a"
     },
     {
       "@id": "dymo98",
@@ -30858,7 +30858,7 @@
       "parameters": {
         "@id": "_:b3156"
       },
-      "source": "audio/C2_3_G1LSound.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G1LSound.m4a"
     },
     {
       "@id": "dymo99",
@@ -30886,7 +30886,7 @@
       "parameters": {
         "@id": "_:b3153"
       },
-      "source": "audio/C2_3_G1Piano.m4a"
+      "source": "https://raw.githubusercontent.com/dynamic-music/semantic-machine/master/assets/dymo/audio/C2_3_G1Piano.m4a"
     },
     {
       "@id": "flux",
