@@ -52,12 +52,6 @@ async function initSemanticMachine(): Promise<any> {
 
   //console.log(await store.findParts(drums), await store.findAllParents("http://tiny.cc/dymo-context/dymo10"))
 
-  /*await dymoGen.setDymoParameter(drums, uris.DELAY, 1);
-  await dymoGen.setDymoParameter(bass, uris.DELAY, 1);
-  await dymoGen.setDymoParameter(pads, uris.DELAY, 1);
-  /*await dymoGen.setDymoParameter(machine, uris.DELAY, 1);
-  await dymoGen.setDymoParameter(machine, uris.REVERB, 1);*/
-
   //create sections
   //const sectionNames = ["ntro.", "V1.", "C1", "BD", "C2", "utro"];
   const sectionNames = ["I_1","I_2","V_1","V_2","V_3","C_1","C_2","BD_1","BD_2","C2_1","C2_2","C2_3","O_1"];
@@ -116,7 +110,7 @@ async function initSemanticMachine(): Promise<any> {
   //Promise.all(vocalUris.map(v => dymoGen.setDymoParameter(v, uris.DYMO_ONTOLOGY_URI+"Amplitude", 2)));
 
   //TEMPERATURE TO WARMTH
-  /*await addConstrainedSlider("Temperature", machine, "coldness", "1-s");
+  await addConstrainedSlider("Temperature", machine, "coldness", "1-s");
   await addDataControl(machine, "coldness", "return json['main']['temp']", "1-((c-273.16+5)/20)");
   //WIND TO FLUX
   await addConstrainedSlider("Wind", machine, "flux", "1-s");
@@ -188,23 +182,35 @@ async function constrain(controlType: string, controlName: string, dymo: string,
 async function addSongSection(parent: string, searchName: string): Promise<string> {
   const section = await dymoGen.addDymo(parent, null, uris.CONJUNCTION);
   //add vocals
-  //const vocals = await addMaterial(section, [[searchName], ["Vox"]], [], uris.DISJUNCTION);
-  const vocals = await dymoGen.addDymo(section, null, uris.CONJUNCTION);
-  await addVoices(vocals, [[VOCALS, [[searchName]]]]);
+  const vocals = await dymoGen.addDymo(parent, null, uris.DISJUNCTION);
+  await addVocals(vocals, [[VOCALS, [[searchName]]]]);
   await dymoGen.setDymoParameter(vocals, uris.AMPLITUDE, 0.5);
   //add material sets
-  const materials = await dymoGen.addDymo(section, null,
+  const instruments = await dymoGen.addDymo(section, null,
     await addParamDependentType(uris.SELECTION, uris.CONTEXT_URI+"material"));
   const g1: [string[], string[][]] = [G1_VOICES, [[searchName], ["G1"]]];
   const g2: [string[], string[][]] = [G2_VOICES, [[searchName], ["G2"]]];
   const g3: [string[], string[][]] = [G3_VOICES, [[searchName], ["G3"]]];
-  await addVoices(materials, [g1, g2]);
-  await addVoices(materials, [g2, g3]);
-  await addVoices(materials, [g3, g1]);
+  await addInstruments(instruments, [g1, g2]);
+  await addInstruments(instruments, [g2, g3]);
+  await addInstruments(instruments, [g3, g1]);
   return section;
 }
 
-async function addVoices(parent: string, voiceNamesAndSearches: [string[], string[][]][]) {
+async function addVocals(parent: string, voiceNamesAndSearches: [string[], string[][]][]) {
+  await mapSeries(voiceNamesAndSearches, async ([names, searches]) =>
+    mapSeries(names, async v => {
+      const selection = (await getDymosWithSources(searches.concat([[v]])))[0];
+      if (selection) {
+        const duration = await getDuration(await store.getSourcePath(selection));
+        await dymoGen.setDymoParameter(selection, uris.DURATION, duration);
+        await store.addPart(parent, selection);
+      }
+    })
+  );
+}
+
+async function addInstruments(parent: string, voiceNamesAndSearches: [string[], string[][]][]) {
   const emptyVoice = await dymoGen.addDymo();
   const voices = await dymoGen.addDymo(parent, null,
     await addParamDependentType(uris.MULTI_SELECTION, uris.CONTEXT_URI+"instruments"));

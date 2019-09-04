@@ -125,9 +125,9 @@ export class PlayerComponent {
     this.initSensorsAndUI();
     this.sliders.forEach(s => {s.uiValue = _.random(1000); s.update()});
     await this.generateVersion();
-    console.log("preloading")
-    //await this.preloadFirstTwoSections();
-    console.log("preloaded")
+    /*console.log("preloading")
+    await this.preloadFirstTwoSections();
+    console.log("preloaded")*/
     this.hideLoading();
   }
 
