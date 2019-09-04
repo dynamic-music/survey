@@ -1291,7 +1291,7 @@ END OF TERMS AND CONDITIONS
 typed-function
 The MIT License (MIT)
 
-Copyright (c) 2014-2015 Jos de Jong
+Copyright (c) 2014-2018 Jos de Jong
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
