@@ -1,7 +1,7 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { DeviceOrientation } from '@ionic-native/device-orientation';
+import { DeviceOrientation } from '@ionic-native/device-orientation/ngx';
 
 
 @Injectable()

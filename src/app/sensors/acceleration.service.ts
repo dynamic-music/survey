@@ -1,7 +1,7 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { DeviceMotion } from '@ionic-native/device-motion';
+import { DeviceMotion } from '@ionic-native/device-motion/ngx';
 
 export interface Acceleration {
   x: number;

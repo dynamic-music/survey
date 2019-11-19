@@ -1,0 +1,55 @@
+<ion-content>
+  <ion-toolbar color="dark" *ngIf="config.showTitle">
+    <ion-title>{{config.title}}</ion-title>
+  </ion-toolbar>
+  <ion-item large color="dark" *ngIf="config.showDymoSelector">
+    <ion-label>Select Dynamic Music Object</ion-label>
+    <ion-select [(ngModel)]="selectedDymo" multiple="false" (ionChange)="dymoSelected()">
+      <ion-select-option *ngFor="let d of config.dymos" [value]="d">{{d.name}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item *ngIf="config.showPlaybackButtons" lines="none">
+    <ion-button size="large" color="success" (click)="play()">
+      <ion-icon slot="icon-only" name="play"></ion-icon>
+    </ion-button>
+    <ion-button size="large" color="warning" (click)="pause()">
+      <ion-icon slot="icon-only" name="pause"></ion-icon>
+    </ion-button>
+    <ion-button size="large" color="danger" (click)="stop()">
+      <ion-icon slot="icon-only" name="square"></ion-icon>
+    </ion-button>
+  </ion-item>
+  <ion-list *ngIf="config.showDymoControls" color="dark">
+    <ion-item *ngFor="let s of sliders" color="transp" lines="none">
+      <ion-label item-left class="fixedLabel">{{s.getName()}}</ion-label>
+      <ion-range item-content size="large" color="warning" min="0" max="1000" step="1" [(ngModel)]="s.uiValue" (ionChange)="s.update()">
+        <!--ion-label range-left class="fixedLabel">{{s.getName()}}</ion-label-->
+      </ion-range>
+    </ion-item>
+    <ion-item *ngFor="let t of toggles" color="transp" lines="none">
+      <ion-label item-left class="fixedLabel">{{t.getName()}}</ion-label>
+      <ion-toggle item-content size="large" color="warning" [(ngModel)]="t.uiValue" (ionChange)="t.update()"></ion-toggle>
+    </ion-item>
+    <ion-item *ngFor="let b of buttons" color="transp" lines="none">
+      <ion-button size="large" (click)="b.update()">{{b.getName()}}</ion-button>
+    </ion-item>
+  </ion-list>
+  <ion-item *ngIf="config.showSensorSection" lines="none">
+    <ion-button color="secondary" (click)="resetSensors()">
+      Reset sensors
+    </ion-button>
+    <ion-button color="tertiary" (click)="toggleSensorData()">
+      Show sensor data
+    </ion-button>
+  </ion-item>
+  <ion-item *ngIf="config.showSensorSection&&showSensorData" lines="none">
+    <ion-label *ngFor="let s of sensors">
+      {{ s.getName() }}: {{ s.getValue() }}
+    </ion-label>
+  </ion-item>
+  <!--ion-item color="dark">
+    <ion-label>
+      {{ performanceInfo }}
+    </ion-label>
+  </ion-item-->
+</ion-content>

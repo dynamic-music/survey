@@ -1,18 +1,20 @@
-import { Component } from '@angular/core';
-import { Platform, LoadingController, Loading } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
+import { Component, HostListener } from '@angular/core';
+import { Platform, LoadingController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 
 import { DymoPlayer } from 'dymo-player';
 import { UIControl, SensorControl, uris, DymoGenerator } from 'dymo-core';
 
-import { ConfigService, PlayerConfig, DymoConfig } from './services/config.service';
-import { FetchService } from './services/fetch.service';
-import { InnoyicSliderWrapper } from './innoyic-slider-wrapper';
-import { AccelerationService } from './sensors/acceleration.service';
-import { OrientationService } from './sensors/orientation.service';
-import { GeolocationService } from './sensors/geolocation.service';
+import { ConfigService, PlayerConfig, DymoConfig } from '../services/config.service';
+import { FetchService } from '../services/fetch.service';
+import { InnoyicSliderWrapper } from '../innoyic-slider-wrapper';
+import { AccelerationService } from '../sensors/acceleration.service';
+import { OrientationService } from '../sensors/orientation.service';
+import { GeolocationService } from '../sensors/geolocation.service';
 
-import { LiveDymo } from './live-dymo';
+import { LiveDymo } from '../live-dymo';
+
+import * as _ from 'lodash';
 
 @Component({
   selector: 'semantic-player',
@@ -20,9 +22,9 @@ import { LiveDymo } from './live-dymo';
 })
 export class PlayerComponent {
 
-  private config: PlayerConfig = {};
-  private showSensorData: boolean;
-  private loading: Loading;
+  public config: PlayerConfig = {};
+  public showSensorData: boolean;
+  private loading: HTMLIonLoadingElement;
   private sensors: SensorControl[];
   private sliders: InnoyicSliderWrapper[];
   private toggles: UIControl[];
@@ -51,11 +53,16 @@ export class PlayerComponent {
       this.selectedDymo = this.config.dymos[0];
     }
     await this.loadOrCreateDymo();
-    setInterval(this.updatePerformanceInfo.bind(this), 500);
+    //setInterval(this.updatePerformanceInfo.bind(this), 500);
     this.player.getPlayingDymoUris().subscribe(d => this.numPlayingDymos = d.length);
     this.player.getAudioBank().getBufferCount().subscribe(n => this.numLoadedBuffers = n);
     if (this.config.autoplay) this.play();
   }
+  
+  /*@HostListener('document:click', ['$event'])
+  documentClick(_: MouseEvent) {
+    this.player.isPlaying() ? this.player.stop() : this.player.play();
+  }*/
 
   ////functions called from ui
 
@@ -100,11 +107,13 @@ export class PlayerComponent {
     this.showLoadingDymo();
     this.player = new DymoPlayer({
       useWorkers: true,
-      scheduleAheadTime: 0.3,
-      loadAheadTime: 1,
+      scheduleAheadTime: 1,
+      loadAheadTime: 3,
       fetcher: this.fetcher,
       ignoreInaudible: true,
-      loggingOn: true
+      loggingOn: true,
+      fadeLength: 0.03,
+      useTone: true
     });
     await this.player.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/');
     if (this.config.loadLiveDymo) {
@@ -114,8 +123,37 @@ export class PlayerComponent {
       await this.player.getDymoManager().loadIntoStore(this.selectedDymo.saveFile);
     }
     this.initSensorsAndUI();
+    this.sliders.forEach(s => {s.uiValue = _.random(1000); s.update()});
+    //await this.generateVersion();
+    /*console.log("preloading")
+    await this.preloadFirstTwoSections();
+    console.log("preloaded")*/
     this.hideLoading();
   }
+
+  /*private async generateVersion() {
+    const INSTRUMENT_COUNT = 17;
+    const store = this.player.getDymoManager().getStore();
+    await store.setParameter(null, uris.CONTEXT_URI+"material", _.random(2));
+    if (this.sliders.length > 0) {
+      const timeOfDay = this.sliders[0].uiValue/1000;
+      const partCount = _.round((1-(2*Math.abs(timeOfDay-0.5)))*9)+3;
+      console.log(timeOfDay, (1-Math.abs(timeOfDay-0.5)), partCount);
+      await store.setParameter(null, uris.CONTEXT_URI+"instruments",
+        _.sampleSize(_.range(INSTRUMENT_COUNT), partCount));
+      console.log("MATERIAL", await store.findParameterValue(null, uris.CONTEXT_URI+"material"));
+      console.log("INSTRUMENTS", await store.findParameterValue(null, uris.CONTEXT_URI+"instruments"));
+    }
+  }
+
+  private async preloadFirstTwoSections() {
+    const store = this.player.getDymoManager().getStore();
+    const sections = (await store.findParts((await store.findTopDymos())[0])).slice(0,2);
+    const dymos = _.flatten(await Promise.all(sections.map(s => store.findAllObjectsInHierarchy(s))));
+    const audio = (await Promise.all(dymos.map(d => store.getSourcePath(d)))).filter(s => s);
+    console.log(audio)
+    await this.player.getAudioBank().preloadBuffers(audio);
+  }*/
 
   private initSensorsAndUI() {
     if (this.platform.is('cordova')) {
@@ -162,18 +200,18 @@ export class PlayerComponent {
   }
 
   private hideLoading(): void {
-    this.loading.dismissAll();
+    this.loading.dismiss();
     this.loading = null;
   }
 
-  private initOrUpdateLoader(content: string): void {
+  private async initOrUpdateLoader(content: string) {
     if (!this.loading) {
-      this.loading = this.loadingController.create({
-        content: content
+      this.loading = await this.loadingController.create({
+        message: content
       });
       this.loading.present();
     } else {
-      this.loading.setContent(content);
+      this.loading.message = content;
     }
   }
 

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.github.semanticplayer" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>SemanticPlayer</name>
-    <description>Mobile and browser app that plays dynamic music objects.</description>
+    <name>Semantic Machine</name>
+    <description>Song that changes with time and weather.</description>
     <author email="f.thalmann@qmul.ac.uk" href="http://www.semanticaudio.ac.uk/">Semantic Audio, FAST@C4DM</author>
     <content src="index.html" />
     <access origin="*" />

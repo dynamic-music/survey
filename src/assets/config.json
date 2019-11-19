@@ -9,12 +9,12 @@
   "loadLiveDymo": false,
   "dymos": [
     {
-      "name": "constraints",
-      "saveFile": "assets/dymos/constraints/save.json"
-    },
-    {
       "name": "loop",
       "saveFile": "assets/dymos/loop/save.json"
+    },
+    {
+      "name": "constraints",
+      "saveFile": "assets/dymos/constraints/save.json"
     },
     {
       "name": "sensor",
@@ -23,6 +23,10 @@
     {
       "name": "example",
       "saveFile": "assets/dymos/example/save.json"
+    },
+    {
+      "name": "deadhead",
+      "saveFile": "assets/dymos/deadhead/save.json"
     },
     {
       "name": "machine",

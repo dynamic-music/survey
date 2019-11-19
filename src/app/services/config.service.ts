@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-import 'rxjs/add/operator/toPromise';
-
 export interface PlayerConfig {
   showTitle?: boolean,
   title?: string,
@@ -25,7 +23,7 @@ export class ConfigService {
 
   constructor(private http: Http) {}
 
-  getConfig(): Promise<PlayerConfig> {
+  async getConfig(): Promise<PlayerConfig> {
     return this.http.get('assets/config.json')
       .toPromise()
       .then(response => response.json())

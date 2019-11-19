@@ -4,10 +4,10 @@ export class InnoyicSliderWrapper {
 
   private SLIDER_MAX = 1000;
 
-  protected uiValue;
+  public uiValue;
 
   constructor(private uiControl: UIControl) {
-    uiControl.getUIValueObserver().subscribe(v => this.uiValue = this.SLIDER_MAX*v);
+    uiControl.getUIValueObserver().subscribe(v => {this.uiValue = this.SLIDER_MAX*v});
   }
 
   getName() {
