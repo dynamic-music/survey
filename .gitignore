@@ -23,6 +23,7 @@ www/
 node_modules/
 tmp/
 temp/
+hooks/
 platforms/
 plugins/
 plugins/android.json
@@ -37,3 +38,7 @@ package-lock.json
 
 generator/lib
 audio
+src/assets/dymos
+src/assets/ontologies
+machine
+resources

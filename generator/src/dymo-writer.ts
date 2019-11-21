@@ -1,6 +1,5 @@
 import 'isomorphic-fetch';
 import * as fs from 'fs';
-import * as _ from 'lodash';
 import { DymoGenerator, forAll, uris } from 'dymo-core';
 
 export interface DymoDefinition {
@@ -24,15 +23,11 @@ export class DymoWriter {
 
   private async createAndSaveDymo(definition: DymoDefinition): Promise<any> {
     //reset store and generator
-    let dymoGen = new DymoGenerator(false);
+    let dymoGen = new DymoGenerator(true);
     //run generatorFunction
     await definition.func(dymoGen)
     //save and update config
-    const jsonld = await dymoGen.getRenderingJsonld();
-    const topDymos = await dymoGen.getStore().findTopDymos();
-    //console.log(jsonld.split("dymo257").length - 1);
-    //console.log(topDymos, topDymos.map(d => jsonld.indexOf(d.replace(uris.CONTEXT_URI, ''))))
-    await this.writeJsonld(jsonld, definition.path, 'save.json');
+    await dymoGen.getRenderingJsonld().then(j => this.writeJsonld(j, definition.path, 'save.json'));
   }
 
   private writeJsonld(jsonld: string, path: string, filename: string): Promise<any> {

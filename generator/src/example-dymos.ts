@@ -1,12 +1,14 @@
+import * as fs from 'fs';
 import { DymoGenerator, forAll, uris } from 'dymo-core';
-import { DymoWriter, DymoDefinition } from './dymo-writer';
+import { DymoWriter } from './dymo-writer';
 
 
 new DymoWriter('src/assets/dymos/', 'src/assets/config.json').generateAndWriteDymos([
   {name: 'example', path: 'example/', func: createSimpleDymo},
   {name: 'constraints', path: 'constraints/', func: createConstraintsExample},
   {name: 'loop', path: 'loop/', func: createLoopTimestretchTest},
-  {name: 'sensor', path: 'sensor/', func: createSensorExample}
+  {name: 'sensor', path: 'sensor/', func: createSensorExample},
+  {name: 'deadhead', path: 'deadhead/', func: createDeadDymo}
 ]);
 
 
@@ -16,15 +18,6 @@ async function createSensorExample(dymoGen: DymoGenerator) {
   await addSensorSliderConstraint(dymoGen, "Amp", uris.ACCELEROMETER_X, "Amplitude");
   await addSensorSliderConstraint(dymoGen, "Rate", uris.ACCELEROMETER_Y, "PlaybackRate");
   await addSensorSliderConstraint(dymoGen, "Verb", uris.ACCELEROMETER_Z, "Reverb");
-}
-
-async function addSensorSliderConstraint(dymoGen: DymoGenerator, name: string, sensorType: string, param: string) {
-  let slider = await dymoGen.addControl(name, uris.SLIDER);
-  await dymoGen.addConstraint(
-    forAll("d").ofType(uris.DYMO).forAll("c").in(slider).assert(param+"(d) == c"));
-  let sensor = await dymoGen.addControl(undefined, sensorType);
-  await dymoGen.addConstraint(
-    forAll("d").ofType(uris.DYMO).forAll("c").in(sensor).assert(param+"(d) == c"));
 }
 
 async function createLoopTimestretchTest(dymoGen: DymoGenerator) {
@@ -70,13 +63,6 @@ async function createConstraintsExample(dymoGen: DymoGenerator) {
   await addConstraintSlider("Math.sin(Math.PI*a)", {"a":a}, dymoGen, true);
 }
 
-async function addConstraintSlider(expression: string, vars: {}, dymoGen: DymoGenerator, directed?: boolean) {
-  let slider = await dymoGen.addControl(expression, uris.SLIDER);
-  let constraint = forAll("c").in(slider);
-  Object.keys(vars).forEach(k => constraint = constraint.forAll(k).in(vars[k]));
-  await dymoGen.addConstraint(constraint.assert("c == "+expression, directed));
-}
-
 async function createMixDymo(dymoGen: DymoGenerator) {
   let mixDymoUri = await dymoGen.addDymo(null, null, uris.CONJUNCTION, uris.CONTEXT_URI+"mixdymo");
   await dymoGen.setDymoParameter(mixDymoUri, uris.LOOP, 1);
@@ -92,4 +78,51 @@ async function createMixDymo(dymoGen: DymoGenerator) {
     forAll("d").ofTypeWith(uris.DYMO, "LevelFeature(d) == 3")
       .forAll("t").in(tempoParam)
       .assert("TimeStretchRatio(d) == t/60*DurationFeature(d)"));
+}
+
+async function createDeadDymo(dymoGen: DymoGenerator) {
+  const SCALE_FACTOR = 100;
+  const mdsPath = 'generator/src/chroma_mds_10_2.json';
+  const points = JSON.parse(fs.readFileSync(mdsPath, 'utf8'));
+  const audioFiles = fs.readdirSync('src/assets/dymos/deadhead/audio_trimmed/')
+    .filter(f => f !== '.DS_Store');
+  const parent = await dymoGen.addDymo(null, null, uris.CONJUNCTION);
+  const parts = await Promise.all(audioFiles.map(a =>
+    dymoGen.addDymo(parent, 'audio_trimmed/'+a)));
+  parts.map(async (p,i) => {
+    await dymoGen.setDymoParameter(p, uris.AMPLITUDE, 0.1);
+    await dymoGen.setDymoParameter(p, uris.PAN, SCALE_FACTOR*points[i][0]);
+    await dymoGen.setDymoParameter(p, uris.DISTANCE, SCALE_FACTOR*points[i][1]);
+  });
+  await addGlobalSliderConstraint(dymoGen, 'Orientation', 'ListenerOrientation');
+  await addGlobalSliderConstraint(dymoGen, 'X Position', 'ListenerPositionX', '(0.5-s)*8');
+  await addGlobalSliderConstraint(dymoGen, 'Y Position', 'ListenerPositionY', '(0.5-s)*8');
+}
+
+async function addConstraintSlider(expression: string, vars: {}, dymoGen: DymoGenerator, directed?: boolean) {
+  let slider = await dymoGen.addControl(expression, uris.SLIDER);
+  let constraint = forAll("c").in(slider);
+  Object.keys(vars).forEach(k => constraint = constraint.forAll(k).in(vars[k]));
+  await dymoGen.addConstraint(constraint.assert("c == "+expression, directed));
+}
+
+async function addSensorSliderConstraint(dymoGen: DymoGenerator, name: string, sensorType: string, param: string) {
+  addSliderConstraint(dymoGen, name, param);
+  let sensor = await dymoGen.addControl(undefined, sensorType);
+  return dymoGen.addConstraint(getControlParamConstraint(sensor, param));
+}
+
+async function addGlobalSliderConstraint(dymoGen: DymoGenerator, name: string, param: string, expression = "s") {
+  let slider = await dymoGen.addControl(name, uris.SLIDER);
+  return dymoGen.addConstraint(forAll("s").in(slider).assert(param+"() == "+expression));
+}
+
+async function addSliderConstraint(dymoGen: DymoGenerator, name: string, param: string) {
+  let slider = await dymoGen.addControl(name, uris.SLIDER);
+  return dymoGen.addConstraint(getControlParamConstraint(slider, param));
+}
+
+function getControlParamConstraint(control: string, param: string) {
+  return forAll("d").ofType(uris.DYMO).forAll("c").in(control)
+    .assert(param+"(d) == c");
 }

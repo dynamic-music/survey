@@ -4,7 +4,8 @@
   <description></description>
   <author email="f.thalmann@qmul.ac.uk" href="http://www.semanticaudio.ac.uk/">Semantic Audio, FAST@C4DM</author>
   <content src="index.html" />
-    <access origin="*" />
+  <access origin="*" />
+  <allow-navigation href="http://ionic.local/*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
