@@ -10,7 +10,7 @@
   "dymos": [
     {
       "name": "semantic-machine",
-      "saveFile": "assets/dymo//save.json"
+      "saveFile": "assets/dymo/save.json"
     }
   ]
 }
