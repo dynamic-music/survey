@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { Platform, LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
@@ -106,54 +106,27 @@ export class PlayerComponent {
     this.resetUI();
     this.showLoadingDymo();
     this.player = new DymoPlayer({
-      useWorkers: true,
-      scheduleAheadTime: 1,
-      loadAheadTime: 3,
+      useWorkers: false,
+      scheduleAheadTime: 2,
+      loadAheadTime: 4,
       fetcher: this.fetcher,
       ignoreInaudible: true,
       loggingOn: true,
       fadeLength: 0.03,
-      useTone: true
+      useTone: true,
+      preloadBuffers: true
     });
     await this.player.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/');
     if (this.config.loadLiveDymo) {
       await new LiveDymo(new DymoGenerator(false, this.player.getDymoManager().getStore())).create();
       await this.player.getDymoManager().loadFromStore();
     } else if (this.selectedDymo) {
-      await this.player.getDymoManager().loadIntoStore(this.selectedDymo.saveFile);
+      await this.player.loadDymo(this.selectedDymo.saveFile);
     }
     this.initSensorsAndUI();
     this.sliders.forEach(s => {s.uiValue = _.random(1000); s.update()});
-    //await this.generateVersion();
-    /*console.log("preloading")
-    await this.preloadFirstTwoSections();
-    console.log("preloaded")*/
     this.hideLoading();
   }
-
-  /*private async generateVersion() {
-    const INSTRUMENT_COUNT = 17;
-    const store = this.player.getDymoManager().getStore();
-    await store.setParameter(null, uris.CONTEXT_URI+"material", _.random(2));
-    if (this.sliders.length > 0) {
-      const timeOfDay = this.sliders[0].uiValue/1000;
-      const partCount = _.round((1-(2*Math.abs(timeOfDay-0.5)))*9)+3;
-      console.log(timeOfDay, (1-Math.abs(timeOfDay-0.5)), partCount);
-      await store.setParameter(null, uris.CONTEXT_URI+"instruments",
-        _.sampleSize(_.range(INSTRUMENT_COUNT), partCount));
-      console.log("MATERIAL", await store.findParameterValue(null, uris.CONTEXT_URI+"material"));
-      console.log("INSTRUMENTS", await store.findParameterValue(null, uris.CONTEXT_URI+"instruments"));
-    }
-  }
-
-  private async preloadFirstTwoSections() {
-    const store = this.player.getDymoManager().getStore();
-    const sections = (await store.findParts((await store.findTopDymos())[0])).slice(0,2);
-    const dymos = _.flatten(await Promise.all(sections.map(s => store.findAllObjectsInHierarchy(s))));
-    const audio = (await Promise.all(dymos.map(d => store.getSourcePath(d)))).filter(s => s);
-    console.log(audio)
-    await this.player.getAudioBank().preloadBuffers(audio);
-  }*/
 
   private initSensorsAndUI() {
     if (this.platform.is('cordova')) {

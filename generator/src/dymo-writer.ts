@@ -23,7 +23,7 @@ export class DymoWriter {
 
   private async createAndSaveDymo(definition: DymoDefinition): Promise<any> {
     //reset store and generator
-    let dymoGen = new DymoGenerator();
+    let dymoGen = new DymoGenerator(true);
     //run generatorFunction
     await definition.func(dymoGen)
     //save and update config

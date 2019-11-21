@@ -1,6 +1,6 @@
 {
   "name": "semantic-player",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Florian Thalman",
   "homepage": "http://ionicframework.com/",
   "description": "A cross-platform mobile and web app that plays back dynamic music objects",
@@ -12,9 +12,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "generate": "tsc -p generator/ && node generator/lib/semantic-machine.js",
+    "generate": "tsc -p generator/ && node generator/lib/example-dymos.js",
     "extract": "tsc -p generator/ && node generator/lib/extractor.js",
-    "build-web": "ionic build --prod -- --base-href https://dynamic-music.github.io/semantic-machine/"
+    "build-web": "ionic build --prod -- --base-href https://dynamic-music.github.io/semantic-player/"
   },
   "dependencies": {
     "@angular/common": "^7.2.2",
@@ -41,7 +41,7 @@
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-whitelist": "^1.3.3",
     "core-js": "^2.5.4",
-    "dymo-player": "^0.3.5",
+    "dymo-player": "^0.4.0",
     "lodash": "^4.17.15",
     "rxjs": "~6.5.1",
     "stream": "0.0.2",

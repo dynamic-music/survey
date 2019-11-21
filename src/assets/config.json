@@ -9,6 +9,10 @@
   "loadLiveDymo": false,
   "dymos": [
     {
+      "name": "deadhead",
+      "saveFile": "assets/dymos/deadhead/save.json"
+    },
+    {
       "name": "loop",
       "saveFile": "assets/dymos/loop/save.json"
     },
@@ -23,10 +27,6 @@
     {
       "name": "example",
       "saveFile": "assets/dymos/example/save.json"
-    },
-    {
-      "name": "deadhead",
-      "saveFile": "assets/dymos/deadhead/save.json"
     },
     {
       "name": "machine",
