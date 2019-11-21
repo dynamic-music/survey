@@ -106,9 +106,9 @@ export class PlayerComponent {
     this.resetUI();
     this.showLoadingDymo();
     this.player = new DymoPlayer({
-      useWorkers: true,
-      scheduleAheadTime: 3,//5,
-      loadAheadTime: 5,//10,
+      useWorkers: false,
+      scheduleAheadTime: 4,
+      loadAheadTime: 8,
       fetcher: this.fetcher,
       ignoreInaudible: true,
       loggingOn: true,
@@ -134,6 +134,7 @@ export class PlayerComponent {
   private async generateVersion() {
     const INSTRUMENT_COUNT = 17;
     const store = this.player.getDymoManager().getStore();
+    await store.setParameter(null, uris.CONTEXT_URI+"vocals", _.random(2));
     await store.setParameter(null, uris.CONTEXT_URI+"material", _.random(2));
     if (this.sliders.length > 0) {
       const timeOfDay = this.sliders[0].uiValue/1000;
@@ -141,6 +142,7 @@ export class PlayerComponent {
       console.log(timeOfDay, (1-Math.abs(timeOfDay-0.5)), partCount);
       await store.setParameter(null, uris.CONTEXT_URI+"instruments",
         _.sampleSize(_.range(INSTRUMENT_COUNT), partCount));
+      console.log("VOCALS", await store.findParameterValue(null, uris.CONTEXT_URI+"vocals"));
       console.log("MATERIAL", await store.findParameterValue(null, uris.CONTEXT_URI+"material"));
       console.log("INSTRUMENTS", await store.findParameterValue(null, uris.CONTEXT_URI+"instruments"));
     }

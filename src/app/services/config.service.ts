@@ -23,7 +23,7 @@ export class ConfigService {
 
   constructor(private http: Http) {}
 
-  getConfig(): Promise<PlayerConfig> {
+  async getConfig(): Promise<PlayerConfig> {
     return this.http.get('assets/config.json')
       .toPromise()
       .then(response => response.json())

@@ -182,7 +182,8 @@ async function constrain(controlType: string, controlName: string, dymo: string,
 async function addSongSection(parent: string, searchName: string): Promise<string> {
   const section = await dymoGen.addDymo(parent, null, uris.CONJUNCTION);
   //add vocals
-  const vocals = await dymoGen.addDymo(parent, null, uris.DISJUNCTION);
+  const vocals = await dymoGen.addDymo(section, null,
+    await addParamDependentType(uris.SELECTION, uris.CONTEXT_URI+"vocals"));
   await addVocals(vocals, [[VOCALS, [[searchName]]]]);
   await dymoGen.setDymoParameter(vocals, uris.AMPLITUDE, 0.5);
   //add material sets

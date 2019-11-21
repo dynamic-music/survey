@@ -1,5 +1,7 @@
 {
   "name": "semantic machine",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
