@@ -19,6 +19,10 @@
       <ion-icon slot="icon-only" name="square"></ion-icon>
     </ion-button>
   </ion-item>
+  <!--canvas (mousedown)="onTap($event)" (mouseup)="onTap($event)" (mousemove)="onTap($event)"
+      width="100%">
+    <img src="assets/dymos/deadhead/clustering.jpg" />
+  </canvas-->
   <ion-list *ngIf="config.showDymoControls" color="dark">
     <ion-item *ngFor="let s of sliders" color="transp" lines="none">
       <ion-label item-left class="fixedLabel">{{s.getName()}}</ion-label>
@@ -32,6 +36,11 @@
     </ion-item>
     <ion-item *ngFor="let b of buttons" color="transp" lines="none">
       <ion-button size="large" (click)="b.update()">{{b.getName()}}</ion-button>
+    </ion-item>
+    <ion-item *ngFor="let a of areas" color="transp" lines="none">
+      <canvas width="800px" height="600px" [style.background-image]="'url('+ a.imageUrl +')'"
+        (mousedown)="a.onTap($event)" (mouseup)="a.onTap($event)" (mousemove)="a.onTap($event)">
+      </canvas>
     </ion-item>
   </ion-list>
   <ion-item *ngIf="config.showSensorSection" lines="none">
