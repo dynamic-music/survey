@@ -1,77 +1,92 @@
 import { UIControl } from 'dymo-core';
 
+export enum AreaControlType { X, Y, A }
+
 export class AreaControl {
 
-  private xControl: UIControl;
-  private yControl: UIControl;
-  public uiValue;
   public imageUrl: string;
-  private mouseDown = false;
+  private controls: UIControl[] = [];
+  private mouseDowns: boolean[] = [];
   private canvas: HTMLCanvasElement;
-  private currentX: number;
-  private currentY: number;
+  private currentCanvasValues: number[] = [];
+  private UPDATE_FUNCS = [
+    this.updateMousePosition.bind(this),()=>null, this.updateMouseAngle.bind(this)];
+  private previousY: number;
   
-  hasXControl() {
-    return this.xControl != null;
+  hasControl(type: AreaControlType) {
+    return this.controls[type] != null;
   }
   
-  hasYControl() {
-    return this.yControl != null;
-  }
-  
-  setXControl(control: UIControl) {
-    if (this.xControl == null) {
-      this.xControl = control;
-      this.xControl.getUIValueObserver().subscribe(x => this.updateX(x));
-      return true;
-    }
-  }
-  
-  setYControl(control: UIControl) {
-    if (this.yControl == null) {
-      this.yControl = control;
-      this.yControl.getUIValueObserver().subscribe(y => this.updateY(y));
+  setControl(type: AreaControlType, control: UIControl) {
+    if (this.controls[type] == null) {
+      this.controls[type] = control;
+      this.controls[type].getUIValueObserver()
+        .subscribe(v => this.updateControl(type, v));
       return true;
     }
   }
   
   onTap(event: MouseEvent) {
+    const button = event.ctrlKey ? 2 : event.button;
     if (event.type === "mousedown") {
-      this.mouseDown = true;
-      this.updateMousePosition(event);
+      this.mouseDowns[button] = true;
+      console.log(button, this.mouseDowns[button], event)
+      this.UPDATE_FUNCS[button](event);
+      this.previousY = event.offsetX;
     } else if (event.type === "mouseup") {
-      this.mouseDown = false;
-    } else if (event.type === "mousemove" && this.mouseDown) {
-      this.mouseDown = true;
-      this.updateMousePosition(event);
+      this.mouseDowns[button] = false;
+      this.previousY = null;
+    } else if (event.type === "mousemove" && this.mouseDowns[button]) {
+      this.UPDATE_FUNCS[button](event);
     }
   }
   
   private updateMousePosition(event: MouseEvent) {
     this.canvas = <HTMLCanvasElement>event.srcElement;
-    this.updateCanvas(event.offsetX, event.offsetY);
+    this.updateCanvas([AreaControlType.X, AreaControlType.Y],
+      [event.offsetX, event.offsetY]);
+    this.updateControls([AreaControlType.X, AreaControlType.Y],
+      [this.currentCanvasValues[AreaControlType.X]/this.canvas.width,
+      this.currentCanvasValues[AreaControlType.Y]/this.canvas.height]);
   }
   
-  private updateX(x: number) {
+  private updateMouseAngle(event: MouseEvent) {
+    this.canvas = <HTMLCanvasElement>event.srcElement;
+    const deltaY = this.previousY != null ? event.offsetY - this.previousY : 0;
+    const prevAngle = this.currentCanvasValues[AreaControlType.A];
+    const newAngle = (((((prevAngle ? prevAngle : 0)
+      + (deltaY/this.canvas.height*360*2))) % 360) + 360) % 360;//js modulo ;(
+    this.previousY = event.offsetY;
+    console.log(newAngle)
+    this.updateCanvas([AreaControlType.A], [newAngle]);
+    this.updateControls([AreaControlType.A], [(newAngle+90)/360]);
+  }
+  
+  private updateControl(type: AreaControlType, value: number) {
     if (this.canvas)
-      this.updateCanvas(x*this.canvas.width, this.currentY);
+      this.updateCanvas([type], [
+        type === AreaControlType.X ? value*this.canvas.width
+        : type === AreaControlType.Y ? value*this.canvas.height
+        : (value*360)-90]);
   }
   
-  private updateY(y: number) {
-    if (this.canvas)
-      this.updateCanvas(this.currentX, y*this.canvas.height);
-  }
-  
-  private updateCanvas(x: number, y: number) {
-    this.currentX = x;
-    this.currentY = y;
+  private updateCanvas(types: AreaControlType[], values: number[]) {
+    types.forEach((t,i) => this.currentCanvasValues[t] = values[i]);
+    const x = this.currentCanvasValues[AreaControlType.X];
+    const y = this.currentCanvasValues[AreaControlType.Y];
+    const a = this.currentCanvasValues[AreaControlType.A];
     const context = this.canvas.getContext('2d');
     context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    context.strokeStyle = 'red';
+    context.lineWidth = 4;
     context.fillStyle = 'red';
     context.beginPath();
     context.ellipse(x, y, 10, 10, 0, 0, 2 * Math.PI);
     context.fill();
-    this.update(x/this.canvas.width, y/this.canvas.height);
+    context.beginPath();
+    context.moveTo(x, y);
+    context.lineTo(x+20*Math.cos(a/180*Math.PI), y+20*Math.sin(a/180*Math.PI));
+    context.stroke();
   }
   
   setImage(imageUrl: string) {
@@ -79,19 +94,16 @@ export class AreaControl {
   }
 
   getName() {
-    return this.xControl.getName() + "/" + this.yControl.getName();
+    return this.controls.map(c => c.getName()).join("/");
   }
 
   getType() {
-    return this.xControl.getType() + "/" + this.yControl.getType();
+    return this.controls.map(c => c.getType()).join("/");
   }
 
-  private update(x: number, y: number) {
-    console.log(x, y)
-    this.xControl.uiValue = x;
-    this.yControl.uiValue = y;
-    this.xControl.update();
-    this.yControl.update();
+  private updateControls(types: AreaControlType[], values: number[]) {
+    types.forEach((t,i) => this.controls[t].uiValue = values[i]);
+    types.forEach(t => this.controls[t].update());
   }
 
 }

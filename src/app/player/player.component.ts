@@ -11,7 +11,7 @@ import { AccelerationService } from '../sensors/acceleration.service';
 import { OrientationService } from '../sensors/orientation.service';
 import { GeolocationService } from '../sensors/geolocation.service';
 import { InnoyicSliderWrapper } from '../controls/innoyic-slider-wrapper';
-import { AreaControl } from '../controls/area-control';
+import { AreaControl, AreaControlType } from '../controls/area-control';
 
 import { LiveDymo } from '../live-dymo';
 
@@ -108,8 +108,8 @@ export class PlayerComponent {
       this.showLoadingDymo();
       this.player = new DymoPlayer({
         useWorkers: false,
-        scheduleAheadTime: 3,
-        loadAheadTime: 6,
+        scheduleAheadTime: 4,
+        loadAheadTime: 8,
         fetcher: this.fetcher,
         ignoreInaudible: true,
         loggingOn: true,
@@ -157,19 +157,17 @@ export class PlayerComponent {
         case uris.SLIDER: this.sliders.push(new InnoyicSliderWrapper(control)); break;
         case uris.TOGGLE: this.toggles.push(control); break;
         case uris.BUTTON: this.buttons.push(control); break;
-        case uris.AREA_X: this.addOrSetAreaControl(control, null); break;
-        case uris.AREA_Y: this.addOrSetAreaControl(null, control); break;
+        case uris.AREA_X: this.addOrSetAreaControl(AreaControlType.X, control); break;
+        case uris.AREA_Y: this.addOrSetAreaControl(AreaControlType.Y, control); break;
+        case uris.AREA_A: this.addOrSetAreaControl(AreaControlType.A, control); break;
       }
     });
   }
   
-  private addOrSetAreaControl(xControl: UIControl, yControl: UIControl) {
-    if (xControl && !this.areas.find(a => a.setXControl(xControl))) {
+  private addOrSetAreaControl(type: AreaControlType, control: UIControl) {
+    if (!this.areas.find(a => a.setControl(type, control))) {
       this.areas.push(new AreaControl());
-      _.last(this.areas).setXControl(xControl);
-    } else if (yControl && !this.areas.find(a => a.setYControl(yControl))) {
-      this.areas.push(new AreaControl());
-      _.last(this.areas).setXControl(yControl);
+      _.last(this.areas).setControl(type, control);
     }
     _.last(this.areas).setImage("assets/dymos/deadhead/clustering.jpg");
   }
