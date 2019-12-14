@@ -5,20 +5,15 @@ import { SuperDymoStore, DymoGenerator, DymoTemplates, uris, forAll } from 'dymo
 import { DymoWriter } from './dymo-writer';
 import { SERVER_PATH } from './server';
 
+const LOCATION = "swindon,uk";
+const WEATHER_API_KEY = "http://api.openweathermap.org/data/2.5/weather?appid=3d77879a046ee9e970e66bb2f5c5200d&q="+LOCATION;
 let dymoGen: DymoGenerator;
 let store: SuperDymoStore;
 
-console.log('creating the semantic machine');
+console.log('creating the semantic machine 2');
 new DymoWriter('src/assets/dymo/', 'src/assets/config.json').generateAndWriteDymos([
   {name: 'semantic-machine', path: '', func: generate}
 ]);
-
-
-const VOCALS = ["G1Vox", "G2Vox", "G3Vox"]//, "Karaoke"];
-const G1_VOICES = ["G1Flutey","G1Strings","G1Drums","G1FWave","G1Piano","G1Synth","G1LSound"]; //7
-const G2_VOICES = ["G2SEnd","G2BVs","G2Bells","G2PTone","G2Drums2","G2DPad","G2Keys","G2Bass","G2SPad","G2Strings2"]; //10
-const G3_VOICES = ["G3Synth2","G3Drums3","G3Bass","G3BVs","G3Drums4","G3Kick","G3Noise","G3Pedal","G3Horn","G3Strings","G3Synth1"]; //11
-
 
 async function generate(gen: DymoGenerator) {
   dymoGen = gen;
@@ -27,40 +22,83 @@ async function generate(gen: DymoGenerator) {
 }
 
 async function initSemanticMachine(): Promise<any> {
-  var machine = await dymoGen.addDymo(null, null, uris.SEQUENCE);
+  var machine = await dymoGen.addDymo(null, null, uris.SEQUENCE, uris.CONTEXT_URI+'machine');
   await dymoGen.addRendering(machine);
 
   //add audio and features
-  const G1 = await addAudioWithFeatures(['audio/'], uris.CONJUNCTION);
-  const instsG1 = [];
-  /*const G2 = await addAudioWithFeatures(['audio/G2/'], uris.CONJUNCTION);
-  const G3 = await addAudioWithFeatures(['audio/G3/'], uris.CONJUNCTION);*/
-  //const G2 = await addAudioWithFeatures(['audio/G2/'], uris.CONJUNCTION);
-  //let verseVocals = await addAudioWithFeatures('audio/G1/', uris.DISJUNCTION);
-  //let chorusVocals = await addAudioWithFeatures('audio/G1/', uris.DISJUNCTION);
-  const allLoops = (await store.findParts(G1))//.concat(await store.findParts(G2)).concat(await store.findParts(G3));
+  const audioDymos = await addAudioWithFeatures(['audio2/'], uris.CONJUNCTION);
+  const allLoops = (await store.findParts(audioDymos))//.concat(await store.findParts(G2)).concat(await store.findParts(G3));
 
-  //TODO OF COURSE!!!!! GROUP DYMOS!!!!!!!!!
-  const vocals = await addSelectionOfSources([["Vox"]]);
-  const drums = await addSelectionOfSources([["Drums", "Kick"]]);
-  const bass = await addSelectionOfSources([["Bass", "BSynth"]]);
-  const pads = await addSelectionOfSources([["Bells", "PTone", "Pedal", "BVs"]]);
-  const ambient = await addSelectionOfSources([["SPad", "DPad", "Noise", "LSound"]]); //Horn
-  const keys = await addSelectionOfSources([["Keys", "Piano", "String", "Synth"]]);
+  const intros = await addSelectionOfSources([["I"]]);
+  const drumses = await addSelectionOfSources([["D"]]);
+  const sounds = await addSelectionOfSources([["A"]]);
+  //const basses = await addSelectionOfSources([["B"]]);
+  const percs = await addSelectionOfSources([["P"]]);
+  const synthes = await addSelectionOfSources([["S"]]);
   
-  await dymoGen.setDymoParameter(vocals, uris.DISTORTION, 1);
-  await dymoGen.setDymoParameter(vocals, uris.LOWPASS, 1);
+  const G1 = await addSelectionOfSources([["G1"]]);
 
-  //console.log(await store.findParts(drums), await store.findAllParents("http://tiny.cc/dymo-context/dymo10"))
+  //await mapSeries(["G1"], s => addSongSection(machine, s));
+  //await addSongSection(machine, "");
+  
+  //await store.addPart(machine, audioDymos);
+  
+  const intro = await dymoGen.addDymo(machine, null,
+    await addParamDependentType(uris.SELECTION, uris.CONTEXT_URI+"intro"));
+  await Promise.all((await store.findParts(intros)).map(l => store.addPart(intro, l)));
+  
+  const rampUri = await dymoGen.addRampControl(0, 14, 100);
+  const triggerParamUri = await store
+    .setControlParam(rampUri, uris.AUTO_CONTROL_TRIGGER, 0);
+  await dymoGen.addEvent(machine, triggerParamUri, 1);
+  await dymoGen.addConstraint(
+    forAll("g").in(...await store.findParts(drumses), ...await store.findParts(sounds))
+    .forAll("r").in(rampUri)
+    .assert("Amplitude(g) == r", true)
+  );
+  await dymoGen.addConstraint(
+    forAll("g").in(...await store.findParts(drumses), ...await store.findParts(sounds))
+    .forAll("r").in(rampUri)
+    .assert("Amplitude(g) == r", true)
+  );
+  
+  const build = await dymoGen.addDymo(machine, null, uris.CONJUNCTION);
+  await store.addPart(build, intro);
+  
+  const sound = await dymoGen.addDymo(build, null,
+    await addParamDependentType(uris.SELECTION, uris.CONTEXT_URI+"sound"));
+  await Promise.all((await store.findParts(sounds)).map(l => store.addPart(sound, l)));
+  
+  const drums = await dymoGen.addDymo(build, null,
+    await addParamDependentType(uris.MULTI_SELECTION, uris.CONTEXT_URI+"drums"));
+  await Promise.all((await store.findParts(drumses)).map(l => store.addPart(drums, l)));
+    
+  const main = await dymoGen.addDymo(machine, null, uris.CONJUNCTION);
+  await store.addPart(main, intro);
+  await store.addPart(main, sound);
+  await store.addPart(main, drums);
+  
+  const synths = await dymoGen.addDymo(main, null,
+    await addParamDependentType(uris.MULTI_SELECTION, uris.CONTEXT_URI+"synths"));
+  await Promise.all((await store.findParts(synthes)).map(l => store.addPart(synths, l)));
+  
+  const perc = await dymoGen.addDymo(main, null,
+    await addParamDependentType(uris.MULTI_SELECTION, uris.CONTEXT_URI+"perc"));
+  await Promise.all((await store.findParts(percs)).map(l => store.addPart(perc, l)));
+  
+  //await store.addPart(machine, main);
+  
+  const release = await dymoGen.addDymo(machine, null, uris.CONJUNCTION);
+  await store.addPart(release, intro);
+  await store.addPart(release, sound);
+  await store.addPart(release, perc);
+  
+  await store.addPart(machine, main);
+  await store.addPart(machine, release);
+  await store.addPart(machine, main);
+  await store.addPart(machine, intro);
 
-  //create sections
-  //const sectionNames = ["ntro.", "V1.", "C1", "BD", "C2", "utro"];
-  const sectionNames = ["I_1","I_2","V_1","V_2","V_3","C_1","C_2","BD_1","BD_2","C2_1","C2_2","C2_3","O_1"];
-  //const sectionStrings = ["ntro_1", "ntro_2", "V1_1", "V1_2", "V1_3", "V1_4", "V1_5", "V1_6", "C1", "BD", "C2", "utro"];
-  await mapSeries(sectionNames, s => addSongSection(machine, s));
-
-  await addConstrainedSlider("Time of Day", machine, "timeofday", "s");
-  await dymoGen.addCustomParameter(uris.CONTEXT_URI+"timeofday", machine);
+  /*await addConstrainedSlider("Time of Day", machine, "timeofday", "s");
 
   await addConstrainedSlider("Clouds", machine, "clouds", "s");
   await dymoGen.addCustomParameter(uris.CONTEXT_URI+"clouds", machine);
@@ -69,16 +107,7 @@ async function initSemanticMachine(): Promise<any> {
   );
   await dymoGen.addConstraint(forAll("m").in(machine)
     .forAll("l").in(drums).assert("Reverb(l) == 0.07*clouds(m)", true)
-  );
-
-  await addConstrainedSlider("Humidity", machine, "humidity", "s");
-  await dymoGen.addCustomParameter(uris.CONTEXT_URI+"humidity", machine);
-  await dymoGen.addConstraint(forAll("m").in(machine)
-    .forAll("l").in(pads).assert("Delay(l) == 0.4*clouds(m)", true)
-  );
-  await dymoGen.addConstraint(forAll("m").in(machine)
-    .forAll("l").in(pads).assert("Reverb(l) == 0.2*clouds(m)", true)
-  );
+  );*/
 
 
   let constraint = await createDistributionConstraint(
@@ -88,10 +117,10 @@ async function initSemanticMachine(): Promise<any> {
       //{"parameter": "brightness", "feature": "frequency"},
       //{"parameter": "loudness", "feature": "amplitude"},
       {"parameter": "flux", "feature": "spectralflux"},
-      /*{"parameter": "intensitity", "feature": "intensity"},
+      {"parameter": "intensitity", "feature": "intensity"},
       {"parameter": "activity", "feature": "avgonsetfreq"},
       //{"parameter": "mood", "feature": "tuning"},
-      //{"parameter": "tempoo", "feature": "tempo"}*/
+      //{"parameter": "tempoo", "feature": "tempo"}
     ]
   );
 
@@ -99,13 +128,13 @@ async function initSemanticMachine(): Promise<any> {
   await dymoGen.addConstraint(constraint);
 
   //add a constraint to keep the sum of all amplitudes constant
-  /*await dymoGen.addConstraint(await createSumConstraint(machine, "WeightSum", allLoops, "Weight"));
+  await dymoGen.addConstraint(await createSumConstraint(machine, "WeightSum", allLoops, "Weight"));
 
   await dymoGen.addConstraint(
     forAll("l").in(...allLoops)
     .forAll("m").in(machine)
     .assert("Amplitude(l) == 10 * Weight(l) / WeightSum(m)", true)
-  )*/
+  )
 
   //set voc amp
   //let vocalUris = (await store.findParts(verseVocals)).concat(await store.findParts(chorusVocals));
@@ -113,21 +142,17 @@ async function initSemanticMachine(): Promise<any> {
 
   //TEMPERATURE TO WARMTH
   await addConstrainedSlider("Temperature", machine, "coldness", "1-s");
-  await addWeatherControl(machine, "coldness", "return json['main']['temp']", "1-((c-273.16+5)/20)");
+  await addDataControl(machine, "coldness", "return json['main']['temp']", "1-((c-273.16+5)/20)");
   //WIND TO FLUX
   await addConstrainedSlider("Wind", machine, "flux", "1-s");
-  await addWeatherControl(machine, "flux", "return json['wind']['speed']", "1-(c/20)");
+  await addDataControl(machine, "flux", "return json['wind']['speed']", "1-(c/20)");
   //CLOUDS TO INTENSITY
-  /*await addConstrainedSlider("Intensity (Clouds)", machine, "intensitity");
+  await addConstrainedSlider("Intensity (Clouds)", machine, "intensitity");
   await addDataControl(machine, "intensitity", "return json['clouds']['all']", "c/100");
   //DAYTIME TO ACTIVITY
   await addConstrainedSlider("Activity (Time)", machine, "activity");
   await dymoGen.setDymoParameter(machine, uris.CONTEXT_URI+"activity", 0.5);
   //await addDataControl(machine, "activity", "return json['dt']", "1-Math.abs((new Date(c*1000).getHours()/12)-1);");*/
-  
-  await addWeatherControl(machine, "humidity", "return json['main']['humidity']", "c/100");
-  await addWeatherControl(machine, "clouds", "return json['clouds']['all']", "c/100");
-  await addWeatherControl(machine, "timeofday", "return new Date(Date.now()).getHours()", "c/24")
 
   /*await dymoGen.addCustomParameter(uris.CONTEXT_URI+"theme", machine, 0.5);
   await addConstrainedSlider("Theme", machine, "theme");
@@ -142,8 +167,6 @@ async function initSemanticMachine(): Promise<any> {
     .forAll("m").in(machine)
     .assert("Amplitude(g) == theme(m)", true)
   )*/
-
-  //await addConstrainedSlider("AMP", allLoops[2], "Amplitude");
   //await Promise.all(allLoops.map(l => map(uris.SLIDER, "A("+l+")", l, "Amplitude")));
 }
 
@@ -186,22 +209,21 @@ async function constrain(controlType: string, controlName: string, dymo: string,
 }
 
 async function addSongSection(parent: string, searchName: string): Promise<string> {
-  const section = await dymoGen.addDymo(parent, null, uris.CONJUNCTION);
+  //const section = await dymoGen.addDymo(parent, null, uris.CONJUNCTION);
   //add vocals
-  const vocals = await dymoGen.addDymo(section, null,
+  /*const vocals = await dymoGen.addDymo(section, null,
     await addParamDependentType(uris.SELECTION, uris.CONTEXT_URI+"vocals"));
   await addVocals(vocals, [[VOCALS, [[searchName]]]]);
-  await dymoGen.setDymoParameter(vocals, uris.AMPLITUDE, 0.5);
+  await dymoGen.setDymoParameter(vocals, uris.AMPLITUDE, 0.5);*/
   //add material sets
-  const instruments = await dymoGen.addDymo(section, null,
+  const instruments = await dymoGen.addDymo(parent, null,//section, null,
     await addParamDependentType(uris.SELECTION, uris.CONTEXT_URI+"material"));
-  const g1: [string[], string[][]] = [G1_VOICES, [[searchName], ["G1"]]];
-  const g2: [string[], string[][]] = [G2_VOICES, [[searchName], ["G2"]]];
-  const g3: [string[], string[][]] = [G3_VOICES, [[searchName], ["G3"]]];
-  await addInstruments(instruments, [g1, g2]);
-  await addInstruments(instruments, [g2, g3]);
-  await addInstruments(instruments, [g3, g1]);
-  return section;
+  console.log(instruments)
+  await addInstruments(instruments, [[[""], [[searchName], ["G1"]]]]);
+  await addInstruments(instruments, [[[""], [[searchName], ["G2"]]]]);
+  await addInstruments(instruments, [[[""], [[searchName], ["G3"]]]]);
+  await addInstruments(instruments, [[[""], [[searchName], ["G4"]]]]);
+  return instruments//section;
 }
 
 async function addVocals(parent: string, voiceNamesAndSearches: [string[], string[][]][]) {
@@ -222,20 +244,12 @@ async function addInstruments(parent: string, voiceNamesAndSearches: [string[], 
   const voices = await dymoGen.addDymo(parent, null,
     await addParamDependentType(uris.MULTI_SELECTION, uris.CONTEXT_URI+"instruments"));
   let duration;
-  await mapSeries(voiceNamesAndSearches, async ([names, searches]) =>
-    mapSeries(names, async v => {
-      const selection = (await getDymosWithSources(searches.concat([[v]])))[0];
-      if (selection) {
-        duration = await getDuration(await store.getSourcePath(selection));
-        await dymoGen.setDymoParameter(selection, uris.DURATION, duration);
-        await store.addPart(voices, selection);
-      } else {
-        await store.addPart(voices, emptyVoice);
-      }
-      //console.log(vs[1], v, selection, selection? duration: "");
-    })
-  );
-  /*console.log("VOICES", JSON.stringify(voiceNamesAndSearches, null, 2))
+  await Promise.all((await getDymosWithSources(voiceNamesAndSearches[0][1])).map(async a => {
+    duration = await getDuration(await store.getSourcePath(a));
+    await dymoGen.setDymoParameter(a, uris.DURATION, duration);
+    await store.addPart(voices, a);
+  }));
+  /*console.log("VOICES", JSON.stringify(voiceNamesAndSearches))
   console.log(voices)
   console.log(await store.findParts(voices))*/
   await dymoGen.setDymoParameter(emptyVoice, uris.DURATION, duration);
@@ -301,8 +315,8 @@ async function addSlider(sliderName: string) {
   return slider;
 }
 
-async function addWeatherControl(dymo: string, targetParam: string, jsonMap: string, dataFunc: string) {
-  let dataControl = await dymoGen.addWeatherControl(jsonMap);
+async function addDataControl(dymo: string, targetParam: string, jsonMap: string, dataFunc: string) {
+  let dataControl = await dymoGen.addDataControl(WEATHER_API_KEY, jsonMap);
   await dymoGen.addConstraint(
     forAll("c").in(dataControl).forAll("d").in(dymo).assert(targetParam+"(d) == "+dataFunc, true));
 }

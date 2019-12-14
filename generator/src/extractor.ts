@@ -1,13 +1,16 @@
 import * as fs from 'fs';
 import { exec } from 'child_process';
 
-const audiodirs = ['audio/']//G1/', 'audio/G2/'];
+const audiodirs = ['audio2/']//G1/', 'audio/G2/'];
 
 const features = [
   'vamp:vamp-example-plugins:spectralcentroid:logcentroid',
   'vamp:bbc-vamp-plugins:bbc-spectral-flux:spectral-flux',
   'vamp:bbc-vamp-plugins:bbc-intensity:intensity',
-  'vamp:bbc-vamp-plugins:bbc-rhythm:avg-onset-freq'
+  'vamp:bbc-vamp-plugins:bbc-rhythm:avg-onset-freq',
+  'vamp:nnls-chroma:chordino:simplechord',
+  'vamp:bbc-vamp-plugins:bbc-energy:rmsenergy',
+  'vamp:mtg-melodia:melodia:melody'
 ];
 
 audiodirs.forEach(async d => {
@@ -19,10 +22,12 @@ audiodirs.forEach(async d => {
   await mapSeries(features, feature => {
     console.log('extracting', feature);
     return mapSeries(wavs, async f => {
-      await execute('sonic-annotator -d '+feature+' "'+d+f+'" -w jams --force');
-      const j = (d+f).replace('.wav', '');
       const fname = feature.slice(feature.lastIndexOf(':')+1)//.replace(/-/g, '');
-      return execute('mv "'+j+'.json" "'+j+'_'+fname+'.json"');
+      const j = (d+f).replace('.wav', '');
+      if (!fs.existsSync(j+'_'+fname+'.json')) {
+        await execute('sonic-annotator -d '+feature+' "'+d+f+'" -w jams --force');
+        return execute('mv "'+j+'.json" "'+j+'_'+fname+'.json"');
+      }
     });
   });
 });

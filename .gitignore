@@ -38,7 +38,8 @@ package-lock.json
 
 generator/lib
 audio
-src/assets/dymos
+audio2
+src/assets/dymo
 src/assets/ontologies
 machine
 resources
