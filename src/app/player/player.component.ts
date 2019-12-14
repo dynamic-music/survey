@@ -151,11 +151,11 @@ export class PlayerComponent {
     const timeOfDay = await store.findParameterValue(null, uris.CONTEXT_URI+"timeofday");
     const activity = 1-(2*Math.abs(timeOfDay-0.5)); //range [0,1]
     const partCount = _.round((activity*9)+3); //range [3,12]
-    console.log(timeOfDay, activity, partCount);
     await store.setParameter(null, uris.CONTEXT_URI+"instruments",
       _.sampleSize(_.range(INSTRUMENT_COUNT), partCount));
     console.log("VOCALS", await store.findParameterValue(null, uris.CONTEXT_URI+"vocals"));
     console.log("MATERIAL", await store.findParameterValue(null, uris.CONTEXT_URI+"material"));
+    console.log("PARTS", partCount);
     console.log("INSTRUMENTS", await store.findParameterValue(null, uris.CONTEXT_URI+"instruments"));
   }
   

@@ -17,6 +17,7 @@ import { PlayerComponent } from './player/player.component';
 
 import { ConfigService } from './services/config.service';
 import { FetchService } from './services/fetch.service';
+import { OverpassService } from './services/overpass.service';
 import { AccelerationService } from './sensors/acceleration.service';
 import { OrientationService } from './sensors/orientation.service';
 import { GeolocationService } from './sensors/geolocation.service';
@@ -40,6 +41,7 @@ import { GeolocationService } from './sensors/geolocation.service';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ConfigService,
     FetchService,
+    OverpassService,
     AccelerationService,
     OrientationService,
     GeolocationService

@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as _ from 'lodash';
 import { DymoGenerator, forAll, uris } from 'dymo-core';
 import { DymoWriter } from './dymo-writer';
 
@@ -81,22 +82,36 @@ async function createMixDymo(dymoGen: DymoGenerator) {
 }
 
 async function createDeadDymo(dymoGen: DymoGenerator) {
-  const SCALE_FACTOR = 100;
-  const mdsPath = 'generator/src/chroma_mds_10_2.json';
-  const points = JSON.parse(fs.readFileSync(mdsPath, 'utf8'));
+  const SCALE_FACTOR = 7;
+  const mdsPath = 'generator/src/mfcc_mds_128*0.5sec_mds.json';
+  let points: number[][] = JSON.parse(fs.readFileSync(mdsPath, 'utf8'));
+  points = normalizeXY(<[number,number][]>points);
+  points = points.map(p => p.map(v => SCALE_FACTOR*2*(v-0.5)));
   const audioFiles = fs.readdirSync('src/assets/dymos/deadhead/audio_trimmed/')
     .filter(f => f !== '.DS_Store');
   const parent = await dymoGen.addDymo(null, null, uris.CONJUNCTION);
   const parts = await Promise.all(audioFiles.map(a =>
     dymoGen.addDymo(parent, 'audio_trimmed/'+a)));
   parts.map(async (p,i) => {
-    await dymoGen.setDymoParameter(p, uris.AMPLITUDE, 0.1);
-    await dymoGen.setDymoParameter(p, uris.PAN, SCALE_FACTOR*points[i][0]);
-    await dymoGen.setDymoParameter(p, uris.DISTANCE, SCALE_FACTOR*points[i][1]);
+    await dymoGen.setDymoParameter(p, uris.AMPLITUDE, 0.2);
+    await dymoGen.setDymoParameter(p, uris.PAN, points[i][0]);
+    await dymoGen.setDymoParameter(p, uris.DISTANCE, points[i][1]);
   });
-  await addGlobalSliderConstraint(dymoGen, 'Orientation', 'ListenerOrientation');
-  await addGlobalSliderConstraint(dymoGen, 'X Position', 'ListenerPositionX', '(0.5-s)*8');
-  await addGlobalSliderConstraint(dymoGen, 'Y Position', 'ListenerPositionY', '(0.5-s)*8');
+  /*await addGlobalControlConstraint(dymoGen, 'Orientation', uris.SLIDER, 'ListenerOrientation');
+  await addGlobalControlConstraint(dymoGen, 'X Position', uris.SLIDER, 'ListenerPositionX', '(c-0.5)*8');
+  await addGlobalControlConstraint(dymoGen, 'Y Position', uris.SLIDER, 'ListenerPositionY', '(c-0.5)*8');*/
+  await addGlobalControlConstraint(dymoGen, null, uris.AREA_X, 'ListenerPositionX', '(c-0.5)*'+(2*SCALE_FACTOR));
+  await addGlobalControlConstraint(dymoGen, null, uris.AREA_Y, 'ListenerPositionY', '(0.5-c)*'+(2*SCALE_FACTOR));
+  await addGlobalControlConstraint(dymoGen, null, uris.AREA_A, 'ListenerOrientation');
+}
+
+function normalizeXY(points: [number,number][]): [number,number][] {
+  const minX = _.min(points.map(p => p[0]));
+  const maxX = _.max(points.map(p => p[0]));
+  const minY = _.min(points.map(p => p[1]));
+  const maxY = _.max(points.map(p => p[1]));
+  return points.map<[number,number]>(([x,y]) =>
+    [(x-minX)/(maxX-minX), (y-minY)/(maxY-minY)]);
 }
 
 async function addConstraintSlider(expression: string, vars: {}, dymoGen: DymoGenerator, directed?: boolean) {
@@ -112,9 +127,10 @@ async function addSensorSliderConstraint(dymoGen: DymoGenerator, name: string, s
   return dymoGen.addConstraint(getControlParamConstraint(sensor, param));
 }
 
-async function addGlobalSliderConstraint(dymoGen: DymoGenerator, name: string, param: string, expression = "s") {
-  let slider = await dymoGen.addControl(name, uris.SLIDER);
-  return dymoGen.addConstraint(forAll("s").in(slider).assert(param+"() == "+expression));
+async function addGlobalControlConstraint(dymoGen: DymoGenerator, name: string,
+    type: string, param: string, expression = "c") {
+  let slider = await dymoGen.addControl(name, type);
+  return dymoGen.addConstraint(forAll("c").in(slider).assert(param+"() == "+expression));
 }
 
 async function addSliderConstraint(dymoGen: DymoGenerator, name: string, param: string) {
