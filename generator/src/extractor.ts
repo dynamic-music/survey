@@ -1,21 +1,22 @@
 import * as fs from 'fs';
 import { exec } from 'child_process';
 
-const audiodirs = ['audio2/']//G1/', 'audio/G2/'];
+const audiodirs = ['audio/']//G1/', 'audio/G2/'];
 
 const features = [
   'vamp:vamp-example-plugins:spectralcentroid:logcentroid',
   'vamp:bbc-vamp-plugins:bbc-spectral-flux:spectral-flux',
-  'vamp:bbc-vamp-plugins:bbc-intensity:intensity',
-  'vamp:bbc-vamp-plugins:bbc-rhythm:avg-onset-freq',
-  'vamp:nnls-chroma:chordino:simplechord',
-  'vamp:bbc-vamp-plugins:bbc-energy:rmsenergy',
-  'vamp:mtg-melodia:melodia:melody'
+  //'vamp:bbc-vamp-plugins:bbc-intensity:intensity',
+  //'vamp:bbc-vamp-plugins:bbc-rhythm:avg-onset-freq',
+  //'vamp:nnls-chroma:chordino:simplechord',
+  //'vamp:bbc-vamp-plugins:bbc-energy:rmsenergy',
+  //'vamp:mtg-melodia:melodia:melody'
 ];
 
 audiodirs.forEach(async d => {
   console.log('converting to wav')
-  const m4as = fs.readdirSync(d).filter(f => f.indexOf('.m4a') >= 0);
+  const m4as = fs.readdirSync(d).filter(f =>
+    f.indexOf('.m4a') >= 0 && !fs.existsSync(d+f.replace('.m4a','.wav')));
   await Promise.all(m4as.map(f =>
     execute('ffmpeg -y -i "'+d+f+'" "'+(d+f).replace('.m4a', '.wav')+'"')));
   const wavs = fs.readdirSync(d).filter(f => f.indexOf('.wav') >= 0);

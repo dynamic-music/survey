@@ -26,7 +26,7 @@
   <ion-list *ngIf="config.showDymoControls" color="dark">
     <ion-item *ngFor="let s of sliders" color="transp" lines="none">
       <ion-label item-left class="fixedLabel">{{s.getName()}}</ion-label>
-      <ion-range item-content size="large" color="warning" min="0" max="1000" step="1" [(ngModel)]="s.uiValue" (ionChange)="s.update()">
+      <ion-range [class.disableRange]="true" item-content size="large" color="warning" min="0" max="1000" step="1" [(ngModel)]="s.uiValue" (ionChange)="s.update()">
         <!--ion-label range-left class="fixedLabel">{{s.getName()}}</ion-label-->
       </ion-range>
     </ion-item>

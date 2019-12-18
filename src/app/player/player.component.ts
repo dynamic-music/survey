@@ -8,11 +8,12 @@ import { UIControl, SensorControl, uris, DymoGenerator } from 'dymo-core';
 
 import { ConfigService, PlayerConfig, DymoConfig } from '../services/config.service';
 import { FetchService } from '../services/fetch.service';
-import { InnoyicSliderWrapper } from '../innoyic-slider-wrapper';
+import { InnoyicSliderWrapper } from '../controls/innoyic-slider-wrapper';
 import { AccelerationService } from '../sensors/acceleration.service';
 import { OrientationService } from '../sensors/orientation.service';
 import { GeolocationService } from '../sensors/geolocation.service';
 import { OverpassService } from '../services/overpass.service';
+import { WeatherService } from '../services/weather.service';
 
 import { LiveDymo } from '../live-dymo';
 
@@ -46,7 +47,8 @@ export class PlayerComponent {
     private acceleration: AccelerationService,
     private orientation: OrientationService,
     private geolocation: GeolocationService,
-    private overpass: OverpassService
+    private overpass: OverpassService,
+    private weather: WeatherService
   ) { }
 
   async ngOnInit() {
@@ -116,7 +118,7 @@ export class PlayerComponent {
       fetcher: this.fetcher,
       ignoreInaudible: true,
       loggingOn: true,
-      fadeLength: 0.03,
+      fadeLength: 0.04,
       useTone: true
     });
     await this.player.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/');
@@ -141,22 +143,39 @@ export class PlayerComponent {
 
   private async generateVersion() {
     const amenities = await this.overpass.getShopsAndAmenitiesNearby(...this.location);
-    console.log(amenities);
-    const material = amenities.length > 50 ? 0 : amenities.length > 10 ? 1 : 2;
-    const INSTRUMENT_COUNT = 17;
+    const weather = await this.weather.getWeatherNearby(...this.location);
+    console.log(amenities, weather);
+    const primary = amenities.length > 200 ? 2
+      : amenities.length > 60 ? 1
+      : amenities.length > 10 ? 0
+      : 3;
+    const secondary = weather.main === "Clear" ? 2
+      : weather.main === "Clouds" ? 1
+      : weather.main === "Rain" || weather.main === "Drizzle" ? 0
+      : 3;
+    
+    const MAX_INSTR_COUNT = 12;
+    const MAX_PLAYING = 18;
+    const MIN_PLAYING = 4;
     const store = this.player.getDymoManager().getStore();
-    console.log("set")
-    await store.setParameter(null, uris.CONTEXT_URI+"vocals", material);
-    await store.setParameter(null, uris.CONTEXT_URI+"material", material);
+    await store.setParameter(null, uris.CONTEXT_URI+"vocals", primary);
+    await store.setParameter(null, uris.CONTEXT_URI+"primarymaterial", primary);
+    await store.setParameter(null, uris.CONTEXT_URI+"secondarymaterial", secondary);
     const timeOfDay = await store.findParameterValue(null, uris.CONTEXT_URI+"timeofday");
     const activity = 1-(2*Math.abs(timeOfDay-0.5)); //range [0,1]
-    const partCount = _.round((activity*9)+3); //range [3,12]
-    await store.setParameter(null, uris.CONTEXT_URI+"instruments",
-      _.sampleSize(_.range(INSTRUMENT_COUNT), partCount));
+    const partCount = _.round((activity*(MAX_PLAYING-MIN_PLAYING))+MIN_PLAYING); //range [min,max]
+    const primaryCount = _.round(partCount*2/3);
+    const secondaryCount = _.round(partCount*1/3);
+    await store.setParameter(null, uris.CONTEXT_URI+"primaryinstruments",
+      _.sampleSize(_.range(MAX_INSTR_COUNT), primaryCount));
+    await store.setParameter(null, uris.CONTEXT_URI+"secondaryinstruments",
+      _.sampleSize(_.range(MAX_INSTR_COUNT), secondaryCount));
     console.log("VOCALS", await store.findParameterValue(null, uris.CONTEXT_URI+"vocals"));
-    console.log("MATERIAL", await store.findParameterValue(null, uris.CONTEXT_URI+"material"));
+    console.log("PRIMARY", await store.findParameterValue(null, uris.CONTEXT_URI+"primarymaterial"));
+    console.log("SECONDARY", await store.findParameterValue(null, uris.CONTEXT_URI+"secondarymaterial"));
     console.log("PARTS", partCount);
-    console.log("INSTRUMENTS", await store.findParameterValue(null, uris.CONTEXT_URI+"instruments"));
+    console.log("PRIM_INST", await store.findParameterValue(null, uris.CONTEXT_URI+"primaryinstruments"));
+    console.log("SEC_INST", await store.findParameterValue(null, uris.CONTEXT_URI+"secondaryinstruments"));
   }
   
   private async generateVersion2() {

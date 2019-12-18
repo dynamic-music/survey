@@ -27,7 +27,10 @@ export class DymoWriter {
     //run generatorFunction
     await definition.func(dymoGen)
     //save and update config
-    await dymoGen.getRenderingJsonld().then(j => this.writeJsonld(j, definition.path, 'save.json'));
+    console.log('getting jsonld');
+    const jsonld = await dymoGen.getRenderingJsonld();
+    console.log('writing file');
+    await this.writeJsonld(jsonld, definition.path, 'save.json');
   }
 
   private writeJsonld(jsonld: string, path: string, filename: string): Promise<any> {

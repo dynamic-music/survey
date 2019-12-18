@@ -37,3 +37,7 @@ ion-item, ion-list {
   --ion-color-shade: transparent;
   --ion-color-tint: transparent;
 }
+
+.disableRange {
+    pointer-events: none;
+}
