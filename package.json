@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.13.8",
-    "@angular-devkit/build-angular": "~0.13.8",
+    "@angular-devkit/build-angular": "^0.803.20",
     "@angular-devkit/core": "~7.3.8",
     "@angular-devkit/schematics": "~7.3.8",
     "@angular/cli": "~7.3.8",
@@ -76,7 +76,8 @@
     "ts-node": "~8.3.0",
     "tslint": "~5.17.0",
     "typescript": "~3.1.6",
-    "wav-file-info": "0.0.8"
+    "wav-file-info": "0.0.8",
+    "webpack": "^4.41.4"
   },
   "cordova": {
     "plugins": {
