@@ -141,7 +141,10 @@ async function initSemanticMachine(): Promise<any> {
   
   await addWeatherControl(machine, "humidity", "return json['main']['humidity']", "c/100");
   await addWeatherControl(machine, "clouds", "return json['clouds']['all']", "c/100");
-  await addWeatherControl(machine, "timeofday", "return new Date(Date.now()).getHours()", "c/24")
+  await addWeatherControl(machine, "timeofday", "return new Date(Date.now()).getHours()", "c/24");
+  
+  await addConstrainedSlider("Remoteness", machine, "remoteness", "s");
+  await dymoGen.addCustomParameter(uris.CONTEXT_URI+"remoteness", machine);
 
   /*await dymoGen.addCustomParameter(uris.CONTEXT_URI+"theme", machine, 0.5);
   await addConstrainedSlider("Theme", machine, "theme");

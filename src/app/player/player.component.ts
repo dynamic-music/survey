@@ -143,11 +143,12 @@ export class PlayerComponent {
 
   private async generateVersion() {
     const amenities = await this.overpass.getShopsAndAmenitiesNearby(...this.location);
+    const remoteness = 1-(Math.min(20, Math.sqrt(amenities.length))/20); //[0,400]=>[0,1]
     const weather = await this.weather.getWeatherNearby(...this.location);
     console.log(amenities, weather);
-    const primary = amenities.length > 200 ? 2
-      : amenities.length > 60 ? 1
-      : amenities.length > 10 ? 0
+    const primary = remoteness < 0.3 ? 2
+      : remoteness < 0.6 ? 1
+      : remoteness < 0.85 ? 0
       : 3;
     const secondary = weather.main === "Clear" ? 2
       : weather.main === "Clouds" ? 1
@@ -158,6 +159,7 @@ export class PlayerComponent {
     const MAX_PLAYING = 18;
     const MIN_PLAYING = 4;
     const store = this.player.getDymoManager().getStore();
+    await store.setParameter(null, uris.CONTEXT_URI+"remoteness", remoteness);
     await store.setParameter(null, uris.CONTEXT_URI+"vocals", primary);
     await store.setParameter(null, uris.CONTEXT_URI+"primarymaterial", primary);
     await store.setParameter(null, uris.CONTEXT_URI+"secondarymaterial", secondary);
