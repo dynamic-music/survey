@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-const API_URL = "http://overpass-api.de/api/interpreter?data=[out:json];";
+const API_URL = "https://overpass-api.de/api/interpreter?data=[out:json];";
 const DELTA = 0.004;
 
 interface OverpassObject {
