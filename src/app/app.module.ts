@@ -7,6 +7,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { DeviceMotion } from '@ionic-native/device-motion/ngx';
 import { DeviceOrientation } from '@ionic-native/device-orientation/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -36,6 +37,7 @@ import { GeolocationService } from './sensors/geolocation.service';
   providers: [
     StatusBar,
     SplashScreen,
+    AndroidPermissions,
     DeviceMotion,
     DeviceOrientation,
     Geolocation,

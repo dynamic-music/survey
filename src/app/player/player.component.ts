@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Platform, LoadingController } from '@ionic/angular';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -44,6 +45,7 @@ export class PlayerComponent {
     private loadingController: LoadingController,
     private configService: ConfigService,
     private fetcher: FetchService,
+    private androidPermissions: AndroidPermissions,
     private acceleration: AccelerationService,
     private orientation: OrientationService,
     private geolocation: GeolocationService,
@@ -52,6 +54,16 @@ export class PlayerComponent {
   ) { }
 
   async ngOnInit() {
+    console.log("waiting...")
+    await this.platform.ready();
+    if (this.platform.is('cordova')) {
+      const permission = await this.androidPermissions
+        .checkPermission(this.androidPermissions.PERMISSION.ACCESS_FINE_LOCATION);
+      console.log("HASPERMISSION", permission.hasPermission);
+      if (!permission.hasPermission) await this.androidPermissions
+        .requestPermission(this.androidPermissions.PERMISSION.ACCESS_FINE_LOCATION);
+    }
+    console.log("ready")
     this.config = await this.configService.getConfig();
     if (this.config.loadLiveDymo) {
       this.config.showDymoSelector = false;
@@ -129,7 +141,7 @@ export class PlayerComponent {
       await this.player.getDymoManager().loadIntoStore(this.selectedDymo.saveFile);
     }
     this.initOrUpdateLoader('Loading context...');
-    this.location = await this.geolocation.watchPosition.pipe(take(1)).toPromise();
+    this.location = await this.geolocation.getCurrentPosition();
     console.log("LOCATION", this.location)
     await this.initSensorsAndUI();
     //this.sliders.forEach(s => {s.uiValue = _.random(1000); s.update()});
