@@ -278,7 +278,7 @@ export class PlayerComponent {
     }
   }
 
-  private hideLoading(): void {
+  private async hideLoading() {
     if (this.loading) (await this.loading).dismiss();
     this.loading = null;
   }
