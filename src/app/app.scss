@@ -41,3 +41,15 @@ ion-item, ion-list {
 .disableRange {
     pointer-events: none;
 }
+
+ion-loading.transp-loading {
+  .loading-wrapper {
+    background: rgba(0,0,0,0.7);
+    color: #ffffff;
+    box-shadow: none;
+  }
+}
+
+.transp-modal {
+    --background: transparent !important;
+}

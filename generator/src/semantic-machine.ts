@@ -59,9 +59,6 @@ async function initSemanticMachine(): Promise<any> {
   const ambient = await addSelectionOfSources([["SPad", "DPad", "Noise", "LSound"]]); //Horn
   const keys = await addSelectionOfSources([["Keys", "Piano", "String", "Synth"]]);
   
-  await dymoGen.setDymoParameter(vocals, uris.DISTORTION, 1);
-  await dymoGen.setDymoParameter(vocals, uris.LOWPASS, 1);
-
   //console.log(await store.findParts(drums), await store.findAllParents("http://tiny.cc/dymo-context/dymo10"))
 
   //create sections
@@ -77,19 +74,22 @@ async function initSemanticMachine(): Promise<any> {
   await addConstrainedSlider("Clouds", machine, "clouds", "s");
   await dymoGen.addCustomParameter(uris.CONTEXT_URI+"clouds", machine);
   await dymoGen.addConstraint(forAll("m").in(machine)
-    .forAll("l").in(drums).assert("Delay(l) == 0.3*clouds(m)", true)
+    .forAll("l").in(drums,ambient).assert("Delay(l) == 0.3*clouds(m)", true)
   );
   await dymoGen.addConstraint(forAll("m").in(machine)
-    .forAll("l").in(drums).assert("Reverb(l) == 0.07*clouds(m)", true)
+    .forAll("l").in(drums).assert("Reverb(l) == 0.1*clouds(m)", true)
   );
 
   await addConstrainedSlider("Humidity", machine, "humidity", "s");
   await dymoGen.addCustomParameter(uris.CONTEXT_URI+"humidity", machine);
   await dymoGen.addConstraint(forAll("m").in(machine)
-    .forAll("l").in(pads).assert("Delay(l) == 0.4*clouds(m)", true)
+    .forAll("l").in(pads).assert("Delay(l) == 0.4*humidity(m)", true)
   );
   await dymoGen.addConstraint(forAll("m").in(machine)
-    .forAll("l").in(pads).assert("Reverb(l) == 0.2*clouds(m)", true)
+    .forAll("l").in(pads,keys).assert("Reverb(l) == 0.2*humidity(m)", true)
+  );
+  await dymoGen.addConstraint(forAll("m").in(machine)
+    .forAll("l").in(bass).assert("Distortion(l) == 0.1*humidity(m)", true)
   );
 
 

@@ -15,6 +15,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PlayerComponent } from './player/player.component';
+import { InfoComponent } from './player/info.component';
 
 import { ConfigService } from './services/config.service';
 import { FetchService } from './services/fetch.service';
@@ -25,8 +26,8 @@ import { OrientationService } from './sensors/orientation.service';
 import { GeolocationService } from './sensors/geolocation.service';
 
 @NgModule({
-  declarations: [AppComponent, PlayerComponent],
-  entryComponents: [],
+  declarations: [AppComponent, PlayerComponent, InfoComponent],
+  entryComponents: [InfoComponent],
   imports: [
     FormsModule,
     BrowserModule,

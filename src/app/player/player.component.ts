@@ -1,8 +1,7 @@
-import { Component, HostListener } from '@angular/core';
-import { Platform, LoadingController } from '@ionic/angular';
+import { Component } from '@angular/core';
+import { Platform, LoadingController, ModalController } from '@ionic/angular';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 import { DymoPlayer } from 'dymo-player';
 import { UIControl, SensorControl, uris, DymoGenerator } from 'dymo-core';
@@ -16,6 +15,8 @@ import { GeolocationService } from '../sensors/geolocation.service';
 import { OverpassService } from '../services/overpass.service';
 import { WeatherService } from '../services/weather.service';
 
+import { InfoComponent } from './info.component';
+
 import { LiveDymo } from '../live-dymo';
 
 import * as _ from 'lodash';
@@ -26,23 +27,26 @@ import * as _ from 'lodash';
 })
 export class PlayerComponent {
 
-  public config: PlayerConfig = {};
-  public showSensorData: boolean;
+  protected config: PlayerConfig = {};
+  protected showSensorData: boolean;
   private loading: HTMLIonLoadingElement;
   private sensors: SensorControl[];
   private sliders: InnoyicSliderWrapper[];
   private toggles: UIControl[];
   private buttons: UIControl[];
-  private performanceInfo: string;
+  protected performanceInfo: string;
   private numPlayingDymos: number;
   private numLoadedBuffers: number;
   private location: [number, number];
+  protected contextName: string = "";
+  protected contextIcon: string;
 
   player: DymoPlayer;
   selectedDymo: DymoConfig;
 
   constructor(private platform: Platform,
     private loadingController: LoadingController,
+    private modalController: ModalController,
     private configService: ConfigService,
     private fetcher: FetchService,
     private androidPermissions: AndroidPermissions,
@@ -59,7 +63,6 @@ export class PlayerComponent {
     if (this.platform.is('cordova')) {
       const permission = await this.androidPermissions
         .checkPermission(this.androidPermissions.PERMISSION.ACCESS_FINE_LOCATION);
-      console.log("HASPERMISSION", permission.hasPermission);
       if (!permission.hasPermission) await this.androidPermissions
         .requestPermission(this.androidPermissions.PERMISSION.ACCESS_FINE_LOCATION);
     }
@@ -76,11 +79,6 @@ export class PlayerComponent {
     this.player.getAudioBank().getBufferCount().subscribe(n => this.numLoadedBuffers = n);
     if (this.config.autoplay) this.play();
   }
-  
-  @HostListener('document:click', ['$event'])
-  documentClick(_: MouseEvent) {
-    this.player.isPlaying() ? this.player.stop() : this.player.play();
-  }
 
   ////functions called from ui
 
@@ -89,7 +87,7 @@ export class PlayerComponent {
   }
 
   protected play() {
-    this.player.play();
+    if (!this.player.isPlaying()) this.player.play();
   }
 
   protected pause() {
@@ -125,12 +123,12 @@ export class PlayerComponent {
     this.initOrUpdateLoader('Loading dymo...');
     this.player = new DymoPlayer({
       useWorkers: false,
-      scheduleAheadTime: 4,
-      loadAheadTime: 8,
+      scheduleAheadTime: 3,
+      loadAheadTime: 6,
       fetcher: this.fetcher,
       ignoreInaudible: true,
-      loggingOn: true,
-      fadeLength: 0.04,
+      loggingOn: false,
+      fadeLength: 0.03,
       useTone: true
     });
     await this.player.init('https://raw.githubusercontent.com/dynamic-music/dymo-core/master/ontologies/');
@@ -143,33 +141,41 @@ export class PlayerComponent {
     this.initOrUpdateLoader('Loading context...');
     this.location = await this.geolocation.getCurrentPosition();
     console.log("LOCATION", this.location)
-    await this.initSensorsAndUI();
-    //this.sliders.forEach(s => {s.uiValue = _.random(1000); s.update()});
-    await this.generateVersion();
-    //await this.generateVersion2();
-    /*console.log("preloading")
-    await this.preloadFirstTwoSections();
-    console.log("preloaded")*/
-    this.hideLoading();
+    if (this.location) {
+      await this.initSensorsAndUI();
+      //this.sliders.forEach(s => {s.uiValue = _.random(1000); s.update()});
+      await this.generateVersion();
+      //await this.generateVersion2();
+      /*console.log("preloading")
+      await this.preloadFirstTwoSections();
+      console.log("preloaded")*/
+      this.hideLoading();
+    } else {
+      this.initOrUpdateLoader('Failed to load context');
+    }
   }
 
   private async generateVersion() {
     const amenities = await this.overpass.getShopsAndAmenitiesNearby(...this.location);
     const remoteness = 1-(Math.min(20, Math.sqrt(amenities.length))/20); //[0,400]=>[0,1]
-    const weather = await this.weather.getWeatherNearby(...this.location);
+    const currentWeather = await this.weather.getWeatherNearby(...this.location);
+    const weather = currentWeather.weather[0];
+    this.contextName = currentWeather.name + ", " + weather.description;
+    this.contextIcon = "https://openweathermap.org/img/wn/"+weather.icon+".png";
     console.log(amenities, weather);
     const primary = remoteness < 0.3 ? 2
       : remoteness < 0.6 ? 1
       : remoteness < 0.85 ? 0
       : 3;
-    const secondary = weather.main === "Clear" ? 2
-      : weather.main === "Clouds" ? 1
-      : weather.main === "Rain" || weather.main === "Drizzle" ? 0
-      : 3;
+    const secondary = [800,801].indexOf(weather.id) >= 0 ? 2 //clear sky, few clouds
+      : weather.main === "Clouds" ? 1 //scattered/broken/overcast clouds
+      : ["Rain", "Drizzle"].indexOf(weather.main) >= 0 ? 0
+      : 3; //atmosphere, thunderstorm, snow
     
-    const MAX_INSTR_COUNT = 12;
-    const MAX_PLAYING = 18;
+    const MAX_INSTR_COUNT = 12;//in g1/g2/g3/g4
+    const MAX_PLAYING = 12;
     const MIN_PLAYING = 4;
+    const PRIMARY_PROPORTION = 0.5;
     const store = this.player.getDymoManager().getStore();
     await store.setParameter(null, uris.CONTEXT_URI+"remoteness", remoteness);
     await store.setParameter(null, uris.CONTEXT_URI+"vocals", primary);
@@ -178,12 +184,14 @@ export class PlayerComponent {
     const timeOfDay = await store.findParameterValue(null, uris.CONTEXT_URI+"timeofday");
     const activity = 1-(2*Math.abs(timeOfDay-0.5)); //range [0,1]
     const partCount = _.round((activity*(MAX_PLAYING-MIN_PLAYING))+MIN_PLAYING); //range [min,max]
-    const primaryCount = _.round(partCount*2/3);
-    const secondaryCount = _.round(partCount*1/3);
-    await store.setParameter(null, uris.CONTEXT_URI+"primaryinstruments",
-      _.sampleSize(_.range(MAX_INSTR_COUNT), primaryCount));
-    await store.setParameter(null, uris.CONTEXT_URI+"secondaryinstruments",
-      _.sampleSize(_.range(MAX_INSTR_COUNT), secondaryCount));
+    const primaryCount = _.round(partCount*PRIMARY_PROPORTION);
+    const secondaryCount = _.round(partCount*(1-PRIMARY_PROPORTION));
+    const primaries = _.sampleSize(_.range(MAX_INSTR_COUNT), primaryCount);
+    const remaining = primary === secondary ?
+      _.difference(_.range(MAX_INSTR_COUNT), primaries) : _.range(MAX_INSTR_COUNT);
+    const secondaries = _.sampleSize(remaining, secondaryCount);
+    await store.setParameter(null, uris.CONTEXT_URI+"primaryinstruments", primaries);
+    await store.setParameter(null, uris.CONTEXT_URI+"secondaryinstruments", secondaries);
     console.log("VOCALS", await store.findParameterValue(null, uris.CONTEXT_URI+"vocals"));
     console.log("PRIMARY", await store.findParameterValue(null, uris.CONTEXT_URI+"primarymaterial"));
     console.log("SECONDARY", await store.findParameterValue(null, uris.CONTEXT_URI+"secondarymaterial"));
@@ -276,12 +284,21 @@ export class PlayerComponent {
   private async initOrUpdateLoader(content: string) {
     if (!this.loading) {
       this.loading = await this.loadingController.create({
-        message: content
+        message: content,
+        cssClass: 'transp-loading'
       });
       this.loading.present();
     } else {
       this.loading.message = content;
     }
+  }
+  
+  async showInfo() {
+    const modal = await this.modalController.create({
+      component: InfoComponent,
+      cssClass: 'transp-modal',
+    });
+    return await modal.present();
   }
 
 }
