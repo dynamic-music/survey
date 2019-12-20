@@ -7,7 +7,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 @Injectable()
 export class GeolocationService {
 
-  private options = {timeout: 5000, enableHighAccuracy: true};
+  private options = {timeout: 20000, enableHighAccuracy: true};
   public watchLatitude: Observable<number>;
   public watchLongitude: Observable<number>;
   public watchPosition: Observable<[number,number]>;

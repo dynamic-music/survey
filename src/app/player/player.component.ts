@@ -24,15 +24,15 @@ import * as _ from 'lodash';
 })
 export class PlayerComponent {
 
-  public config: PlayerConfig = {};
-  public showSensorData: boolean;
+  protected config: PlayerConfig = {};
+  protected showSensorData: boolean;
   private loading: Promise<HTMLIonLoadingElement>;
   private sensors: SensorControl[];
   private sliders: InnoyicSliderWrapper[];
   private toggles: UIControl[];
   private buttons: UIControl[];
   private areas: AreaControl[];
-  private performanceInfo: string;
+  protected performanceInfo: string;
   private numPlayingDymos: number;
   private numLoadedBuffers: number;
   private mouseDown = false;
@@ -82,7 +82,7 @@ export class PlayerComponent {
   }
 
   protected play() {
-    this.player.play();
+    if (!this.player.isPlaying()) this.player.play();
   }
 
   protected pause() {
