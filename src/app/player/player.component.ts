@@ -9,6 +9,7 @@ import { UIControl, SensorControl, uris, DymoGenerator } from 'dymo-core';
 import { ConfigService, PlayerConfig, DymoConfig } from '../services/config.service';
 import { FetchService } from '../services/fetch.service';
 import { InnoyicSliderWrapper } from '../controls/innoyic-slider-wrapper';
+import { AreaControl } from '../controls/area-control';
 import { AccelerationService } from '../sensors/acceleration.service';
 import { OrientationService } from '../sensors/orientation.service';
 import { GeolocationService } from '../sensors/geolocation.service';
@@ -29,11 +30,12 @@ export class PlayerComponent {
 
   protected config: PlayerConfig = {};
   protected showSensorData: boolean;
-  private loading: HTMLIonLoadingElement;
+  private loading: Promise<HTMLIonLoadingElement>;
   private sensors: SensorControl[];
   private sliders: InnoyicSliderWrapper[];
   private toggles: UIControl[];
   private buttons: UIControl[];
+  private areas: AreaControl[];
   protected performanceInfo: string;
   private numPlayingDymos: number;
   private numLoadedBuffers: number;
@@ -277,19 +279,19 @@ export class PlayerComponent {
   }
 
   private hideLoading(): void {
-    this.loading.dismiss();
+    if (this.loading) (await this.loading).dismiss();
     this.loading = null;
   }
 
   private async initOrUpdateLoader(content: string) {
     if (!this.loading) {
-      this.loading = await this.loadingController.create({
+      this.loading = this.loadingController.create({
         message: content,
         cssClass: 'transp-loading'
       });
-      this.loading.present();
+      (await this.loading).present();
     } else {
-      this.loading.message = content;
+      (await this.loading).message = content;
     }
   }
   
